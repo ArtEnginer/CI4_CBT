@@ -171,6 +171,60 @@ class Test extends Seeder
         ];
         $this->db->table('cbt_ruang')->insertBatch($data);
 
+        // Kuliah
+        $data = [
+            [
+                'mahasiswa_id' => '1',
+                'matakuliah_id' => '1',
+                'tahun' => '2020',
+                'uas' => '80',
+                'uts' => '80',
+                'created_at' => Time::now(),
+                'updated_at' => Time::now(),
+
+            ],
+            [
+                'mahasiswa_id' => '2',
+                'matakuliah_id' => '2',
+                'tahun' => '2020',
+                'uas' => '80',
+                'uts' => '80',
+                'created_at' => Time::now(),
+                'updated_at' => Time::now(),
+
+            ],
+
+        ];
+        $this->db->table('cbt_kuliah')->insertBatch($data);
+
+
+        // Ujian
+        $data = [
+            [
+                'kuliah_id' => '1',
+                'ruang_id' => '1',
+                'ruang_id' => '1',
+                'tanggal' => '2020-01-01',
+                'tenggat' => 100,
+                'tipe' => 'UTS',
+                'created_at' => Time::now(),
+                'updated_at' => Time::now(),
+            ],
+            [
+                'kuliah_id' => '2',
+                'ruang_id' => '2',
+                'ruang_id' => '2',
+                'tanggal' => '2020-01-01',
+                'tenggat' => 100,
+                'tipe' => 'UAS',
+                'created_at' => Time::now(),
+                'updated_at' => Time::now(),
+            ]
+
+        ];
+        $this->db->table('cbt_ujian')->insertBatch($data);
+
+
         // group users
         $data = [
             [

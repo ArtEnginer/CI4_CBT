@@ -1,6 +1,10 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Panel;
+
+use App\Controllers\BaseController;
+
+use App\Models\RuangModel;
 
 
 class RuangController extends BaseController
@@ -14,23 +18,27 @@ class RuangController extends BaseController
     {
         $this->config = config('Theme');
         $this->data['config']   = $this->config;
+        $this->model = new RuangModel();
         $this->data['menuactive'] = 'master';
     }
 
     public function index()
     {
-        return view('Panel/Page/panel', $this->data);
+        $this->data['title'] = 'Data Ruang';
+        $this->data['items'] = $this->model->findAll();
+        return view('Panel/Page/Master/Ruang/Ruang', $this->data);
     }
 
     public function add()
     {
-        return view('Panel/Page/panel', $this->data);
+        $this->data['title'] = 'Tambah Data Ruang';
+        return view('Panel/Page/Master/Ruang/RuangAdd', $this->data);
     }
 
     public function edit($id)
     {
-        return view('Panel/Page/panel', $this->data);
+        $this->data['title'] = 'Edit Data Ruang';
+        $this->data['item'] = $this->model->find($id);
+        return view('Panel/Page/Master/Ruang/RuangEdit', $this->data);
     }
-
-
 }

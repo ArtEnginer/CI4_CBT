@@ -162,7 +162,8 @@ class Tablecbt extends Migration
             ],
 
             'tahun' => [
-                'type' => 'DATE',
+                'type' => 'VARCHAR',
+                'constraint' => 10,
             ],
             'uas' => [
                 'type' => 'VARCHAR',

@@ -1,6 +1,11 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Panel;
+
+use App\Controllers\BaseController;
+use App\Models\MatkulModel;
+use App\Models\DosenModel;
+use App\Models\RuangModel;
 
 
 class MatkulController extends BaseController
@@ -14,21 +19,34 @@ class MatkulController extends BaseController
     {
         $this->config = config('Theme');
         $this->data['config']   = $this->config;
+        $this->model = new MatkulModel();
+        $this->dosenModel = new DosenModel();
+        $this->ruangModel = new RuangModel();
         $this->data['menuactive'] = 'master';
     }
 
     public function index()
     {
-        return view('Panel/Page/panel', $this->data);
+        $this->data['title'] = 'Data Matkul';
+        $this->data['items'] = $this->model->findAll();
+        // dd($this->data['items']);
+        return view('Panel/Page/Master/Matkul/Matkul', $this->data);
     }
 
     public function add()
     {
-        return view('Panel/Page/panel', $this->data);
+        $this->data['title'] = 'Tambah Data Matkul';
+        $this->data['dosen'] = $this->dosenModel->findAll();
+        $this->data['ruang'] = $this->ruangModel->findAll();
+        return view('Panel/Page/Master/Matkul/MatkulAdd', $this->data);
     }
 
     public function edit($id)
     {
-        return view('Panel/Page/panel', $this->data);
+        $this->data['title'] = 'Edit Data Matkul';
+        $this->data['item'] = $this->model->find($id);
+        $this->data['dosen'] = $this->dosenModel->findAll();
+        $this->data['ruang'] = $this->ruangModel->findAll();
+        return view('Panel/Page/Master/Matkul/MatkulEdit', $this->data);
     }
 }

@@ -1,38 +1,31 @@
-<ul class="navbar-nav">
-    <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-    </li>
-</ul>
-<ul class="navbar-nav ml-auto">
-    <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-            <i class="far fa-bell"></i>
-            <span class="badge badge-warning navbar-badge">15</span>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-            <span class="dropdown-item dropdown-header">15 Notifications</span>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
-                <i class="fas fa-envelope mr-2"></i> 4 new messages
-                <span class="float-right text-muted text-sm">3 mins</span>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
-                <i class="fas fa-users mr-2"></i> 8 friend requests
-                <span class="float-right text-muted text-sm">12 hours</span>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
-                <i class="fas fa-file mr-2"></i> 3 new reports
-                <span class="float-right text-muted text-sm">2 days</span>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+<a class="sidebar-brand d-flex align-items-center justify-content-center" href="#!">
+    <div class="sidebar-brand-icon rotate-n-15">
+        <i class="fas fa-laugh-wink"></i>
+    </div>
+    <div class="sidebar-brand-text mx-3">CBT <sup>SI</sup> UP</div>
+</a>
+<hr class="sidebar-divider my-0">
+<div class="sidebar-heading">
+    Panel
+</div>
+<li class="nav-item <?= $menuactive == 'dashboard' ? 'active' : '' ?>">
+    <a class=" nav-link " href=" <?= route_to('') ?>">
+        <i class="fas fa-fw fa-tachometer-alt"></i>
+        <span>Dashboard</span></a>
+</li>
+<li class="nav-item <?= $menuactive == 'master' ? 'active' : '' ?>">
+    <a class=" nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+        <i class="fas fa-fw fa-folder"></i>
+        <span>Master</span>
+    </a>
+    <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="<?= route_to('data-mahasiswa') ?>">Mahasiswa</a>
+            <a class="collapse-item" href="<?= route_to('data-dosen') ?>">Dosen</a>
+            <a class="collapse-item" href="<?= route_to('data-ruang') ?>">Ruang</a>
+            <a class="collapse-item" href="<?= route_to('data-matkul') ?>">Mata Kuliah</a>
+            <a class="collapse-item" href="<?= route_to('data-kuliah') ?>">Kuliah</a>
+            <a class="collapse-item" href="<?= route_to('data-ujian') ?>">Ujian</a>
         </div>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-            <i class="fas fa-expand-arrows-alt"></i>
-        </a>
-    </li>
-</ul>
+    </div>
+</li>

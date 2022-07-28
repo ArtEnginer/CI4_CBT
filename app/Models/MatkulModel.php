@@ -11,7 +11,7 @@ class MatkulModel extends Model{
     protected $useAutoIncrement = true;
     protected $returnType = \App\Entities\Matkul::class;
     protected $allowedFields = [
-        'sks','nama', 'semester','ruang_id','id_dosen'
+        'sks','nama', 'semester','ruang_id','dosen_id'
     ];
 
     // Dates

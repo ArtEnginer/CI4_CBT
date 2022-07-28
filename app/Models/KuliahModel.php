@@ -39,4 +39,3 @@ class KuliahModel extends Model{
     protected $beforeDelete = [];
     protected $afterDelete = [];
 }
-?>

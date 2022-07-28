@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Panel;
+use App\Controllers\BaseController;
+use App\Models\DosenModel as model;
 
 
 class DosenController extends BaseController
@@ -14,22 +16,30 @@ class DosenController extends BaseController
     {
         $this->config = config('Theme');
         $this->data['config']   = $this->config;
+        $this->model = new model();
         $this->data['menuactive'] = 'master';
     }
 
     public function index()
     {
-        return view('Panel/Page/panel', $this->data);
+        $this->data['title'] = 'Data Dosen';
+        $this->data['items'] = $this->model->findAll();
+        return view('Panel/Page/Master/Dosen/Dosen', $this->data);
     }
 
     public function add()
     {
-        return view('Panel/Page/panel', $this->data);
+        $this->data['title'] = 'Tambah Data Dosen';
+        return view('Panel/Page/Master/Dosen/DosenAdd', $this->data);
+        
     }
 
     public function edit($id)
     {
-        return view('Panel/Page/panel', $this->data);
+        $this->data['title'] = 'Edit Data Dosen';
+        $this->data['item'] = $this->model->find($id);
+        return view('Panel/Page/Master/Dosen/DosenEdit', $this->data);
+        
     }
 
 
