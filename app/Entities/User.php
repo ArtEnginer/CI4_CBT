@@ -1,6 +1,6 @@
 <?php
 
-namespace Myth\Auth\Entities;
+namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
 use Exception;

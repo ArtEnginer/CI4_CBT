@@ -37,6 +37,21 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 
+$routes->group('master',function($routes){
+    // Mahasiswa
+    $routes->group('mahasiswa', ['namespace' => 'App\Controllers\Panel'], function ($routes) {
+        $routes->get('', 'MahasiswaController::index', ['as' => 'data-mahasiswa']);
+        $routes->get('add', 'MahasiswaController::add', ['as' => 'data-mahasiswa-add']);
+        $routes->get('edit/(:num)', 'MahasiswaController::edit/$1', ['as' => 'data-mahasiswa-edit']);
+    });
+    $routes->group('mahasiswa', ['namespace' => 'App\Controllers\Api'], function ($routes) {
+        $routes->post('add', 'MahasiswaController::add', ['as' => 'data-mahasiswa-add']);
+        $routes->post('edit/(:num)', 'MahasiswaController::edit/$1', ['as' => 'data-mahasiswa-edit']);
+        $routes->get('delete/(:num)', 'MahasiswaController::delete/$1', ['as' => 'data-mahasiswa-delete']);
+    });
+
+});
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing
