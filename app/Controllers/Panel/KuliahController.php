@@ -3,7 +3,8 @@
 namespace App\Controllers\Panel;
 use App\Controllers\BaseController;
 use App\Models\KuliahModel as model;
-
+use App\Models\MahasiswaModel as MahasiswaModel;
+use App\Models\MatkulModel as MatkulModel;
 
 class KuliahController extends BaseController
 {
@@ -17,6 +18,8 @@ class KuliahController extends BaseController
         $this->config = config('Theme');
         $this->data['config']   = $this->config;
         $this->model = new model();
+        $this->MahasiswaModel = new MahasiswaModel();
+        $this->MatkulModel = new MatkulModel();
         $this->data['menuactive'] = 'master';
     }
 
@@ -30,6 +33,8 @@ class KuliahController extends BaseController
     public function add()
     {
         $this->data['title'] = 'Tambah Data Kuliah';
+        $this->data['mahasiswa'] = $this->MahasiswaModel->findAll();
+        $this->data['matkul'] = $this->MatkulModel->findAll();
         return view('Panel/Page/Master/Kuliah/KuliahAdd', $this->data);
         
     }
@@ -38,6 +43,8 @@ class KuliahController extends BaseController
     {
         $this->data['title'] = 'Edit Data Dosen';
         $this->data['item'] = $this->model->find($id);
+        $this->data['mahasiswa'] = $this->MahasiswaModel->findAll();
+        $this->data['matkul'] = $this->MatkulModel->findAll();
         return view('Panel/Page/Master/Kuliah/KuliahEdit', $this->data);
         
     }

@@ -25,49 +25,49 @@
                 <form class="form-horizontal r-separator border-top" method="POST">
                     <div class="card-body">
                         <div class="form-group row align-items-center mb-0">
-                            <label for="nama" class="col-3 text-end control-label col-form-label ">Nama</label>
+                            <label for="mahasiswa_id" class="col-3 text-end control-label col-form-label ">Nama Mahasiswa</label>
                             <div class="col-9 border-start pb-2 pt-2">
-                                <input type="text" class="form-control text-uppercase" id="nama" name="nama" placeholder="Nama Ruangan" value="<?= old('nama') ?>" required>
-                            </div>
-                        </div>
-                        <div class="form-group row align-items-center mb-0">
-                            <label for="semester" class="col-3 text-end control-label col-form-label ">semester</label>
-                            <div class="col-9 border-start pb-2 pt-2">
-                                <input type="number" class="form-control" id="semester" name="sks" placeholder="Jumlah SKS" value="<?= old('sks') ?>" required>
-                            </div>
-                        </div>
-                        <div class="form-group row align-items-center mb-0">
-                            <label for="semester" class="col-3 text-end control-label col-form-label ">semester</label>
-                            <div class="col-9 border-start pb-2 pt-2">
-                                <input type="number" class="form-control" id="semester" name="semester" placeholder="Jumlah semester" value="<?= old('semester') ?>" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group row align-items-center mb-0">
-                            <label for="ruang_id" class="col-3 text-end control-label col-form-label ">Ruangan</label>
-                            <div class="col-9 border-start pb-2 pt-2">
-                                <!-- Select -->
-                                <select class="select2 form-control custom-select" id="ruang_id" name="ruang_id" style="width: 100%; height:36px;">
-                                    <option value="">Pilih Ruangan</option>
-                                    <?php foreach ($ruang as $key => $value) : ?>
-                                        <option value="<?= $value->id ?>"><?= $value->nama ?></option>
+                                <select class="form-control" id="mahasiswa_id" name="mahasiswa_id">
+                                    <option value="">Pilih Mahasiswa</option>
+                                    <?php foreach ($mahasiswa as $m) : ?>
+                                        <option value="<?= $m->id ?>"><?= $m->nama ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
                         </div>
-
                         <div class="form-group row align-items-center mb-0">
-                            <label for="dosen_id" class="col-3 text-end control-label col-form-label ">Dosen</label>
+                            <label for="matakuliah_id" class="col-3 text-end control-label col-form-label ">Mata Kuliah</label>
                             <div class="col-9 border-start pb-2 pt-2">
-                                <!-- Select -->
-                                <select class="select2 form-control custom-select" id="dosen_id" name="dosen_id" style="width: 100%; height:36px;">
-                                    <option value="">Pilih Dosen</option>
-                                    <?php foreach ($dosen as $key => $value) : ?>
-                                        <option value="<?= $value->id ?>"><?= $value->nama ?></option>
+                                <select class="form-control" id="matakuliah_id" name="matakuliah_id">
+                                    <option value="">Pilih Mata Kuliah</option>
+                                    <?php foreach ($matkul as $m) : ?>
+                                        <option value="<?= $m->id ?>"><?= $m->nama ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
                         </div>
+                        <!-- Tahun -->
+                        <div class="form-group row align-items-center mb-0">
+                            <label for="tahun" class="col-3 text-end control-label col-form-label ">Tahun</label>
+                            <div class="col-9 border-start pb-2 pt-2">
+                                <input type="text" class="form-control" id="tahun" name="tahun" placeholder="Tahun">
+                            </div>
+                        </div>
+                        <!-- Uts -->
+                        <div class="form-group row align-items-center mb-0">
+                            <label for="uts" class="col-3 text-end control-label col-form-label ">UTS</label>
+                            <div class="col-9 border-start pb-2 pt-2">
+                                <input type="text" class="form-control" id="uts" name="uts" placeholder="UTS">
+                            </div>
+                        </div>
+                        <!-- Uas -->
+                        <div class="form-group row align-items-center mb-0">
+                            <label for="uas" class="col-3 text-end control-label col-form-label ">UAS</label>
+                            <div class="col-9 border-start pb-2 pt-2">
+                                <input type="text" class="form-control" id="uas" name="uas" placeholder="UAS">
+                            </div>
+                        </div>
+
 
                     </div>
                     <div class="p-3 border-top">

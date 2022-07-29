@@ -18,7 +18,11 @@ class KuliahController extends BaseController
         $data = $this->request->getPost();
         // validation rules
         $Rules = [
-            
+            'mahasiswa_id' => 'required',
+            'matakuliah_id' => 'required',
+            'tahun' => 'required',
+            'uas' => 'required',
+            'uts' => 'required',
         ];
 
         if (!$this->validate($Rules)) {
@@ -29,7 +33,7 @@ class KuliahController extends BaseController
         }
         $item = new Kuliah($data);
         if ($this->model->save($item)) {
-            return redirect()->route('data-Kuliah')->with('message', 'Data Baru telah berhasil ditambahkan');
+            return redirect()->route('data-kuliah')->with('message', 'Data Baru telah berhasil ditambahkan');
         }
     }
 
@@ -37,7 +41,7 @@ class KuliahController extends BaseController
     {
 
         if ($this->model->delete($id)) {
-            return redirect()->route('data-Kuliah')->with('message', 'Data telah berhasil dihapus');
+            return redirect()->route('data-kuliah')->with('message', 'Data telah berhasil dihapus');
         }
     }
 
@@ -47,10 +51,11 @@ class KuliahController extends BaseController
 
         // validation rules
         $Rules = [
-            'nama' => 'required',
-            'nip' => 'required',
-            'alamat' => 'required',
-            'tahun_masuk' => 'required',
+            'mahasiswa_id' => 'required',
+            'matakuliah_id' => 'required',
+            'tahun' => 'required',
+            'uas' => 'required',
+            'uts' => 'required',
         ];
 
         if (!$this->validate($Rules)) {
@@ -61,7 +66,7 @@ class KuliahController extends BaseController
         }
         $item = new Kuliah($data);
         if ($this->model->update($id, $item)) {
-            return redirect()->route('data-Kuliah')->with('message', 'Data Baru telah berhasil diedit');
+            return redirect()->route('data-kuliah')->with('message', 'Data Baru telah berhasil diedit');
         }
     }
 }
