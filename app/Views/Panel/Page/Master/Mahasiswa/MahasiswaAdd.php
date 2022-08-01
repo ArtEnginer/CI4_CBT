@@ -9,7 +9,7 @@
                     <li class="breadcrumb-item">
                         <a href="javascript:void(0)">Master Data</a>
                     </li>
-                    <li class="breadcrumb-item active">Edit Mahasiswa</li>
+                    <li class="breadcrumb-item active">Tambah Mahasiswa</li>
                 </ol>
 
             </div>
@@ -52,10 +52,10 @@
                     </div>
                     <div class="p-3 border-top">
                         <div class="form-group mb-0 text-end">
-                            <button type="submit" class="btn btn-info rounded-pill px-4 waves-effect waves-light" name="add">
+                            <button type="submit" class="btn badge btn-primary rounded-pill px-4 waves-effect waves-light" name="add">
                                 Simpan
                             </button>
-                            <a role="button" class="btn btn-danger rounded-pill px-4 waves-effect waves-light" href="<?= route_to('data-siswa') ?>">
+                            <a role="button" class="btn badge btn-danger rounded-pill px-4 waves-effect waves-light" href="<?= route_to('data-mahasiswa') ?>">
                                 Kembali
                             </a>
                         </div>
