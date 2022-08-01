@@ -23,7 +23,7 @@
             <div class="app-card-body p-3 p-lg-4">
                 <div class="table-responsive">
                     <div class="table-responsive">
-                        <table class="table table-striped datatables-init" style="width:100%">
+                        <table class="table app-table-hover datatables-init" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>No</th>
