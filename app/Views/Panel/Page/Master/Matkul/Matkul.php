@@ -4,7 +4,7 @@
 <div class="d-flex align-items-center justify-content-between mb-4">
     <h1 class="app-page-title mb-0">Manajemen Mata Kuliah</h1>
 </div>
-<?= view($config->theme['panel'] . '_message_block') ?>y
+<?= view($config->theme['panel'] . '_message_block') ?>
 <div class="row g-4 mb-4">
     <div class="col-12">
         <div class="app-card app-card-stats-table h-100 shadow-sm">
