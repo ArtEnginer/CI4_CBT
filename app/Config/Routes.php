@@ -37,7 +37,7 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 
-$routes->group('master',function($routes){
+$routes->group('master', function ($routes) {
     // Mahasiswa
     $routes->group('mahasiswa', ['namespace' => 'App\Controllers\Panel'], function ($routes) {
         $routes->get('', 'MahasiswaController::index', ['as' => 'data-mahasiswa']);
@@ -101,16 +101,15 @@ $routes->group('master',function($routes){
 
     // Ujian
     $routes->group('ujian', ['namespace' => 'App\Controllers\Panel'], function ($routes) {
-        $routes->get('', 'UjianController::index', ['as' => 'data-ujian']);
-        $routes->get('add', 'UjianController::add', ['as' => 'data-ujian-add']);
-        $routes->get('edit/(:num)', 'UjianController::edit/$1', ['as' => 'data-ujian-edit']);
+        $routes->get('', 'UjianController::index', ['as' => 'ujian-data']);
+        $routes->get('add', 'UjianController::add', ['as' => 'ujian-data-add']);
+        $routes->get('edit/(:num)', 'UjianController::edit/$1', ['as' => 'ujian-data-edit']);
     });
     $routes->group('ujian', ['namespace' => 'App\Controllers\Api'], function ($routes) {
-        $routes->post('add', 'UjianController::add', ['as' => 'data-ujian-add']);
-        $routes->post('edit/(:num)', 'UjianController::edit/$1', ['as' => 'data-ujian-edit']);
-        $routes->get('delete/(:num)', 'UjianController::delete/$1', ['as' => 'data-ujian-delete']);
+        $routes->post('add', 'UjianController::add', ['as' => 'ujian-data-add']);
+        $routes->post('edit/(:num)', 'UjianController::edit/$1', ['as' => 'ujian-data-edit']);
+        $routes->get('delete/(:num)', 'UjianController::delete/$1', ['as' => 'ujian-data-delete']);
     });
-
 });
 
 /*

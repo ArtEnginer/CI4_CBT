@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers\Panel;
+
 use App\Controllers\BaseController;
 use App\Models\UjianModel as model;
 
@@ -31,7 +32,6 @@ class UjianController extends BaseController
     {
         $this->data['title'] = 'Tambah Data Dosen';
         return view('Panel/Page/Master/Dosen/DosenAdd', $this->data);
-        
     }
 
     public function edit($id)
@@ -39,8 +39,5 @@ class UjianController extends BaseController
         $this->data['title'] = 'Edit Data Dosen';
         $this->data['item'] = $this->model->find($id);
         return view('Panel/Page/Master/Dosen/DosenEdit', $this->data);
-        
     }
-
-
 }
