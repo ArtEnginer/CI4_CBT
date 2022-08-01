@@ -1,47 +1,28 @@
 <?= $this->extend($config->theme['panel'] . 'index') ?>
 <?= $this->section('main') ?>
-<div class="card mb-3">
-    <div class="card-body">
-        <div class="row">
-            <div class="col-md-5 col-12 align-self-center">
-                <h3 class="text-themecolor mb-0">Data mahasiswa</h3>
-                <ol class="breadcrumb mb-0 p-0 bg-transparent">
-                    <li class="breadcrumb-item">
-                        <a href="javascript:void(0)">Master Data</a>
-                    </li>
-                    <li class="breadcrumb-item active">mahasiswa</li>
-                </ol>
 
-            </div>
-        </div>
-    </div>
+<div class="d-flex align-items-center justify-content-between mb-4">
+    <h1 class="app-page-title mb-0">Manajemen Mahasiswa</h1>
 </div>
-
-<div class="card mb-1">
-    <div class="card-body">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="text-end">
-
-                    <a href="<?= route_to('data-mahasiswa-add') ?>" class="btn btn-success btn-sm btn-rounded">
-                        <!-- icon add -->
-                        <i class="fas fa-plus"></i>
-                        <span>Tambah</span>
-                    </a>
-
+<div class="row g-4 mb-4">
+    <div class="col-12">
+        <div class="app-card app-card-stats-table h-100 shadow-sm">
+            <div class="app-card-header p-3">
+                <div class="row justify-content-between align-items-center">
+                    <div class="col-auto">
+                        <h4 class="app-card-title">List Mahasiswa</h4>
+                    </div>
+                    <div class="col-auto">
+                        <div class="card-header-action">
+                            <a href="<?= route_to('data-mahasiswa-add') ?>" class="btn app-btn-primary shadow-sm"><i
+                                    class="fas fa-plus fa-sm text-white-50"></i> Tambah</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-
-<?= view($config->theme['panel'] . '_message_block') ?>
-<div class="card">
-    <div class="card-body">
-        <div class="row">
-            <div class="col-12">
+            <div class="app-card-body p-3 p-lg-4">
                 <div class="table-responsive">
-                    <table class="table table-striped datatables-init" style="width:100%">
+                    <table class="table app-table-hover mb-0 text-left datatables-init">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -56,21 +37,21 @@
                             <?php
                             $no = 1;
                             foreach ($items as $key => $item) : ?>
-                                <tr>
-                                    <td><?= $no++ ?></td>
-                                    <td><?= $item->nama ?></td>
-                                    <td><?= $item->nim ?></td>
-                                    <td><?= $item->alamat ?></td>
-                                    <td><?= $item->tahun_masuk ?></td>
-                                    <td>
-                                        <a href="<?= route_to('data-mahasiswa-edit', $item->id) ?>" class="btn btn-primary btn-sm">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <a href="<?= route_to('data-mahasiswa-delete', $item->id) ?>" class="btn btn-danger btn-sm">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td class="cell"><?= $no++ ?></td>
+                                <td class="cell"><?= $item->nama ?></td>
+                                <td class="cell"><?= $item->nim ?></td>
+                                <td class="cell"><?= $item->alamat ?></td>
+                                <td class="cell"><?= $item->tahun_masuk ?></td>
+                                <td class="cell">
+                                    <a class="btn badge bg-warning"
+                                        href="<?= route_to('data-mahasiswa-edit', $item->id) ?>"><i
+                                            class="fas fa-edit"></i></a>
+                                    <a class="btn badge bg-danger"
+                                        href="<?= route_to('data-mahasiswa-delete', $item->id) ?>"><i
+                                            class="fas fa-trash"></i></a>
+                                </td>
+                            </tr>
                             <?php endforeach; ?>
 
                         </tbody>
@@ -80,7 +61,5 @@
         </div>
     </div>
 </div>
-
-
 
 <?= $this->endSection() ?>

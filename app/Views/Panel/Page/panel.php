@@ -1,104 +1,80 @@
 <?= $this->extend($config->theme['panel'] . 'index') ?>
 <?= $this->section('main') ?>
 
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-            class="fas fa-plus fa-sm text-white-50"></i> Add New</a>
+<div class="d-flex align-items-center justify-content-between mb-4">
+    <h1 class="app-page-title mb-0">Dashboard</h1>
+    <a href="#" class="btn app-btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Add New</a>
 </div>
-<div class="row">
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-primary shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                            Earnings (Monthly)</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                    </div>
+<div class="row g-4 mb-4">
+    <div class="col-6 col-lg-3">
+        <div class="app-card app-card-stat shadow-sm h-100">
+            <div class="app-card-body p-3 p-lg-4">
+                <div class="app-icon-holder mb-2 dashboard">
+                    <i class="bi bi-receipt"></i>
                 </div>
+                <h4 class="stats-type m-1">Mahasiswa</h4>
+                <div class="stats-figure">3</div>
             </div>
+            <a class="app-card-link-mask" href="#"></a>
         </div>
     </div>
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-success shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                            Earnings (Annual)</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                    </div>
+
+    <div class="col-6 col-lg-3">
+        <div class="app-card app-card-stat shadow-sm h-100">
+            <div class="app-card-body p-3 p-lg-4">
+                <div class="app-icon-holder mb-2 dashboard">
+                    <i class="bi bi-receipt"></i>
                 </div>
+                <h4 class="stats-type mb-1">Dosen</h4>
+                <div class="stats-figure">5</div>
             </div>
+            <a class="app-card-link-mask" href="#"></a>
         </div>
     </div>
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-info shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
-                        </div>
-                        <div class="row no-gutters align-items-center">
-                            <div class="col-auto">
-                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                            </div>
-                            <div class="col">
-                                <div class="progress progress-sm mr-2">
-                                    <div class="progress-bar bg-info" role="progressbar" style="width: 50%"
-                                        aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                    </div>
+    <div class="col-6 col-lg-3">
+        <div class="app-card app-card-stat shadow-sm h-100">
+            <div class="app-card-body p-3 p-lg-4">
+                <div class="app-icon-holder mb-2 dashboard">
+                    <i class="bi bi-receipt"></i>
                 </div>
+                <h4 class="stats-type mb-1">Mata Kuliah</h4>
+                <div class="stats-figure">8</div>
             </div>
+            <a class="app-card-link-mask" href="#"></a>
         </div>
     </div>
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-warning shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                            Pending Requests</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fas fa-comments fa-2x text-gray-300"></i>
-                    </div>
+    <div class="col-6 col-lg-3">
+        <div class="app-card app-card-stat shadow-sm h-100">
+            <div class="app-card-body p-3 p-lg-4">
+                <div class="app-icon-holder mb-2 dashboard">
+                    <i class="bi bi-receipt"></i>
                 </div>
+                <h4 class="stats-type mb-1">Ruang</h4>
+                <div class="stats-figure">6</div>
             </div>
+            <a class="app-card-link-mask" href="#"></a>
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-12 mb-4">
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>
-            </div>
-            <div class="card-body">
-                <div class="text-center">
-                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
-                        src="<?= base_url('assets/sbadmin') ?>/img/undraw_posting_photo.svg" alt="...">
+<div class="row g-4 mb-4">
+    <div class="col-12">
+        <div class="app-card app-card-stats-table h-100 shadow-sm">
+            <div class="app-card-header p-3">
+                <div class="row justify-content-between align-items-center">
+                    <div class="col-auto">
+                        <h4 class="app-card-title">Stats List</h4>
+                    </div>
+                    <div class="col-auto">
+                        <div class="card-header-action">
+                            <a href="#">View report</a>
+                        </div>
+                        <!--//card-header-actions-->
+                    </div>
                 </div>
-                <p>Add some quality, svg illustrations to your project courtesy of <a target="_blank" rel="nofollow"
-                        href="https://undraw.co/">unDraw</a>, a
-                    constantly updated collection of beautiful svg images that you can use
-                    completely free and without attribution!</p>
-                <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on
-                    unDraw &rarr;</a>
+            </div>
+            <div class="app-card-body p-3 p-lg-4">
+                <div class="intro">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam aliquet eros vel diam
+                    semper mollis.</div>
             </div>
         </div>
     </div>

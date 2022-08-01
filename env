@@ -14,13 +14,13 @@
 # ENVIRONMENT
 #--------------------------------------------------------------------
 
-# CI_ENVIRONMENT = production
+# CI_ENVIRONMENT = development
 
 #--------------------------------------------------------------------
 # APP
 #--------------------------------------------------------------------
 
-# app.baseURL = ''
+# app.baseURL = 'http://cbt.project/'
 # If you have trouble with `.`, you could also use `_`.
 # app_baseURL = ''
 # app.forceGlobalSecureRequests = false
@@ -40,9 +40,9 @@
 #--------------------------------------------------------------------
 
 # database.default.hostname = localhost
-# database.default.database = ci4
+# database.default.database = ci4_cbt
 # database.default.username = root
-# database.default.password = root
+# database.default.password = 
 # database.default.DBDriver = MySQLi
 # database.default.DBPrefix =
 
