@@ -31,13 +31,13 @@
                             </div>
                         </div>
                         <div class="form-group row align-items-center mb-0">
-                            <label for="semester" class="col-3 text-end control-label col-form-label ">SKS</label>
+                            <label for="semester" class="col-3 text-end control-label col-form-label ">semester</label>
                             <div class="col-9 border-start pb-2 pt-2">
                                 <input type="number" class="form-control" id="semester" name="sks" placeholder="Jumlah SKS" value="<?= old('sks') ?>" required>
                             </div>
                         </div>
                         <div class="form-group row align-items-center mb-0">
-                            <label for="semester" class="col-3 text-end control-label col-form-label ">Semester</label>
+                            <label for="semester" class="col-3 text-end control-label col-form-label ">semester</label>
                             <div class="col-9 border-start pb-2 pt-2">
                                 <input type="number" class="form-control" id="semester" name="semester" placeholder="Jumlah semester" value="<?= old('semester') ?>" required>
                             </div>
@@ -72,10 +72,10 @@
                     </div>
                     <div class="p-3 border-top">
                         <div class="form-group mb-0 text-end">
-                            <button type="submit" class="btn badge btn-primary rounded-pill px-4 waves-effect waves-light" name="add">
+                            <button type="submit" class="btn btn-info rounded-pill px-4 waves-effect waves-light" name="add">
                                 Simpan
                             </button>
-                            <a role="button" class="btn badge btn-danger rounded-pill px-4 waves-effect waves-light" href="<?= route_to('data-matkul') ?>">
+                            <a role="button" class="btn btn-danger rounded-pill px-4 waves-effect waves-light" href="<?= route_to('data-ruang') ?>">
                                 Kembali
                             </a>
                         </div>

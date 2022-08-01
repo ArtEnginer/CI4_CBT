@@ -39,17 +39,17 @@
                         <div class="form-group row align-items-center mb-0">
                             <label for="alamat" class="col-3 text-end control-label col-form-label">Alamat</label>
                             <div class="col-9 border-start pb-2 pt-2">
-                                <textarea class="form-control" id="alamat" name="alamat" placeholder="Alamat Dosen" required><?= $item->alamat ?></textarea>
+                                <textarea class="form-control" id="alamat" name="alamat" placeholder="Alamat Dosen" required><?= $item->alamat?></textarea>
                             </div>
                         </div>
-
+        
                     </div>
                     <div class="p-3 border-top">
                         <div class="form-group mb-0 text-end">
-                            <button type="submit" class="btn badge btn-primary rounded-pill px-4 waves-effect waves-light" name="add">
+                            <button type="submit" class="btn btn-info rounded-pill px-4 waves-effect waves-light" name="add">
                                 Simpan
                             </button>
-                            <a role="button" class="btn badge btn-danger rounded-pill px-4 waves-effect waves-light" href="<?= route_to('data-dosen') ?>">
+                            <a role="button" class="btn btn-danger rounded-pill px-4 waves-effect waves-light" href="<?= route_to('data-dosen') ?>">
                                 Kembali
                             </a>
                         </div>

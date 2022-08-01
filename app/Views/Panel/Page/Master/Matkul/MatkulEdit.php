@@ -31,13 +31,13 @@
                             </div>
                         </div>
                         <div class="form-group row align-items-center mb-0">
-                            <label for="semester" class="col-3 text-end control-label col-form-label ">SKS</label>
+                            <label for="semester" class="col-3 text-end control-label col-form-label ">semester</label>
                             <div class="col-9 border-start pb-2 pt-2">
                                 <input type="number" class="form-control" id="semester" name="sks" placeholder="Jumlah SKS" value="<?= $item->sks ?>" required>
                             </div>
                         </div>
                         <div class="form-group row align-items-center mb-0">
-                            <label for="semester" class="col-3 text-end control-label col-form-label ">Semester</label>
+                            <label for="semester" class="col-3 text-end control-label col-form-label ">semester</label>
                             <div class="col-9 border-start pb-2 pt-2">
                                 <input type="number" class="form-control" id="semester" name="semester" placeholder="Jumlah semester" value="<?= $item->semester ?>" required>
                             </div>
@@ -48,7 +48,7 @@
                             <div class="col-9 border-start pb-2 pt-2">
                                 <!-- Select -->
                                 <select class="select2 form-control custom-select" id="ruang_id" name="ruang_id" style="width: 100%; height:36px;">
-
+                          
                                     <?php foreach ($ruang as $r) : ?>
                                         <option value="<?= $r->id ?>" <?= $r->id == $item->ruang->id ? 'selected' : '' ?>><?= $r->nama ?></option>
                                     <?php endforeach; ?>
@@ -61,7 +61,7 @@
                             <div class="col-9 border-start pb-2 pt-2">
                                 <!-- Select -->
                                 <select class="select2 form-control custom-select" id="dosen_id" name="dosen_id" style="width: 100%; height:36px;">
-
+                                  
                                     <?php foreach ($dosen as $d) : ?>
                                         <option value="<?= $d->id ?>" <?= $d->id == $item->dosen->id ? 'selected' : '' ?>><?= $d->nama ?></option>
                                     <?php endforeach; ?>
@@ -72,10 +72,10 @@
                     </div>
                     <div class="p-3 border-top">
                         <div class="form-group mb-0 text-end">
-                            <button type="submit" class="btn badge btn-primary rounded-pill px-4 waves-effect waves-light" name="add">
+                            <button type="submit" class="btn btn-info rounded-pill px-4 waves-effect waves-light" name="add">
                                 Simpan
                             </button>
-                            <a role="button" class="btn badge btn-danger rounded-pill px-4 waves-effect waves-light" href="<?= route_to('data-matkul') ?>">
+                            <a role="button" class="btn btn-danger rounded-pill px-4 waves-effect waves-light" href="<?= route_to('data-matkul') ?>">
                                 Kembali
                             </a>
                         </div>
