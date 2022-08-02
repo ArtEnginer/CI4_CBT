@@ -1,14 +1,14 @@
-<?php 
+<?php
+
 namespace App\Entities\Cast;
 
+use App\Libraries\UjianStatus;
 use CodeIgniter\Entity\Cast\BaseCast;
 
-class RuangCast extends BaseCast
+class CastUjianStatus extends BaseCast
 {
     public static function get($value, array $params = [])
     {
-        $model = model('RuangModel');
-        return $model->find($value);
+        return new UjianStatus($value);
     }
-   
 }

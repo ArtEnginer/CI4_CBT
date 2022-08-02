@@ -26,50 +26,34 @@
 </head>
 
 <body class="app">
-    <header class="app-header fixed-top">
-        <div class="app-header-inner">
-            <div class="container-fluid py-2">
-                <div class="app-header-content">
-                    <div class="row justify-content-between align-items-center">
-                        <?= view($config->theme['panel'] . 'navbar') ?>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="app-card app-card-stats-table h-100 shadow-sm">
+                    <div class="app-card-header p-3">
+                        <div class="row text-center">
+                            <h4 class="app-card-title">Ujian <?= $item->kuliah->matkul->nama ?></h4>
+                        </div>
+                    </div>
+                    <div class="app-card-body p-3 p-lg-4">
+                        <?= view($config->theme['panel'] . '_message_block') ?>
+                        <form class="form" method="POST">
+                            <div class="mb-3 text-center">
+                                <label for="token" class="form-label">Token Akses</label>
+                                <input type="text" class="form-control" id="token" name="token" required>
+                            </div>
+                            <div class="p-3 border-top">
+                                <div class="text-center">
+                                    <button type="submit" class="btn app-btn-primary" name="masuk">
+                                        Masuk
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-        <div id="app-sidepanel" class="app-sidepanel">
-            <div id="sidepanel-drop" class="sidepanel-drop"></div>
-            <div class="sidepanel-inner d-flex flex-column">
-                <a href="#" id="sidepanel-close" class="sidepanel-close d-xl-none">&times;</a>
-                <div class="app-branding">
-                    <a class="app-logo" href="#!"><img class="logo-icon me-2"
-                            src="<?= base_url('assets/portal') ?>/images/app-logo.svg" alt="logo"><span
-                            class="logo-text">Panel</span></a>
-
-                </div>
-                <nav id="app-nav-main" class="app-nav app-nav-main flex-grow-1">
-                    <?= view($config->theme['panel'] . 'sidebar-top') ?>
-                </nav>
-                <div class="app-sidepanel-footer">
-                    <nav class="app-nav app-nav-footer">
-                        <?= view($config->theme['panel'] . 'sidebar-bottom') ?>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <div class="app-wrapper">
-        <div class="app-content pt-3 p-md-3 p-lg-4">
-            <div class="container-xl">
-                <?= $this->renderSection('main') ?>
-            </div>
-        </div>
-
-        <footer class="app-footer">
-            <div class="container text-center py-3">
-                <?= view($config->theme['panel'] . 'footer') ?>
-            </div>
-        </footer>
     </div>
 
     <!-- Assets -->
