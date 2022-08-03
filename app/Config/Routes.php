@@ -97,19 +97,28 @@ $routes->group('master', function ($routes) {
         $routes->post('edit/(:num)', 'KuliahController::edit/$1', ['as' => 'data-kuliah-edit']);
         $routes->get('delete/(:num)', 'KuliahController::delete/$1', ['as' => 'data-kuliah-delete']);
     });
-
-
-    // Ujian
-    $routes->group('ujian', ['namespace' => 'App\Controllers\Panel'], function ($routes) {
-        $routes->get('', 'UjianController::index', ['as' => 'ujian-data']);
-        $routes->get('add', 'UjianController::add', ['as' => 'ujian-data-add']);
-        $routes->get('edit/(:num)', 'UjianController::edit/$1', ['as' => 'ujian-data-edit']);
-    });
-    $routes->group('ujian', ['namespace' => 'App\Controllers\Api'], function ($routes) {
-        $routes->post('add', 'UjianController::add', ['as' => 'ujian-data-add']);
-        $routes->post('edit/(:num)', 'UjianController::edit/$1', ['as' => 'ujian-data-edit']);
-        $routes->get('delete/(:num)', 'UjianController::delete/$1', ['as' => 'ujian-data-delete']);
-    });
+});
+// Ujian
+$routes->group('ujian', ['namespace' => 'App\Controllers\Panel'], function ($routes) {
+    $routes->get('data', 'UjianController::index', ['as' => 'ujian-data']);
+    $routes->get('data/riwayat', 'UjianController::riwayat', ['as' => 'ujian-data-riwayat']);
+    $routes->get('riwayat', 'UjianController::riwayatOnly', ['as' => 'ujian-riwayat']);
+    $routes->get('data/detail/(:num)', 'UjianController::detail/$1', ['as' => 'ujian-data-detail']);
+    $routes->get('add', 'UjianController::add', ['as' => 'ujian-data-add']);
+    $routes->get('edit/(:num)', 'UjianController::edit/$1', ['as' => 'ujian-data-edit']);
+    $routes->get('atur', 'UjianController::atur', ['as' => 'ujian-atur']);
+    $routes->get('atur/upload/(:num)', 'UjianController::upload/$1', ['as' => 'ujian-atur-upload']);
+    $routes->get('jadwal', 'UjianController::jadwal', ['as' => 'ujian-jadwal']);
+    $routes->add('masuk/(:any)', 'UjianController::masukUjian/$1', ['as' => 'ujian-masuk']);
+    $routes->get('room/(:any)', 'UjianController::roomUjian/$1', ['as' => 'ujian-room']);
+});
+$routes->group('ujian', ['namespace' => 'App\Controllers\Api'], function ($routes) {
+    $routes->post('add', 'UjianController::add', ['as' => 'ujian-data-add']);
+    $routes->post('edit/(:num)', 'UjianController::edit/$1', ['as' => 'ujian-data-edit']);
+    $routes->get('delete/(:num)', 'UjianController::delete/$1', ['as' => 'ujian-data-delete']);
+    $routes->post('soal/download', 'UjianController::download', ['as' => 'soal-download']);
+    $routes->post('soal/upload', 'UjianController::upload', ['as' => 'soal-upload']);
+    $routes->post('soal/save', 'UjianController::save', ['as' => 'soal-save']);
 });
 
 

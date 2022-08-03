@@ -201,8 +201,9 @@ class Tablecbt extends Migration
                 'type' => 'INT',
                 'constraint' => 11,
             ],
-            'tanggal' => [
-                'type' => 'DATE',
+            'waktu' => [
+                'type' => 'DATETIME',
+                'null' => true,
             ],
             'tenggat' => [
                 'type' => 'VARCHAR',
@@ -211,6 +212,27 @@ class Tablecbt extends Migration
             'tipe' => [
                 'type' => 'VARCHAR',
                 'constraint' => 50,
+            ],
+            'soal_pilgan' => [
+                'type' => 'JSON',
+                'null' => true,
+            ],
+            'soal_essay' => [
+                'type' => 'JSON',
+                'null' => true,
+            ],
+            'token_ujian' => [
+                'type' => 'VARCHAR',
+                'constraint' => 128,
+            ],
+            'token_akses' => [
+                'type' => 'VARCHAR',
+                'constraint' => 32,
+                'null' => true,
+            ],
+            'status' => [
+                'type' => 'INT',
+                'constraint' => 4,
             ],
             'created_at' => [
                 'type' => 'DATETIME',

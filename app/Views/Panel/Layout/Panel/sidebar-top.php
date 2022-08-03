@@ -77,6 +77,15 @@
                 <li class="submenu-item">
                     <a class="submenu-link" href="<?= route_to('ujian-data') ?>">Data Ujian</a>
                 </li>
+                <li class="submenu-item">
+                    <a class="submenu-link" href="<?= route_to('ujian-atur') ?>">Atur Ujian</a>
+                </li>
+                <li class="submenu-item">
+                    <a class="submenu-link" href="<?= route_to('ujian-riwayat') ?>">Riwayat Ujian</a>
+                </li>
+                <li class="submenu-item">
+                    <a class="submenu-link" href="<?= route_to('ujian-jadwal') ?>">Jadwal Ujian</a>
+                </li>
             </ul>
         </div>
     </li>

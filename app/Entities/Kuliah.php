@@ -23,10 +23,8 @@ class Kuliah extends Entity
 
     ];
     protected $datamap = [
-        'kuliah_id' => 'kuliah_id',
+        'kuliah' => 'kuliah_id',
         'matkul' => 'matakuliah_id',
         'mahasiswa' => 'mahasiswa_id',
     ];
-
-    
 }
