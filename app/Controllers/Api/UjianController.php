@@ -70,27 +70,29 @@ class UjianController extends BaseController
         $spreadsheet->setActiveSheetIndex(0);
         if ($data['tipe'] == 'pilgan1') {
             $spreadsheet->getActiveSheet()->setCellValue('A1', 'nomor')
-                ->setCellValue('B1', 'soal')
-                ->setCellValue('C1', 'benar')
-                ->setCellValue('D1', 'salah1')
-                ->setCellValue('E1', 'salah2')
-                ->setCellValue('F1', 'salah3');
+                ->setCellValue('B1', 'tipe')
+                ->setCellValue('C1', 'soal')
+                ->setCellValue('D1', 'benar')
+                ->setCellValue('E1', 'salah1')
+                ->setCellValue('F1', 'salah2')
+                ->setCellValue('G1', 'salah3');
             for ($i = 1; $i <= $data['jumlah']; $i++) {
                 $absen[] = [
-                    $i, '', '', '', '', '',
+                    $i, 'pilgan1', '', '', '', '',
                 ];
             }
         } else {
             $spreadsheet->getActiveSheet()->setCellValue('A1', 'nomor')
-                ->setCellValue('B1', 'soal')
-                ->setCellValue('C1', 'benar')
-                ->setCellValue('D1', 'salah1')
-                ->setCellValue('E1', 'salah2')
-                ->setCellValue('F1', 'salah3')
-                ->setCellValue('G1', 'salah4');
+                ->setCellValue('B1', 'tipe')
+                ->setCellValue('C1', 'soal')
+                ->setCellValue('D1', 'benar')
+                ->setCellValue('E1', 'salah1')
+                ->setCellValue('F1', 'salah2')
+                ->setCellValue('G1', 'salah3')
+                ->setCellValue('H1', 'salah4');
             for ($i = 1; $i <= $data['jumlah']; $i++) {
                 $absen[] = [
-                    $i, '', '', '', '', '', '',
+                    $i, 'pilgan2', '', '', '', '', '',
                 ];
             }
         }
@@ -170,8 +172,24 @@ class UjianController extends BaseController
 
         $item = $this->model->find($post['id']);
         $item->status = 1;
+        foreach ($data as $k => $v) {
+            $temp = $v;
+            unset($temp['nomor']);
+            unset($temp['tipe']);
+            unset($temp['soal']);
+            $num = 1;
+            foreach ($temp as $keyyy => $abc) {
+                $valid = $keyyy == 'benar' ? true : false;
+                $data[$k]['pilihan'][] = [
+                    'id' => $num++,
+                    'text' => $abc,
+                    'valid' => $valid,
+                ];
+                unset($data[$k][$keyyy]);
+            }
+        }
         $item->soal_pilgan = $data;
-        // dd($this->session->soal_id, $post, $data, $item, json_encode($data));
+        // dd($this->session->soal_id, $post, $data, $item);
         if ($item->hasChanged()) {
             $this->model->save($item);
             unlink(WRITEPATH . "uploads/{$this->session->soal_id}.xlsx");

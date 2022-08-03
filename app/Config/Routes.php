@@ -110,7 +110,7 @@ $routes->group('ujian', ['namespace' => 'App\Controllers\Panel'], function ($rou
     $routes->get('atur/upload/(:num)', 'UjianController::upload/$1', ['as' => 'ujian-atur-upload']);
     $routes->get('jadwal', 'UjianController::jadwal', ['as' => 'ujian-jadwal']);
     $routes->add('masuk/(:any)', 'UjianController::masukUjian/$1', ['as' => 'ujian-masuk']);
-    $routes->get('room/(:any)', 'UjianController::roomUjian/$1', ['as' => 'ujian-room']);
+    $routes->add('room/(:any)/(:num)', 'UjianController::roomUjian/$1/$2', ['as' => 'ujian-room']);
 });
 $routes->group('ujian', ['namespace' => 'App\Controllers\Api'], function ($routes) {
     $routes->post('add', 'UjianController::add', ['as' => 'ujian-data-add']);
