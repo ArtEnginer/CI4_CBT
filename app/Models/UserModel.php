@@ -1,34 +1,36 @@
 <?php
 
-namespace Myth\Auth\Models;
+namespace App\Models;
 
 use CodeIgniter\Model;
-use Faker\Generator;
 use Myth\Auth\Authorization\GroupModel;
-use App\Entities\User;
+use Myth\Auth\Models\UserModel as MythModel;
 
-/**
- * @method User|null first()
- */
-class UserModel extends Model
+class UserModel extends MythModel
 {
-    protected $table          = 'users';
-    protected $primaryKey     = 'id';
-    protected $returnType     = User::class;
-    protected $useSoftDeletes = true;
-    protected $allowedFields  = [
-        'email', 'fullname', 'username', 'password_hash', 'reset_hash', 'reset_at', 'reset_expires', 'activate_hash',
+    protected $table = 'users';
+    protected $primaryKey = 'id';
+
+    protected $returnType = 'App\Entities\User';
+    protected $useSoftDeletes = false;
+
+    protected $allowedFields = [
+        'user_id','email', 'username', 'fullname', 'password_hash', 'reset_hash', 'reset_at', 'reset_expires', 'activate_hash',
         'status', 'status_message', 'active', 'force_pass_reset', 'permissions', 'deleted_at',
     ];
-    protected $useTimestamps   = true;
+
+    protected $useTimestamps = true;
+
     protected $validationRules = [
+        'fullname'      => 'required',
         'email'         => 'required|valid_email|is_unique[users.email,id,{id}]',
         'username'      => 'required|alpha_numeric_punct|min_length[3]|max_length[30]|is_unique[users.username,id,{id}]',
         'password_hash' => 'required',
     ];
     protected $validationMessages = [];
-    protected $skipValidation     = false;
-    protected $afterInsert        = ['addToGroup'];
+    protected $skipValidation = false;
+
+    protected $afterInsert = ['addToGroup'];
 
     /**
      * The id of a group to assign.
@@ -40,33 +42,44 @@ class UserModel extends Model
 
     /**
      * Logs a password reset attempt for posterity sake.
+     *
+     * @param string      $email
+     * @param string|null $token
+     * @param string|null $ipAddress
+     * @param string|null $userAgent
      */
-    public function logResetAttempt(string $email, ?string $token = null, ?string $ipAddress = null, ?string $userAgent = null)
+    public function logResetAttempt(string $email, string $token = null, string $ipAddress = null, string $userAgent = null)
     {
         $this->db->table('auth_reset_attempts')->insert([
-            'email'      => $email,
+            'email' => $email,
             'ip_address' => $ipAddress,
             'user_agent' => $userAgent,
-            'token'      => $token,
-            'created_at' => date('Y-m-d H:i:s'),
+            'token' => $token,
+            'created_at' => date('Y-m-d H:i:s')
         ]);
     }
 
     /**
      * Logs an activation attempt for posterity sake.
+     *
+     * @param string|null $token
+     * @param string|null $ipAddress
+     * @param string|null $userAgent
      */
-    public function logActivationAttempt(?string $token = null, ?string $ipAddress = null, ?string $userAgent = null)
+    public function logActivationAttempt(string $token = null, string $ipAddress = null, string $userAgent = null)
     {
         $this->db->table('auth_activation_attempts')->insert([
             'ip_address' => $ipAddress,
             'user_agent' => $userAgent,
-            'token'      => $token,
-            'created_at' => date('Y-m-d H:i:s'),
+            'token' => $token,
+            'created_at' => date('Y-m-d H:i:s')
         ]);
     }
 
     /**
      * Sets the group to assign any users created.
+     *
+     * @param string $groupName
      *
      * @return $this
      */
@@ -110,15 +123,42 @@ class UserModel extends Model
         return $data;
     }
 
-    /**
-     * Faked data for Fabricator.
-     */
-    public function fake(Generator &$faker): User
+    public function getGroups()
     {
-        return new User([
-            'email'    => $faker->email,
-            'username' => $faker->userName,
-            'password' => bin2hex(random_bytes(16)),
-        ]);
+        $groupModel = model(GroupModel::class);
+        return $groupModel->findAll();
+    }
+
+
+    public function getGroupById($id){
+    //    get auth_group by id join with auth_groups_users
+       $data = $this->db->table('auth_groups')
+            ->select('auth_groups.id, auth_groups.name, auth_groups.description')
+            ->join('auth_groups_users', 'auth_groups.id = auth_groups_users.group_id')
+            ->where('auth_groups_users.user_id', $id)
+            ->get()
+            ->getResultArray();
+        return $data;
+    }
+
+    public function addToGroupIn($idUser, $idGroup)
+    {
+        $groupModel = model(GroupModel::class);
+        $groupModel->addUserToGroup($idUser, $idGroup);
+    }
+
+    // update auth_groups_users
+    public function editGroupById($groupId, $user)
+    {
+        $this->db->table('auth_groups_users')
+        ->where('user_id', $user) ->update(['group_id' => $groupId]);
+            
+    }
+
+    public function deleteUserAndGroup($idUser)
+    {
+        $groupModel = model(GroupModel::class);
+        $groupModel->removeUserFromAllGroups($idUser);
+        $this->delete($idUser);
     }
 }

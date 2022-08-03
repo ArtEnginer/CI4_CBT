@@ -3,13 +3,15 @@
 namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
-use Exception;
 use Myth\Auth\Authorization\GroupModel;
 use Myth\Auth\Authorization\PermissionModel;
 use Myth\Auth\Password;
-use RuntimeException;
+use Myth\Auth\Entities\User as MythEntity;
+use App\Entities\Cast\MahasiswaCast;
+use App\Entities\Cast\DosenCast;
 
-class User extends Entity
+
+class User extends MythEntity
 {
     /**
      * Maps names used in sets and gets against unique
@@ -21,7 +23,6 @@ class User extends Entity
      *      'db_name' => 'class_name'
      *  ];
      */
-    protected $datamap = [];
 
     /**
      * Define properties that are automatically converted to Time instances.
@@ -33,22 +34,29 @@ class User extends Entity
      * when they are accessed.
      */
     protected $casts = [
-        'username'         => 'string',
-        'email'            => 'string',
         'active'           => 'boolean',
         'force_pass_reset' => 'boolean',
+        'user_id'     => 'mahasiswa',
+        'user_id'         => 'dosen',
     ];
 
+    protected $castHandlers = [
+        'mahasiswa' => MahasiswaCast::class,
+        'dosen' => DosenCast::class,
+    ];
+
+    protected $datamap = [
+        'mahasiswa' => 'user_id',
+        'dosen' => 'user_id',
+    ];
     /**
      * Per-user permissions cache
-     *
      * @var array
      */
     protected $permissions = [];
 
     /**
      * Per-user roles cache
-     *
      * @var array
      */
     protected $roles = [];
@@ -57,6 +65,8 @@ class User extends Entity
      * Automatically hashes the password when set.
      *
      * @see https://paragonie.com/blog/2015/04/secure-authentication-php-with-long-term-persistence
+     *
+     * @param string $password
      */
     public function setPassword(string $password)
     {
@@ -71,44 +81,16 @@ class User extends Entity
             User would have a new password but still anyone with the
             reset-token would be able to change the password.
         */
-        $this->attributes['reset_hash']    = null;
-        $this->attributes['reset_at']      = null;
+        $this->attributes['reset_hash'] = null;
+        $this->attributes['reset_at'] = null;
         $this->attributes['reset_expires'] = null;
-    }
-
-    /**
-     * Explicitly convert false and true to 0 and 1
-     *
-     * Some BDD (PostgreSQL for example) can be picky about data types and
-     * if 'active' or 'force_pass_reset' are set to (bool)true/false, the method
-     * CodeIgniter\Database\Postgre\Connection::escape() will translate it
-     * to a literal TRUE/FALSE. Since the database fields are defined as integer,
-     * the BDD will throw an error about mismatched type.
-     *
-     * @param bool|int $active
-     */
-    public function setActive($active)
-    {
-        $this->attributes['active'] = $active ? 1 : 0;
-    }
-
-    /**
-     * Explicitly convert false and true to 0 and 1
-     *
-     * @see setActive()  Explanation about strict typing at database level
-     *
-     * @param bool|int $force_pass_reset
-     */
-    public function setForcePassReset($force_pass_reset)
-    {
-        $this->attributes['force_pass_reset'] = $force_pass_reset ? 1 : 0;
     }
 
     /**
      * Force a user to reset their password on next page refresh
      * or login. Checked in the LocalAuthenticator's check() method.
      *
-     * @throws Exception
+     * @throws \Exception
      *
      * @return $this
      */
@@ -124,13 +106,12 @@ class User extends Entity
      * Generates a secure hash to use for password reset purposes,
      * saves it to the instance.
      *
-     * @throws Exception
-     *
      * @return $this
+     * @throws \Exception
      */
     public function generateResetHash()
     {
-        $this->attributes['reset_hash']    = bin2hex(random_bytes(16));
+        $this->attributes['reset_hash'] = bin2hex(random_bytes(16));
         $this->attributes['reset_expires'] = date('Y-m-d H:i:s', time() + config('Auth')->resetTime);
 
         return $this;
@@ -139,9 +120,8 @@ class User extends Entity
     /**
      * Generates a secure random hash to use for account activation.
      *
-     * @throws Exception
-     *
      * @return $this
+     * @throws \Exception
      */
     public function generateActivateHash()
     {
@@ -157,7 +137,7 @@ class User extends Entity
      */
     public function activate()
     {
-        $this->attributes['active']        = 1;
+        $this->attributes['active'] = 1;
         $this->attributes['activate_hash'] = null;
 
         return $this;
@@ -177,20 +157,24 @@ class User extends Entity
 
     /**
      * Checks to see if a user is active.
+     *
+     * @return bool
      */
     public function isActivated(): bool
     {
-        return $this->active;
+        return isset($this->attributes['active']) && $this->attributes['active'] == true;
     }
 
     /**
      * Bans a user.
      *
+     * @param string $reason
+     *
      * @return $this
      */
     public function ban(string $reason)
     {
-        $this->attributes['status']         = 'banned';
+        $this->attributes['status'] = 'banned';
         $this->attributes['status_message'] = $reason;
 
         return $this;
@@ -210,6 +194,8 @@ class User extends Entity
 
     /**
      * Checks to see if a user has been banned.
+     *
+     * @return bool
      */
     public function isBanned(): bool
     {
@@ -220,11 +206,13 @@ class User extends Entity
      * Determines whether the user has the appropriate permission,
      * either directly, or through one of it's groups.
      *
+     * @param string $permission
+     *
      * @return bool
      */
     public function can(string $permission)
     {
-        return in_array(strtolower($permission), $this->getPermissions(), true);
+        return in_array(strtolower($permission), $this->getPermissions());
     }
 
     /**
@@ -240,7 +228,7 @@ class User extends Entity
     public function getPermissions()
     {
         if (empty($this->id)) {
-            throw new RuntimeException('Users must be created before getting permissions.');
+            throw new \RuntimeException('Users must be created before getting permissions.');
         }
 
         if (empty($this->permissions)) {
@@ -263,7 +251,7 @@ class User extends Entity
     public function getRoles()
     {
         if (empty($this->id)) {
-            throw new RuntimeException('Users must be created before getting roles.');
+            throw new \RuntimeException('Users must be created before getting roles.');
         }
 
         if (empty($this->roles)) {
@@ -285,8 +273,8 @@ class User extends Entity
      *
      * @return $this
      */
-    public function setPermissions(?array $permissions = null)
+    public function setPermissions(array $permissions = null)
     {
-        throw new RuntimeException('User entity does not support saving permissions directly.');
+        throw new \RuntimeException('User entity does not support saving permissions directly.');
     }
 }
