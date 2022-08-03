@@ -245,7 +245,7 @@ class Test extends Seeder
             [
                 'email'         => 'hrd@sipk.com',
                 'username'      => 'hrd',
-                'fullname'      => 'Awaldin zaman',
+                'user_id'      => '1',
                 'password_hash' => Password::hash('12345'),
                 'active'        => 1,
                 'created_at'    => Time::now('Asia/Jakarta', 'id_ID'),
@@ -254,7 +254,7 @@ class Test extends Seeder
             [
                 'email'         => 'admin@sipk.com',
                 'username'      => 'admin',
-                'fullname'      => 'Tedi Sujana',
+                'user_id'      => '2',
                 'password_hash' => Password::hash('12345'),
                 'active'        => 1,
                 'created_at'    => Time::now('Asia/Jakarta', 'id_ID'),

@@ -64,6 +64,7 @@ class AuthController extends Controller
      */
     public function attemptLogin()
     {
+        
         $rules = [
             'login'    => 'required',
             'password' => 'required',
@@ -79,6 +80,11 @@ class AuthController extends Controller
         $login    = $this->request->getPost('login');
         $password = $this->request->getPost('password');
         $remember = (bool) $this->request->getPost('remember');
+
+        // Determine credential type using user_id field get nim or nip from table mahasiswa or dosen
+        $user = $this->auth->findByLogin($login);
+       
+        dd($user);
 
         // Determine credential type
         $type = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';

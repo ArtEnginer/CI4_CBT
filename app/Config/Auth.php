@@ -1,10 +1,9 @@
 <?php
 
-namespace Myth\Auth\Config;
+namespace Config;
 
-use CodeIgniter\Config\BaseConfig;
 
-class Auth extends BaseConfig
+class Auth extends \Myth\Auth\Config\Auth
 {
     /**
      * --------------------------------------------------------------------
@@ -17,43 +16,6 @@ class Auth extends BaseConfig
      * @var string
      */
     public $defaultUserGroup;
-
-    /**
-     * --------------------------------------------------------------------
-     * Landing Route
-     * --------------------------------------------------------------------
-     *
-     * This is your landing page (route name) after user success to login,
-     * i.e $landingRoute = 'dashboard'.
-     *
-     * If you set $silent = true the Permission and Role filters will
-     * use this config too for the routing.
-     *
-     * @var string
-     */
-    public $landingRoute = '/';
-
-    /**
-     * --------------------------------------------------------------------
-     * Reserverd Routes
-     * --------------------------------------------------------------------
-     *
-     * The auth routes config is listed in here and you can customize it,
-     * i.e. $reservedRoutes = ['forgot' => 'forgot-password'].
-     *
-     * Do Not Change The Key!!! Because it's the identity for routing.
-     *
-     * @var array
-     */
-    public $reservedRoutes = [
-        'login'                   => 'login',
-        'logout'                  => 'logout',
-        'register'                => 'register',
-        'activate-account'        => 'activate-account',
-        'resend-activate-account' => 'resend-activate-account',
-        'forgot'                  => 'forgot',
-        'reset-password'          => 'reset-password',
-    ];
 
     /**
      * --------------------------------------------------------------------
@@ -74,12 +36,12 @@ class Auth extends BaseConfig
      * @var array
      */
     public $views = [
-        'login'           => 'Views\Auth\login',
-        'register'        => 'Views\Auth\register',
-        'forgot'          => 'Views\Auth\forgot',
-        'reset'           => 'Views\Auth\reset',
-        'emailForgot'     => 'Views\Auth\emails\forgot',
-        'emailActivation' => 'Views\Auth\emails\activation',
+        'login'           => 'App\Views\Auth\login',
+        'register'        => 'App\Views\Auth\register',
+        'forgot'          => 'App\Views\Auth\forgot',
+        'reset'           => 'App\Views\Auth\reset',
+        'emailForgot'     => 'App\Views\Auth\emails\forgot',
+        'emailActivation' => 'App\Views\Auth\emails\activation',
     ];
 
     /**
@@ -89,7 +51,9 @@ class Auth extends BaseConfig
      *
      * @var string
      */
-    public $viewLayout = 'Myth\Auth\Views\layout';
+    public $viewLayout = 'App\Views\Auth\layout';
+
+
 
     /**
      * --------------------------------------------------------------------
@@ -103,6 +67,8 @@ class Auth extends BaseConfig
     public $validFields = [
         'email',
         'username',
+        'nim',
+        'nis',
     ];
 
     /**
@@ -174,7 +140,8 @@ class Auth extends BaseConfig
      *
      * @var bool
      */
-    public $allowRegistration = true;
+    public $allowRegistration = false;
+
 
     /**
      * --------------------------------------------------------------------
@@ -198,7 +165,8 @@ class Auth extends BaseConfig
      *
      * @var string|null Name of the ResetterInterface class
      */
-    public $activeResetter = 'Myth\Auth\Authentication\Resetters\EmailResetter';
+    // public $activeResetter = 'Myth\Auth\Authentication\Resetters\EmailResetter';
+    public $activeResetter = false;
 
     /**
      * --------------------------------------------------------------------
@@ -213,7 +181,7 @@ class Auth extends BaseConfig
      *
      * @var bool
      */
-    public $allowRemembering = false;
+    public $allowRemembering = true;
 
     /**
      * --------------------------------------------------------------------
@@ -252,38 +220,32 @@ class Auth extends BaseConfig
      * If you choose to use any ARGON algorithm, then you might want to
      * uncomment the "ARGON2i/D Algorithm" options to suit your needs
      *
-     * @var int|string
+     * @var string|int
      */
     public $hashAlgorithm = PASSWORD_DEFAULT;
 
-    /**
-     * --------------------------------------------------------------------
-     * ARGON2i/D Algorithm options
-     * --------------------------------------------------------------------
-     *
-     * The ARGON2I method of encryption allows you to define the "memory_cost",
-     * the "time_cost" and the number of "threads", whenever a password hash is
-     * created.
-     *
-     * This defaults to a value of 10 which is an acceptable number.
-     * However, depending on the security needs of your application
-     * and the power of your hardware, you might want to increase the
-     * cost. This makes the hashing process takes longer.
-     */
+    /*
+	 * --------------------------------------------------------------------
+	 * ARGON2i/D Algorithm options
+	 * --------------------------------------------------------------------
+	 *
+	 * The ARGON2I method of encryption allows you to define the "memory_cost",
+	 * the "time_cost" and the number of "threads", whenever a password hash is
+	 * created.
+	 *
+	 * This defaults to a value of 10 which is an acceptable number.
+	 * However, depending on the security needs of your application
+	 * and the power of your hardware, you might want to increase the
+	 * cost. This makes the hashing process takes longer.
+	 */
 
-    /**
-     * @var int
-     */
+    /** @var int */
     public $hashMemoryCost = 2048; // PASSWORD_ARGON2_DEFAULT_MEMORY_COST;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     public $hashTimeCost = 4; // PASSWORD_ARGON2_DEFAULT_TIME_COST;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     public $hashThreads = 4; // PASSWORD_ARGON2_DEFAULT_THREADS;
 
     /**
@@ -321,7 +283,7 @@ class Auth extends BaseConfig
      * Password Check Helpers
      * --------------------------------------------------------------------
      *
-     * The PasswordValidator class runs the password through all of these
+     * The PasswordValidater class runs the password through all of these
      * classes, each getting the opportunity to pass/fail the password.
      *
      * You can add custom classes as long as they adhere to the
@@ -348,7 +310,7 @@ class Auth extends BaseConfig
     public $userActivators = [
         'Myth\Auth\Authentication\Activators\EmailActivator' => [
             'fromEmail' => null,
-            'fromName'  => null,
+            'fromName' => null,
         ],
     ];
 
@@ -364,7 +326,7 @@ class Auth extends BaseConfig
     public $userResetters = [
         'Myth\Auth\Authentication\Resetters\EmailResetter' => [
             'fromEmail' => null,
-            'fromName'  => null,
+            'fromName' => null,
         ],
     ];
 

@@ -233,5 +233,6 @@ class Tablecbt extends Migration
         $this->forge->dropTable('cbt_matakuliah');
         $this->forge->dropTable('cbt_kuliah');
         $this->forge->dropTable('cbt_ujian');
+        
     }
 }
