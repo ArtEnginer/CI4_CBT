@@ -118,6 +118,7 @@ class UjianController extends BaseController
         if ($post) {
             if ($post['token'] == $this->data['item']->token_akses) {
                 $this->session->set('soal_nomor', 1);
+                $this->session->set('soal_jawab', []);
                 return redirect()->route('ujian-room', [$token, $this->session->get('soal_nomor') ?? 1]);
             }
             return redirect()->back()->with('error', 'Token yang anda masukkan salah');
@@ -128,20 +129,54 @@ class UjianController extends BaseController
 
     public function roomUjian($token, $nomor)
     {
+        $jawaban = $this->session->get('soal_jawab');
         $waktu = Time::now();
         $post = $this->request->getPost();
         $this->data['token_ujian'] = $token;
         $nomor = $nomor ?? $this->session->get('soal_nomor');
-        if (isset($post['next'])) {
-            $nomor++;
-            return redirect()->route('ujian-room', [$token, $nomor]);
-        } elseif (isset($post['prev'])) {
-            $nomor--;
-            return redirect()->route('ujian-room', [$token, $nomor]);
+        $jawaban_nomor = array_search($nomor, array_column($jawaban, 'nomor'));
+        $this->data['jawaban'] = $jawaban_nomor ? $jawaban[$jawaban_nomor]['jawaban'] : 0;
+        if (isset($post['id_pilgan'])) {
+            if ($jawaban_nomor) {
+                $jawaban[$jawaban_nomor] = [
+                    'nomor' => $nomor,
+                    'jawaban' => $post['id_pilgan'],
+                ];
+            } else {
+                $jawaban[] = [
+                    'nomor' => $nomor,
+                    'jawaban' => $post['id_pilgan'],
+                ];
+            }
         }
-        $this->session->set('soal_nomor', $nomor);
-        $this->data['nomor'] = $nomor;
+        $this->session->set('soal_jawab', $jawaban);
         $this->data['item'] = $this->model->where('token_ujian', $token)->first();
+        if (isset($post['act']) && $post['act'] == 'next') {
+            $nomor++;
+            $this->session->set('soal_nomor', $nomor);
+            return redirect()->route('ujian-room', [$token, $nomor]);
+        } elseif (isset($post['act']) && $post['act'] == 'prev') {
+            $nomor--;
+            $this->session->set('soal_nomor', $nomor);
+            return redirect()->route('ujian-room', [$token, $nomor]);
+        } elseif (isset($post['act']) && $post['act'] == 'done') {
+            $benar = 0;
+            $soal = $this->data['item']->soal_pilgan;
+            foreach ($jawaban as $key => $value) {
+                $ada = array_search($value['nomor'], array_column($soal, 'nomor'));
+                $cek = array_search($value['jawaban'], array_column($soal[$ada]->pilihan, 'id'));
+                $valid = $soal[$ada]->pilihan[$cek];
+                $benar = $valid->valid == true ? $benar + 1 : $benar + 0;
+            }
+            $jumlahsoal = sizeof($soal);
+            $nilai = 100 / $jumlahsoal * $benar;
+            $kuliah = $this->kuliah->where(['mahasiswa_id' => 1, 'matakuliah_id' => $this->data['item']->kuliah->matkul->id])->first();
+            $kuliah->{strtolower($this->data['item']->tipe)} = $nilai;
+            $this->kuliah->save($kuliah);
+            $this->session->remove(['soal_nomor', 'soal_jawab']);
+            return redirect()->route('ujian-jadwal')->with('message', 'Anda Telah Menyelesaikan Ujian');
+        }
+        $this->data['nomor'] = $nomor;
         if ($waktu->isAfter($this->data['item']->waktu->addMinutes($this->data['item']->tenggat))) {
             return redirect()->route('ujian-jadwal')->with('error', 'Waktu Ujian Sudah Berakhir');
         }

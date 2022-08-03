@@ -102,7 +102,7 @@ shuffle($pilgan->pilihan);
                                     <?php foreach ($pilgan->pilihan as $pg) : ?>
                                     <div class="mb-3">
                                         <input type="radio" class="btn-check" name="id_pilgan" id="option<?= $num ?>"
-                                            value="<?= $pg->id ?>">
+                                            value="<?= $pg->id ?>" <?= $jawaban == $pg->id ? 'checked' : '' ?>>
                                         <label class="btn app-btn-secondary"
                                             for="option<?= $num++ ?>"><?= $char++ ?>.</label>
                                         <?= $pg->text ?>
@@ -116,8 +116,10 @@ shuffle($pilgan->pilihan);
         </div>
         <footer class="app-footer fixed-bottom">
             <div class="container d-flex justify-content-between py-3">
-                <button type="submit" class="btn app-btn-secondary" name="prev">Selanjutnya</button>
-                <button type="submit" class="btn app-btn-secondary" name="next">Selanjutnya</button>
+                <button type="submit" class="btn app-btn-secondary" name="act" value="prev">Sebelumnya</button>
+                <button type="submit" class="btn app-btn-<?= $nomor == $jumlahsoal ? 'primary' : 'secondary' ?>"
+                    name="act"
+                    value="<?= $nomor == $jumlahsoal ? 'done' : 'next' ?>"><?= $nomor == $jumlahsoal ? 'Selesai' : 'Selanjutnya' ?></button>
                 </form>
             </div>
         </footer>
