@@ -15,14 +15,14 @@ class UserModel extends MythModel
     protected $useSoftDeletes = false;
 
     protected $allowedFields = [
-        'user_id','email', 'username', 'fullname', 'password_hash', 'reset_hash', 'reset_at', 'reset_expires', 'activate_hash',
+        'detail_id', 'email', 'username', 'password_hash', 'reset_hash', 'reset_at', 'reset_expires', 'activate_hash',
         'status', 'status_message', 'active', 'force_pass_reset', 'permissions', 'deleted_at',
     ];
 
     protected $useTimestamps = true;
 
     protected $validationRules = [
-        'fullname'      => 'required',
+        'detail_id'     => 'required',
         'email'         => 'required|valid_email|is_unique[users.email,id,{id}]',
         'username'      => 'required|alpha_numeric_punct|min_length[3]|max_length[30]|is_unique[users.username,id,{id}]',
         'password_hash' => 'required',
@@ -130,9 +130,10 @@ class UserModel extends MythModel
     }
 
 
-    public function getGroupById($id){
-    //    get auth_group by id join with auth_groups_users
-       $data = $this->db->table('auth_groups')
+    public function getGroupById($id)
+    {
+        //    get auth_group by id join with auth_groups_users
+        $data = $this->db->table('auth_groups')
             ->select('auth_groups.id, auth_groups.name, auth_groups.description')
             ->join('auth_groups_users', 'auth_groups.id = auth_groups_users.group_id')
             ->where('auth_groups_users.user_id', $id)
@@ -151,8 +152,7 @@ class UserModel extends MythModel
     public function editGroupById($groupId, $user)
     {
         $this->db->table('auth_groups_users')
-        ->where('user_id', $user) ->update(['group_id' => $groupId]);
-            
+            ->where('user_id', $user)->update(['group_id' => $groupId]);
     }
 
     public function deleteUserAndGroup($idUser)

@@ -4,13 +4,14 @@ namespace App\Controllers\Api;
 
 use App\Controllers\BaseController;
 use App\Entities\Dosen;
-
+use App\Entities\User;
 
 class DosenController extends BaseController
 {
     public function __construct()
     {
         $this->model        = model('App\Models\DosenModel');
+        $this->user         = model('App\Models\UserModel');
     }
 
     public function add()
@@ -30,16 +31,36 @@ class DosenController extends BaseController
             return redirect()->back()->withInput()->with('error', $error);
         }
         $item = new Dosen($data);
+        $rules = config('Validation')->registrationRules ?? [
+            'nip'   => 'required|alpha_numeric_space|min_length[3]|max_length[30]|is_unique[users.username]',
+            'email' => 'required|valid_email|is_unique[users.email]',
+        ];
+        if (!$this->validate($rules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
         if ($this->model->save($item)) {
-            return redirect()->route('data-dosen')->with('message', 'Data Baru telah berhasil ditambahkan');
+            $this->user = $this->user->withGroup('dosen');
+            $user = new User();
+            $user->detail_id = $this->model->getInsertID();
+            $user->email = $item->email;
+            $user->username = $item->nip;
+            $user->password = '12345';
+            $user->activate();
+            if (!$this->user->save($user)) {
+                return redirect()->back()->withInput()->with('errors', $this->user->errors());
+            }
+            return redirect()->route('data-mahasiswa')->with('message', 'Data Baru telah berhasil ditambahkan');
         }
     }
 
     public function delete($id)
     {
-
+        $item = $this->model->find($id);
+        $user = $item->getUser();
         if ($this->model->delete($id)) {
-            return redirect()->route('data-dosen')->with('message', 'Data telah berhasil dihapus');
+            if ($this->user->delete($user->id)) {
+                return redirect()->route('data-dosen')->with('message', 'Data telah berhasil dihapus');
+            }
         }
     }
 

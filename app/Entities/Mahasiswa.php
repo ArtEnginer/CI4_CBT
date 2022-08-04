@@ -4,6 +4,10 @@ namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
 use App\Entities\Cast\MahasiswaCast;
+use App\Models\AdminModel;
+use App\Models\DosenModel;
+use App\Models\MahasiswaModel;
+use App\Models\UserModel;
 
 class Mahasiswa extends Entity
 {
@@ -18,5 +22,9 @@ class Mahasiswa extends Entity
         'mahasiswa' => 'mahasiswa_id',
     ];
 
+    public function getUser()
+    {
+        $user = new UserModel();
+        return $user->where('username', $this->attributes['nim'])->first();
+    }
 }
-?>

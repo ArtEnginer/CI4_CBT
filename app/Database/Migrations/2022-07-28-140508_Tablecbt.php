@@ -76,6 +76,30 @@ class Tablecbt extends Migration
         $this->forge->addKey('id', true);
         $this->forge->createTable('cbt_dosen');
 
+        //Admin
+        $this->forge->addField([
+            'id' => [
+                'type' => 'INT',
+                'constraint' => 11,
+                'unsigned' => true,
+                'auto_increment' => true,
+            ],
+            'nama' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+            ],
+            'created_at' => [
+                'type' => 'DATETIME',
+                'null' => true,
+            ],
+            'updated_at' => [
+                'type' => 'DATETIME',
+                'null' => true,
+            ],
+        ]);
+        $this->forge->addKey('id', true);
+        $this->forge->createTable('cbt_admin');
+
         // Ruang
         $this->forge->addField([
             'id' => [
@@ -249,12 +273,12 @@ class Tablecbt extends Migration
 
     public function down()
     {
+        $this->forge->dropTable('cbt_admin');
         $this->forge->dropTable('cbt_mahasiswa');
         $this->forge->dropTable('cbt_dosen');
         $this->forge->dropTable('cbt_ruang');
         $this->forge->dropTable('cbt_matakuliah');
         $this->forge->dropTable('cbt_kuliah');
         $this->forge->dropTable('cbt_ujian');
-        
     }
 }

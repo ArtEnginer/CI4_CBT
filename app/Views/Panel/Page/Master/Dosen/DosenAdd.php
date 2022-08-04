@@ -27,28 +27,40 @@
                         <div class="form-group row align-items-center mb-0">
                             <label for="nama" class="col-3 text-end control-label col-form-label">Nama</label>
                             <div class="col-9 border-start pb-2 pt-2">
-                                <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama Dosen" value="<?= old('nama') ?>" required>
+                                <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama Dosen"
+                                    value="<?= old('nama') ?>" required>
                             </div>
                         </div>
                         <div class="form-group row align-items-center mb-0">
                             <label for="nip" class="col-3 text-end control-label col-form-label">NIP</label>
                             <div class="col-9 border-start pb-2 pt-2">
-                                <input type="number" name="nip" id="nip" class="form-control" placeholder="Nomor Induk Pegawai" value="<?= old('nip') ?>" required>
+                                <input type="number" name="nip" id="nip" class="form-control"
+                                    placeholder="Nomor Induk Pegawai" value="<?= old('nip') ?>" required>
+                            </div>
+                        </div>
+                        <div class="form-group row align-items-center mb-0">
+                            <label for="email" class="col-3 text-end control-label col-form-label">Email</label>
+                            <div class="col-9 border-start pb-2 pt-2">
+                                <input type="email" name="email" id="email" class="form-control"
+                                    placeholder="Email Pengguna" value="<?= old('email') ?>" required>
                             </div>
                         </div>
                         <div class="form-group row align-items-center mb-0">
                             <label for="alamat" class="col-3 text-end control-label col-form-label">Alamat</label>
                             <div class="col-9 border-start pb-2 pt-2">
-                                <textarea class="form-control" id="alamat" name="alamat" placeholder="Alamat Dosen" required><?= old('alamat') ?></textarea>
+                                <textarea class="form-control" id="alamat" name="alamat" placeholder="Alamat Dosen"
+                                    required><?= old('alamat') ?></textarea>
                             </div>
                         </div>
                     </div>
                     <div class="p-3 border-top">
                         <div class="form-group mb-0 text-end">
-                            <button type="submit" class="btn badge btn-primary rounded-pill px-4 waves-effect waves-light" name="add">
+                            <button type="submit"
+                                class="btn badge btn-primary rounded-pill px-4 waves-effect waves-light" name="add">
                                 Simpan
                             </button>
-                            <a role="button" class="btn badge btn-danger rounded-pill px-4 waves-effect waves-light" href="<?= route_to('data-dosen') ?>">
+                            <a role="button" class="btn badge btn-danger rounded-pill px-4 waves-effect waves-light"
+                                href="<?= route_to('data-dosen') ?>">
                                 Kembali
                             </a>
                         </div>

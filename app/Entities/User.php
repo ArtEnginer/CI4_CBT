@@ -2,13 +2,15 @@
 
 namespace App\Entities;
 
+use App\Entities\Cast\CastUserDetail;
 use CodeIgniter\Entity\Entity;
 use Myth\Auth\Authorization\GroupModel;
 use Myth\Auth\Authorization\PermissionModel;
 use Myth\Auth\Password;
 use Myth\Auth\Entities\User as MythEntity;
-use App\Entities\Cast\MahasiswaCast;
-use App\Entities\Cast\DosenCast;
+use App\Models\AdminModel;
+use App\Models\MahasiswaModel;
+use App\Models\DosenModel;
 
 
 class User extends MythEntity
@@ -36,19 +38,14 @@ class User extends MythEntity
     protected $casts = [
         'active'           => 'boolean',
         'force_pass_reset' => 'boolean',
-        'user_id'     => 'mahasiswa',
-        'user_id'         => 'dosen',
+        'detail_id'        => 'detail',
     ];
 
     protected $castHandlers = [
-        'mahasiswa' => MahasiswaCast::class,
-        'dosen' => DosenCast::class,
+        'detail' => CastUserDetail::class
     ];
 
-    protected $datamap = [
-        'mahasiswa' => 'user_id',
-        'dosen' => 'user_id',
-    ];
+    protected $datamap = [];
     /**
      * Per-user permissions cache
      * @var array
@@ -276,5 +273,26 @@ class User extends MythEntity
     public function setPermissions(array $permissions = null)
     {
         throw new \RuntimeException('User entity does not support saving permissions directly.');
+    }
+
+    public function getDetail()
+    {
+        $role = $this->getRoles();
+        $admin = new AdminModel();
+        $mahasiswa = new MahasiswaModel();
+        $dosen = new DosenModel();
+        foreach ($role as $id => $r) {
+            $role = [
+                'role_id' => $id,
+                'role_name' => $r,
+            ];
+        }
+        if ($role['role_id'] == 1) {
+            return $admin->find($this->attributes['detail_id']);
+        } elseif ($role['role_id'] == 2) {
+            return $mahasiswa->find($this->attributes['detail_id']);
+        } elseif ($role['role_id'] == 3) {
+            return $dosen->find($this->attributes['detail_id']);
+        }
     }
 }

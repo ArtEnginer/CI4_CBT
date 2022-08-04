@@ -4,7 +4,7 @@ namespace App\Controllers\Panel;
 
 use App\Controllers\BaseController;
 use App\Models\UserModel as model;
-
+use stdClass;
 
 class PenggunaController extends BaseController
 {
@@ -28,16 +28,31 @@ class PenggunaController extends BaseController
         return view('Panel/Page/User/index', $this->data);
     }
 
-    public function add()
-    {
-        $this->data['title'] = 'Tambah Data Mahasiswa';
-        return view('Panel/Page/Master/Mahasiswa/MahasiswaAdd', $this->data);
-    }
-
     public function edit($id)
     {
-        $this->data['title'] = 'Edit Data Mahasiswa';
+        $item = $this->model->find($id);
+        $item->role = new stdClass;
+        $item->detail = $item->getDetail();
+        $item->roles = $item->getRoles();
+        foreach ($item->roles as $id => $role) {
+            $item->role->id = $id;
+            $item->role->name = $role;
+        }
+        unset($item->roles);
+        $this->data['item'] = $item;
+        if ($item->role->id == 1) {
+            return redirect()->route('user');
+        } elseif ($item->role->id == 2) {
+            return redirect()->route('data-mahasiswa-edit', [$item->detail_id]);
+        } elseif ($item->role->id == 3) {
+            return redirect()->route('data-dosen-edit', [$item->detail_id]);
+        }
+    }
+
+    public function detail($id)
+    {
+        $this->data['title'] = 'Detail Data Pengguna';
         $this->data['item'] = $this->model->find($id);
-        return view('Panel/Page/Master/Mahasiswa/MahasiswaEdit', $this->data);
+        return view('Panel/Page/User/detail', $this->data);
     }
 }

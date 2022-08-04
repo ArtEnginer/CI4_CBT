@@ -15,22 +15,30 @@
                     </div>
                     <div class="col-auto">
                         <div class="card-header-action">
-                            <a href="<?= route_to('ujian-data-add') ?>" class="btn app-btn-primary shadow-sm"><i
-                                    class="fas fa-plus fa-sm text-white-50"></i> Tambah</a>
+                            <div class="dropdown">
+                                <button class="btn btn-success shadow-sm dropdown-toggle text-light" type="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-plus fa-sm text-white-50"></i> Tambah
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item"
+                                            href="<?= route_to('data-mahasiswa-add') ?>">Mahasiswa</a>
+                                    </li>
+                                    <li><a class="dropdown-item" href="<?= route_to('data-dosen-add') ?>">Dosen</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="app-card-body p-3 p-lg-4">
-                <?php d($items) ?>
                 <div class="table-responsive">
                     <table class="table app-table-hover mb-0 text-left datatables-init">
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Mata Kuliah</th>
-                                <th>Waktu</th>
-                                <th>Status</th>
+                                <th>Nama</th>
+                                <th>Role</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -38,20 +46,25 @@
                             <?php
                             $no = 1;
                             foreach ($items as $key => $item) : ?>
+                            <?php $detail = $item->getDetail() ?>
+                            <?php $roles = $item->getRoles() ?>
+                            <?php foreach ($roles as $id => $role) {
+                                    $role = [
+                                        'role_id' => $id,
+                                        'role_name' => $role,
+                                    ];
+                                } ?>
                             <tr>
                                 <td class="cell"><?= $no++ ?></td>
-                                <td class="cell"></td>
-                                <td class="cell"></td>
-                                <td class="cell"></td>
+                                <td class="cell"><?= $detail->nama ?></td>
+                                <td class="cell"><?= $role['role_name'] ?></td>
                                 <td class="cell">
-                                    <a class="btn badge bg-primary"
-                                        href="<?= route_to('ujian-data-detail', $item->id) ?>"><i
+                                    <a class="btn badge bg-primary" href="<?= route_to('user-detail', $item->id) ?>"><i
                                             class="fas fa-eye"></i></a>
-                                    <a class="btn badge bg-warning"
-                                        href="<?= route_to('ujian-data-edit', $item->id) ?>"><i
+                                    <a class="btn badge bg-warning" href="<?= route_to('user-edit', $item->id) ?>"><i
                                             class="fas fa-edit"></i></a>
                                     <a class="btn badge bg-danger"
-                                        href="<?= route_to('ujian-data-delete', $item->id) ?>"><i
+                                        href="<?= route_to('user-delete', $role['role_name'], $item->id) ?>"><i
                                             class="fas fa-trash"></i></a>
                                 </td>
                             </tr>

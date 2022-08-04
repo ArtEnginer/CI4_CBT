@@ -123,6 +123,13 @@ $routes->group('ujian', ['namespace' => 'App\Controllers\Api'], function ($route
 // User
 $routes->group('user', ['namespace' => 'App\Controllers\Panel'], function ($routes) {
     $routes->get('', 'PenggunaController::index', ['as' => 'user']);
+    $routes->get('edit/(:num)', 'PenggunaController::edit/$1', ['as' => 'user-edit']);
+    $routes->get('detail/(:num)', 'PenggunaController::detail/$1', ['as' => 'user-detail']);
+});
+$routes->group('user', ['namespace' => 'App\Controllers\Api'], function ($routes) {
+    $routes->post('add', 'PenggunaController::add', ['as' => 'user-add']);
+    $routes->post('detail/(:num)', 'PenggunaController::detail/$1', ['as' => 'user-detail']);
+    $routes->get('delete/(:any)/(:num)', 'PenggunaController::delete/$1/$2', ['as' => 'user-delete']);
 });
 
 

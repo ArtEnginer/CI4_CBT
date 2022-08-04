@@ -13,58 +13,10 @@ class Test extends Seeder
         // mahasiswa
         $data = [
             [
-                'nim' => '42421676',
-                'nama' => 'Rizki',
+                'nim' => '42419011',
+                'nama' => 'Nova',
                 'alamat' => 'Jl. Raya',
-                'tahun_masuk' => '2020',
-                'created_at' => Time::now(),
-                'updated_at' => Time::now(),
-            ],
-            [
-                'nim' => '42421677',
-                'nama' => 'Rizki',
-                'alamat' => 'Jl. Raya',
-                'tahun_masuk' => '2020',
-                'created_at' => Time::now(),
-                'updated_at' => Time::now(),
-            ],
-            [
-                'nim' => '42421678',
-                'nama' => 'Rizki',
-                'alamat' => 'Jl. Raya',
-                'tahun_masuk' => '2020',
-                'created_at' => Time::now(),
-                'updated_at' => Time::now(),
-            ],
-            [
-                'nim' => '42421679',
-                'nama' => 'Rizki',
-                'alamat' => 'Jl. Raya',
-                'tahun_masuk' => '2020',
-                'created_at' => Time::now(),
-                'updated_at' => Time::now(),
-            ],
-            [
-                'nim' => '42421680',
-                'nama' => 'Rizki',
-                'alamat' => 'Jl. Raya',
-                'tahun_masuk' => '2020',
-                'created_at' => Time::now(),
-                'updated_at' => Time::now(),
-            ],
-            [
-                'nim' => '42421681',
-                'nama' => 'Rizki',
-                'alamat' => 'Jl. Raya',
-                'tahun_masuk' => '2020',
-                'created_at' => Time::now(),
-                'updated_at' => Time::now(),
-            ],
-            [
-                'nim' => '42421682',
-                'nama' => 'Rizki',
-                'alamat' => 'Jl. Raya',
-                'tahun_masuk' => '2020',
+                'tahun_masuk' => '2019',
                 'created_at' => Time::now(),
                 'updated_at' => Time::now(),
             ],
@@ -74,49 +26,7 @@ class Test extends Seeder
         // Dosen
         $data = [
             [
-                'nip' => '123456789',
-                'nama' => 'Rizki',
-                'alamat' => 'Jl. Raya',
-                'created_at' => Time::now(),
-                'updated_at' => Time::now(),
-            ],
-            [
-                'nip' => '123456789',
-                'nama' => 'Rizki',
-                'alamat' => 'Jl. Raya',
-                'created_at' => Time::now(),
-                'updated_at' => Time::now(),
-            ],
-            [
-                'nip' => '123456789',
-                'nama' => 'Rizki',
-                'alamat' => 'Jl. Raya',
-                'created_at' => Time::now(),
-                'updated_at' => Time::now(),
-            ],
-            [
-                'nip' => '123456789',
-                'nama' => 'Rizki',
-                'alamat' => 'Jl. Raya',
-                'created_at' => Time::now(),
-                'updated_at' => Time::now(),
-            ],
-            [
-                'nip' => '123456789',
-                'nama' => 'Rizki',
-                'alamat' => 'Jl. Raya',
-                'created_at' => Time::now(),
-                'updated_at' => Time::now(),
-            ],
-            [
-                'nip' => '123456789',
-                'nama' => 'Rizki',
-                'alamat' => 'Jl. Raya',
-                'created_at' => Time::now(),
-                'updated_at' => Time::now(),
-            ],
-            [
-                'nip' => '123456789',
+                'nip' => '1002001',
                 'nama' => 'Rizki',
                 'alamat' => 'Jl. Raya',
                 'created_at' => Time::now(),
@@ -125,6 +35,16 @@ class Test extends Seeder
         ];
         $this->db->table('cbt_dosen')->insertBatch($data);
 
+        // Admin
+        $data = [
+            [
+                'nama' => 'Admin',
+                'created_at' => Time::now(),
+                'updated_at' => Time::now(),
+            ],
+        ];
+        $this->db->table('cbt_admin')->insertBatch($data);
+
         // matkul
         $data = [
             [
@@ -132,15 +52,6 @@ class Test extends Seeder
                 'nama' => 'Dasar Pemrograman',
                 'semester' => '1',
                 'ruang_id' => '1',
-                'dosen_id' => '1',
-                'created_at' => Time::now(),
-                'updated_at' => Time::now(),
-            ],
-            [
-                'sks' => '3',
-                'nama' => 'Pemrograman OOP',
-                'semester' => '1',
-                'ruang_id' => '2',
                 'dosen_id' => '1',
                 'created_at' => Time::now(),
                 'updated_at' => Time::now(),
@@ -183,16 +94,6 @@ class Test extends Seeder
                 'updated_at' => Time::now(),
 
             ],
-            [
-                'mahasiswa_id' => '2',
-                'matakuliah_id' => '2',
-                'tahun' => '2020',
-                'uas' => '80',
-                'uts' => '80',
-                'created_at' => Time::now(),
-                'updated_at' => Time::now(),
-
-            ],
 
         ];
         $this->db->table('cbt_kuliah')->insertBatch($data);
@@ -215,21 +116,6 @@ class Test extends Seeder
                 'created_at' => Time::now(),
                 'updated_at' => Time::now(),
             ],
-            [
-                'kuliah_id' => '2',
-                'ruang_id' => '2',
-                'ruang_id' => '2',
-                'waktu' => '2020-06-01',
-                'tenggat' => 100,
-                'tipe' => 'UAS',
-                'soal_pilgan' => null,
-                'soal_essay' => null,
-                'token_ujian' => bin2hex(random_bytes(16)),
-                'token_akses' => strtoupper(bin2hex(random_bytes(4))),
-                'status' => 0,
-                'created_at' => Time::now(),
-                'updated_at' => Time::now(),
-            ]
 
         ];
         $this->db->table('cbt_ujian')->insertBatch($data);
@@ -242,8 +128,12 @@ class Test extends Seeder
                 'description' => 'Administrator',
             ],
             [
-                'name' => 'User',
+                'name' => 'Mahasiswa',
                 'description' => 'Mahasiswa',
+            ],
+            [
+                'name' => 'Dosen',
+                'description' => 'Dosen Pengajar',
             ],
         ];
 
@@ -253,25 +143,32 @@ class Test extends Seeder
         // USERS
         $data = [
             [
-                'email'         => 'hrd@sipk.com',
-                'username'      => 'hrd',
-                'user_id'      => '1',
+                'detail_id'     => 1,
+                'email'         => 'admin@cbt.com',
+                'username'      => 'admin',
                 'password_hash' => Password::hash('12345'),
                 'active'        => 1,
                 'created_at'    => Time::now('Asia/Jakarta', 'id_ID'),
                 'updated_at'    => Time::now('Asia/Jakarta', 'id_ID')
             ],
             [
-                'email'         => 'admin@sipk.com',
-                'username'      => 'admin',
-                'user_id'      => '2',
+                'detail_id'     => 1,
+                'email'         => '42419011@cbt.com',
+                'username'      => '42419011',
                 'password_hash' => Password::hash('12345'),
                 'active'        => 1,
                 'created_at'    => Time::now('Asia/Jakarta', 'id_ID'),
                 'updated_at'    => Time::now('Asia/Jakarta', 'id_ID')
             ],
-
-
+            [
+                'detail_id'     => 1,
+                'email'         => '1002001@cbt.com',
+                'username'      => '1002001',
+                'password_hash' => Password::hash('12345'),
+                'active'        => 1,
+                'created_at'    => Time::now('Asia/Jakarta', 'id_ID'),
+                'updated_at'    => Time::now('Asia/Jakarta', 'id_ID')
+            ],
         ];
 
         // Using Query Builder
@@ -280,11 +177,15 @@ class Test extends Seeder
         $data = [
             [
                 'group_id'   => 1,
-                'user_id'    => 2
+                'user_id'    => 1
             ],
             [
                 'group_id'   => 2,
-                'user_id'    => 1
+                'user_id'    => 2
+            ],
+            [
+                'group_id'   => 3,
+                'user_id'    => 3
             ],
 
         ];
