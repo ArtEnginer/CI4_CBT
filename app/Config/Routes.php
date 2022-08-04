@@ -120,6 +120,10 @@ $routes->group('ujian', ['namespace' => 'App\Controllers\Api'], function ($route
     $routes->post('soal/upload', 'UjianController::upload', ['as' => 'soal-upload']);
     $routes->post('soal/save', 'UjianController::save', ['as' => 'soal-save']);
 });
+// User
+$routes->group('user', ['namespace' => 'App\Controllers\Panel'], function ($routes) {
+    $routes->get('', 'PenggunaController::index', ['as' => 'user']);
+});
 
 
 

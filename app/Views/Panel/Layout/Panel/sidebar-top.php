@@ -90,7 +90,7 @@
         </div>
     </li>
     <li class="nav-item">
-        <a class="nav-link <?= $menuactive == 'user' ? 'active' : '' ?>" href="<?= route_to('') ?>">
+        <a class="nav-link <?= $menuactive == 'user' ? 'active' : '' ?>" href="<?= route_to('user') ?>">
             <span class="nav-icon">
                 <!-- svg user -->
                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person" fill="currentColor"
