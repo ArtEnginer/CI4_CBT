@@ -42,14 +42,17 @@ class Home extends BaseController
         } elseif (in_groups('Mahasiswa')) {
             $kuliah = $this->kuliah->where(['mahasiswa_id' => $detail->id])->findAll();
             $this->data['matkul'] = $this->kuliah->where('mahasiswa_id', $detail->id)->countAllResults();
+            foreach ($kuliah as $key => $value) {
+                $ujian[] = $this->ujian->where('kuliah_id', $value->id)->first();
+            }
             $this->data['ujian_belum'] = 0;
-            foreach ($kuliah as $key => $value) {
-                $this->data['ujian_belum'] = $this->data['ujian_belum'] + $this->ujian->where(['kuliah_id' => $value->id, 'status <' => 10])->countAllResults();
-            }
             $this->data['ujian_sudah'] = 0;
-            foreach ($kuliah as $key => $value) {
-                $this->data['ujian_sudah'] = $this->data['ujian_sudah'] + $this->ujian->where(['kuliah_id' => $value->id, 'status >=' => 10])->countAllResults();
+            foreach ($ujian as $key => $value) {
+                $cek = $value->kuliah->{strtolower($value->tipe)} > 0;
+                $this->data['ujian_sudah'] = $cek ? $this->data['ujian_sudah'] + 1 : $this->data['ujian_sudah'] + 0;
+                $this->data['ujian_belum'] = !$cek ? $this->data['ujian_belum'] + 1 : $this->data['ujian_belum'] + 0;
             }
+            $this->data['ujian'] = $ujian;
             $this->data['kuliah'] = $kuliah;
         } elseif (in_groups('Dosen')) {
             $matkul = $this->matkul->where(['dosen_id' => $detail->id])->findAll();
