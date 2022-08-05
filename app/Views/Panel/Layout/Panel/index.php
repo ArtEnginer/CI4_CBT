@@ -43,7 +43,7 @@
                 <div class="app-branding">
                     <a class="app-logo" href="#!"><img class="logo-icon me-2"
                             src="<?= base_url('assets/portal') ?>/images/app-logo.svg" alt="logo"><span
-                            class="logo-text">Panel</span></a>
+                            class="logo-text">CBT</span></a>
 
                 </div>
                 <nav id="app-nav-main" class="app-nav app-nav-main flex-grow-1">

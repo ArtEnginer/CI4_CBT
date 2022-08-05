@@ -73,10 +73,12 @@ class UjianController extends BaseController
 
     public function atur()
     {
+        $user = user();
+        $detail = $user->getDetail();
         $this->data['title'] = 'Manajemen Ujian';
         $this->data['items'] = $this->model->where('status <', '10')->findAll();
         foreach ($this->data['items'] as $key => $value) {
-            if ($value->kuliah->matkul->dosen->id != 1) {
+            if ($value->kuliah->matkul->dosen->id != $detail->id) {
                 unset($this->data['items'][$key]);
             }
         }
@@ -92,15 +94,30 @@ class UjianController extends BaseController
 
     public function jadwal()
     {
+        $user = user();
+        $detail = $user->getDetail();
         $this->data['title'] = 'Jadwal Ujian';
+        $this->data['modelKuliah'] = new KuliahModel();
         $this->data['items'] = $this->model->where('status <', '10')->findAll();
         foreach ($this->data['items'] as $key => $value) {
-            if ($value->kuliah->mahasiswa->id != 1) {
+            if ($value->kuliah->mahasiswa->id != $detail->id) {
                 unset($this->data['items'][$key]);
             }
         }
         $this->data['waktu'] = Time::now();
         return view('Panel/Page/Ujian/jadwal', $this->data);
+    }
+
+    public function nilai($ujianid)
+    {
+        $user = user();
+        $detail = $user->getDetail();
+        $this->data['title'] = 'Nilai Ujian';
+        $this->data['ujian'] = $this->model->find($ujianid);
+        $this->data['item'] = $this->kuliah->where(['mahasiswa_id' => $detail->id, 'id' => $this->data['ujian']->kuliah->id])->first();
+        $this->data['user'] = $user;
+        $this->data['detail'] = $detail;
+        return view('Panel/Page/Ujian/nilai', $this->data);
     }
 
     public function masukUjian($token)
@@ -129,6 +146,8 @@ class UjianController extends BaseController
 
     public function roomUjian($token, $nomor)
     {
+        $user = user();
+        $detail = $user->getDetail();
         $jawaban = $this->session->get('soal_jawab');
         $waktu = Time::now();
         $post = $this->request->getPost();
@@ -170,7 +189,7 @@ class UjianController extends BaseController
             }
             $jumlahsoal = sizeof($soal);
             $nilai = 100 / $jumlahsoal * $benar;
-            $kuliah = $this->kuliah->where(['mahasiswa_id' => 1, 'matakuliah_id' => $this->data['item']->kuliah->matkul->id])->first();
+            $kuliah = $this->kuliah->where(['mahasiswa_id' => $detail->id, 'matakuliah_id' => $this->data['item']->kuliah->matkul->id])->first();
             $kuliah->{strtolower($this->data['item']->tipe)} = $nilai;
             $this->kuliah->save($kuliah);
             $this->session->remove(['soal_nomor', 'soal_jawab']);

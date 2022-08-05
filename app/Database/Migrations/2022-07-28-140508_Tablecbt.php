@@ -192,10 +192,12 @@ class Tablecbt extends Migration
             'uas' => [
                 'type' => 'VARCHAR',
                 'constraint' => 10,
+                'null' => true,
             ],
             'uts' => [
                 'type' => 'VARCHAR',
                 'constraint' => 10,
+                'null' => true,
             ],
             'created_at' => [
                 'type' => 'DATETIME',

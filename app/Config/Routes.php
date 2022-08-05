@@ -37,7 +37,7 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 
-$routes->group('master', function ($routes) {
+$routes->group('master', ['filter' => 'role:Admin'], function ($routes) {
     // Mahasiswa
     $routes->group('mahasiswa', ['namespace' => 'App\Controllers\Panel'], function ($routes) {
         $routes->get('', 'MahasiswaController::index', ['as' => 'data-mahasiswa']);
@@ -100,17 +100,18 @@ $routes->group('master', function ($routes) {
 });
 // Ujian
 $routes->group('ujian', ['namespace' => 'App\Controllers\Panel'], function ($routes) {
-    $routes->get('data', 'UjianController::index', ['as' => 'ujian-data']);
-    $routes->get('data/riwayat', 'UjianController::riwayat', ['as' => 'ujian-data-riwayat']);
-    $routes->get('riwayat', 'UjianController::riwayatOnly', ['as' => 'ujian-riwayat']);
-    $routes->get('data/detail/(:num)', 'UjianController::detail/$1', ['as' => 'ujian-data-detail']);
-    $routes->get('add', 'UjianController::add', ['as' => 'ujian-data-add']);
-    $routes->get('edit/(:num)', 'UjianController::edit/$1', ['as' => 'ujian-data-edit']);
-    $routes->get('atur', 'UjianController::atur', ['as' => 'ujian-atur']);
-    $routes->get('atur/upload/(:num)', 'UjianController::upload/$1', ['as' => 'ujian-atur-upload']);
-    $routes->get('jadwal', 'UjianController::jadwal', ['as' => 'ujian-jadwal']);
-    $routes->add('masuk/(:any)', 'UjianController::masukUjian/$1', ['as' => 'ujian-masuk']);
-    $routes->add('room/(:any)/(:num)', 'UjianController::roomUjian/$1/$2', ['as' => 'ujian-room']);
+    $routes->get('data', 'UjianController::index', ['filter' => 'role:Admin', 'as' => 'ujian-data']);
+    $routes->get('data/riwayat', 'UjianController::riwayat', ['filter' => 'role:Admin', 'as' => 'ujian-data-riwayat']);
+    $routes->get('riwayat', 'UjianController::riwayatOnly', ['filter' => 'role:Admin', 'as' => 'ujian-riwayat']);
+    $routes->get('data/detail/(:num)', 'UjianController::detail/$1', ['filter' => 'role:Admin', 'as' => 'ujian-data-detail']);
+    $routes->get('add', 'UjianController::add', ['filter' => 'role:Admin', 'as' => 'ujian-data-add']);
+    $routes->get('edit/(:num)', 'UjianController::edit/$1', ['filter' => 'role:Admin', 'as' => 'ujian-data-edit']);
+    $routes->get('atur', 'UjianController::atur', ['as' => 'ujian-atur', 'filter' => 'role:Dosen']);
+    $routes->get('atur/upload/(:num)', 'UjianController::upload/$1', ['as' => 'ujian-atur-upload', 'filter' => 'role:Dosen']);
+    $routes->get('jadwal', 'UjianController::jadwal', ['as' => 'ujian-jadwal', 'filter' => 'role:Mahasiswa']);
+    $routes->get('nilai/(:num)', 'UjianController::nilai/$1', ['as' => 'ujian-nilai', 'filter' => 'role:Mahasiswa']);
+    $routes->add('masuk/(:any)', 'UjianController::masukUjian/$1', ['as' => 'ujian-masuk', 'filter' => 'role:Mahasiswa']);
+    $routes->add('room/(:any)/(:num)', 'UjianController::roomUjian/$1/$2', ['as' => 'ujian-room', 'filter' => 'role:Mahasiswa']);
 });
 $routes->group('ujian', ['namespace' => 'App\Controllers\Api'], function ($routes) {
     $routes->post('add', 'UjianController::add', ['as' => 'ujian-data-add']);
@@ -121,12 +122,12 @@ $routes->group('ujian', ['namespace' => 'App\Controllers\Api'], function ($route
     $routes->post('soal/save', 'UjianController::save', ['as' => 'soal-save']);
 });
 // User
-$routes->group('user', ['namespace' => 'App\Controllers\Panel'], function ($routes) {
+$routes->group('user', ['namespace' => 'App\Controllers\Panel', 'filter' => 'role:Admin'], function ($routes) {
     $routes->get('', 'PenggunaController::index', ['as' => 'user']);
     $routes->get('edit/(:num)', 'PenggunaController::edit/$1', ['as' => 'user-edit']);
     $routes->get('detail/(:num)', 'PenggunaController::detail/$1', ['as' => 'user-detail']);
 });
-$routes->group('user', ['namespace' => 'App\Controllers\Api'], function ($routes) {
+$routes->group('user', ['namespace' => 'App\Controllers\Api', 'filter' => 'role:Admin'], function ($routes) {
     $routes->post('add', 'PenggunaController::add', ['as' => 'user-add']);
     $routes->post('detail/(:num)', 'PenggunaController::detail/$1', ['as' => 'user-detail']);
     $routes->get('delete/(:any)/(:num)', 'PenggunaController::delete/$1/$2', ['as' => 'user-delete']);

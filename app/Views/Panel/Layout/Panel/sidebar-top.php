@@ -12,6 +12,7 @@
             <span class="nav-link-text">Dashboard</span>
         </a>
     </li>
+    <?php if (in_groups('Admin')) : ?>
     <li class="nav-item has-submenu">
         <a class="nav-link <?= $menuactive == 'master' ? 'active' : '' ?> submenu-toggle" href="#"
             data-bs-toggle="collapse" data-bs-target="#submenu-1" aria-expanded="false" aria-controls="submenu-1">
@@ -53,6 +54,7 @@
             </ul>
         </div>
     </li>
+    <?php endif ?>
     <li class="nav-item has-submenu">
         <a class="nav-link <?= $menuactive == 'ujian' ? 'active' : '' ?> submenu-toggle" href="#"
             data-bs-toggle="collapse" data-bs-target="#submenu-2" aria-expanded="false" aria-controls="submenu-2">
@@ -74,21 +76,28 @@
         </a>
         <div id="submenu-2" class="collapse submenu submenu-2" data-bs-parent="#menu-accordion">
             <ul class="submenu-list list-unstyled">
+                <?php if (in_groups('Admin')) : ?>
                 <li class="submenu-item">
                     <a class="submenu-link" href="<?= route_to('ujian-data') ?>">Data Ujian</a>
                 </li>
                 <li class="submenu-item">
-                    <a class="submenu-link" href="<?= route_to('ujian-atur') ?>">Atur Ujian</a>
-                </li>
-                <li class="submenu-item">
                     <a class="submenu-link" href="<?= route_to('ujian-riwayat') ?>">Riwayat Ujian</a>
                 </li>
+                <?php endif ?>
+                <?php if (in_groups('Dosen')) : ?>
+                <li class="submenu-item">
+                    <a class="submenu-link" href="<?= route_to('ujian-atur') ?>">Atur Ujian</a>
+                </li>
+                <?php endif ?>
+                <?php if (in_groups('Mahasiswa')) : ?>
                 <li class="submenu-item">
                     <a class="submenu-link" href="<?= route_to('ujian-jadwal') ?>">Jadwal Ujian</a>
                 </li>
+                <?php endif ?>
             </ul>
         </div>
     </li>
+    <?php if (in_groups('Admin')) : ?>
     <li class="nav-item">
         <a class="nav-link <?= $menuactive == 'user' ? 'active' : '' ?>" href="<?= route_to('user') ?>">
             <span class="nav-icon">
@@ -103,4 +112,5 @@
             <span class="nav-link-text">Pengguna</span>
         </a>
     </li>
+    <?php endif ?>
 </ul>
