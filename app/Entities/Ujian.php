@@ -32,4 +32,9 @@ class Ujian extends Entity
         $this->attributes['token_ujian'] = $this->attributes['token_ujian'] ?? bin2hex(random_bytes(16));
         $this->attributes['token_akses'] = strtoupper(bin2hex(random_bytes(4)));
     }
+
+    public function done()
+    {
+        $this->attributes['status'] = 10;
+    }
 }

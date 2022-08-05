@@ -98,7 +98,7 @@ class UjianController extends BaseController
         $detail = $user->getDetail();
         $this->data['title'] = 'Jadwal Ujian';
         $this->data['modelKuliah'] = new KuliahModel();
-        $this->data['items'] = $this->model->where('status <', '10')->findAll();
+        $this->data['items'] = $this->model->findAll();
         foreach ($this->data['items'] as $key => $value) {
             if ($value->kuliah->mahasiswa->id != $detail->id) {
                 unset($this->data['items'][$key]);
@@ -197,6 +197,7 @@ class UjianController extends BaseController
         }
         $this->data['nomor'] = $nomor;
         if ($waktu->isAfter($this->data['item']->waktu->addMinutes($this->data['item']->tenggat))) {
+            $this->session->remove(['soal_nomor', 'soal_jawab']);
             return redirect()->route('ujian-jadwal')->with('error', 'Waktu Ujian Sudah Berakhir');
         }
         // dd($token, $nomor);

@@ -120,6 +120,7 @@ $routes->group('ujian', ['namespace' => 'App\Controllers\Api'], function ($route
     $routes->post('soal/download', 'UjianController::download', ['as' => 'soal-download']);
     $routes->post('soal/upload', 'UjianController::upload', ['as' => 'soal-upload']);
     $routes->post('soal/save', 'UjianController::save', ['as' => 'soal-save']);
+    $routes->get('atur/selesai/(:num)', 'UjianController::selesai/$1', ['as' => 'ujian-atur-selesai', 'filter' => 'role:Dosen']);
 });
 // User
 $routes->group('user', ['namespace' => 'App\Controllers\Panel', 'filter' => 'role:Admin'], function ($routes) {

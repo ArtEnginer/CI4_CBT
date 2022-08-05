@@ -198,4 +198,14 @@ class UjianController extends BaseController
         }
         return redirect()->route('ujian-atur')->with('error', 'Gagal Upload Soal');
     }
+
+    public function selesai($id)
+    {
+        $item = $this->model->find($id);
+        $item->done();
+        if ($this->model->save($item)) {
+            return redirect()->route('ujian-atur')->with('message', 'Berhasil Menyelesaikan Ujian');
+        }
+        return redirect()->route('ujian-atur')->with('error', 'Gagal Menyelesaikan Ujian');
+    }
 }
