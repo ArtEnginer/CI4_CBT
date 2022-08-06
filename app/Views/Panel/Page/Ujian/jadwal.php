@@ -33,11 +33,11 @@
                             foreach ($items as $key => $item) : ?>
                             <?php $user = user() ?>
                             <?php $detail = $user->getDetail() ?>
-                            <?php $kuliah = $modelKuliah->first() ?>
+                            <?php $kuliah = $modelKuliah->where(['mahasiswa_id' => $detail->id, 'matakuliah_id' => $item->matkul->id])->first() ?>
                             <?php $done = $kuliah->{strtolower($item->tipe)} > 0 ?>
                             <tr>
                                 <td class="cell"><?= $no++ ?></td>
-                                <td class="cell"><?= $item->kuliah->matkul->nama ?></td>
+                                <td class="cell"><?= $item->matkul->nama ?></td>
                                 <td class="cell"><?= $item->waktu ?></td>
                                 <td class="cell"><?= $item->tenggat ?> Menit</td>
                                 <td class="cell">

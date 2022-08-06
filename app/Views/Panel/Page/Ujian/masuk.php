@@ -32,7 +32,7 @@
                 <div class="app-card app-card-stats-table h-100 shadow-sm">
                     <div class="app-card-header p-3">
                         <div class="row text-center">
-                            <h4 class="app-card-title">Ujian <?= $item->kuliah->matkul->nama ?></h4>
+                            <h4 class="app-card-title">Ujian <?= $item->matkul->nama ?></h4>
                         </div>
                     </div>
                     <div class="app-card-body p-3 p-lg-4">

@@ -32,7 +32,7 @@
                             foreach ($items as $key => $item) : ?>
                             <tr>
                                 <td class="cell"><?= $no++ ?></td>
-                                <td class="cell"><?= $item->kuliah->matkul->nama ?></td>
+                                <td class="cell"><?= $item->matkul->nama ?></td>
                                 <td class="cell"><?= $item->waktu ?></td>
                                 <td class="cell"><span
                                         class="badge bg-<?= $item->status->getStyle() ?>"><?= $item->status ?></span>

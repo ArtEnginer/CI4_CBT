@@ -4,6 +4,7 @@ namespace App\Database\Seeds;
 
 use CodeIgniter\Database\Seeder;
 use CodeIgniter\I18n\Time;
+use Faker\Factory;
 use Myth\Auth\Password;
 
 class Test extends Seeder
@@ -11,28 +12,66 @@ class Test extends Seeder
     public function run()
     {
         // mahasiswa
-        $data = [
-            [
-                'nim' => '42419011',
-                'nama' => 'Nova',
-                'alamat' => 'Jl. Raya',
-                'tahun_masuk' => '2019',
-                'created_at' => Time::now(),
-                'updated_at' => Time::now(),
-            ],
+        $faker = Factory::create('id_ID');
+        $data[] = [
+            'nim' => 42419001,
+            'nama' => 'Nova Adi Saputra',
+            'alamat' => 'Suradadi Tegal',
+            'tahun_masuk' => 2019,
+            'created_at' => Time::now(),
+            'updated_at' => Time::now(),
         ];
+        $nim = 42419002;
+        for ($i = 0; $i < 29; $i++) {
+            $data[] = [
+                'nim'           => $nim++,
+                'nama'          => $faker->name(),
+                'alamat'        => $faker->address(),
+                'tahun_masuk'   => 2019,
+                'created_at'    => Time::now(),
+                'updated_at'    => Time::now(),
+            ];
+        }
+        $data[] = [
+            'nim' => 42420001,
+            'nama' => 'Angga Saputra',
+            'alamat' => 'Sirampog Brebes',
+            'tahun_masuk' => 2020,
+            'created_at' => Time::now(),
+            'updated_at' => Time::now(),
+        ];
+        $nim = 42420002;
+        for ($i = 0; $i < 29; $i++) {
+            $data[] = [
+                'nim'           => $nim++,
+                'nama'          => $faker->name(),
+                'alamat'        => $faker->address(),
+                'tahun_masuk'   => 2020,
+                'created_at'    => Time::now(),
+                'updated_at'    => Time::now(),
+            ];
+        }
         $this->db->table('cbt_mahasiswa')->insertBatch($data);
 
         // Dosen
-        $data = [
-            [
-                'nip' => '1002001',
-                'nama' => 'Rizki',
-                'alamat' => 'Jl. Raya',
-                'created_at' => Time::now(),
-                'updated_at' => Time::now(),
-            ],
+        $data = [];
+        $data[] = [
+            'nip' => 1002001,
+            'nama' => 'Sorikhi',
+            'alamat' => 'Pemalang',
+            'created_at' => Time::now(),
+            'updated_at' => Time::now(),
         ];
+        $nip = 1002002;
+        for ($i = 0; $i < 14; $i++) {
+            $data[] = [
+                'nip'           => $nip++,
+                'nama'          => $faker->name(),
+                'alamat'        => $faker->address(),
+                'created_at'    => Time::now(),
+                'updated_at'    => Time::now(),
+            ];
+        }
         $this->db->table('cbt_dosen')->insertBatch($data);
 
         // Admin
@@ -50,9 +89,36 @@ class Test extends Seeder
             [
                 'sks' => '3',
                 'nama' => 'Dasar Pemrograman',
-                'semester' => '1',
+                'semester' => '4',
                 'ruang_id' => '1',
                 'dosen_id' => '1',
+                'created_at' => Time::now(),
+                'updated_at' => Time::now(),
+            ],
+            [
+                'sks' => '3',
+                'nama' => 'Pemrograman Berorientasi Objek',
+                'semester' => '4',
+                'ruang_id' => '3',
+                'dosen_id' => '2',
+                'created_at' => Time::now(),
+                'updated_at' => Time::now(),
+            ],
+            [
+                'sks' => '4',
+                'nama' => 'Pemrograman Terstruktur',
+                'semester' => '6',
+                'ruang_id' => '3',
+                'dosen_id' => '3',
+                'created_at' => Time::now(),
+                'updated_at' => Time::now(),
+            ],
+            [
+                'sks' => '3',
+                'nama' => 'Rangkaian Digital',
+                'semester' => '6',
+                'ruang_id' => '4',
+                'dosen_id' => '4',
                 'created_at' => Time::now(),
                 'updated_at' => Time::now(),
             ],
@@ -62,19 +128,25 @@ class Test extends Seeder
         // ruang
         $data = [
             [
-                'nama' => 'R1',
+                'nama' => 'R201',
                 'tampung' => '25',
                 'created_at' => Time::now(),
                 'updated_at' => Time::now(),
             ],
             [
-                'nama' => 'R2',
+                'nama' => 'R202',
                 'tampung' => '25',
                 'created_at' => Time::now(),
                 'updated_at' => Time::now(),
             ],
             [
-                'nama' => 'R3',
+                'nama' => 'R301',
+                'tampung' => '25',
+                'created_at' => Time::now(),
+                'updated_at' => Time::now(),
+            ],
+            [
+                'nama' => 'R302',
                 'tampung' => '25',
                 'created_at' => Time::now(),
                 'updated_at' => Time::now(),
@@ -83,29 +155,40 @@ class Test extends Seeder
         $this->db->table('cbt_ruang')->insertBatch($data);
 
         // Kuliah
-        $data = [
-            [
-                'mahasiswa_id' => '1',
-                'matakuliah_id' => '1',
-                'tahun' => '2020',
-                'uas' => null,
-                'uts' => null,
-                'created_at' => Time::now(),
-                'updated_at' => Time::now(),
-
-            ],
-
-        ];
+        $data = [];
+        for ($j = 0; $j < 2; $j++) {
+            $matkul = $j == 0 ? 3 : 4;
+            for ($i = 1; $i <= 30; $i++) {
+                $data[] = [
+                    'mahasiswa_id'  => $i,
+                    'matakuliah_id' => $matkul,
+                    'tahun'         => 2022,
+                    'created_at'    => Time::now(),
+                    'updated_at'    => Time::now(),
+                ];
+            }
+        }
+        for ($j = 0; $j < 2; $j++) {
+            $matkul = $j == 0 ? 1 : 2;
+            for ($i = 31; $i <= 60; $i++) {
+                $data[] = [
+                    'mahasiswa_id'  => $i,
+                    'matakuliah_id' => $matkul,
+                    'tahun'         => 2022,
+                    'created_at'    => Time::now(),
+                    'updated_at'    => Time::now(),
+                ];
+            }
+        }
         $this->db->table('cbt_kuliah')->insertBatch($data);
 
 
         // Ujian
         $data = [
             [
-                'kuliah_id' => '1',
+                'matkul_id' => '1',
                 'ruang_id' => '1',
-                'ruang_id' => '1',
-                'waktu' => '2022-08-06',
+                'waktu' => '2022-08-06 08:00:00',
                 'tenggat' => 120,
                 'tipe' => 'UTS',
                 'soal_pilgan' => null,
@@ -151,25 +234,32 @@ class Test extends Seeder
                 'created_at'    => Time::now('Asia/Jakarta', 'id_ID'),
                 'updated_at'    => Time::now('Asia/Jakarta', 'id_ID')
             ],
-            [
-                'detail_id'     => 1,
-                'email'         => '42419011@cbt.com',
-                'username'      => '42419011',
-                'password_hash' => Password::hash('12345'),
-                'active'        => 1,
-                'created_at'    => Time::now('Asia/Jakarta', 'id_ID'),
-                'updated_at'    => Time::now('Asia/Jakarta', 'id_ID')
-            ],
-            [
-                'detail_id'     => 1,
-                'email'         => '1002001@cbt.com',
-                'username'      => '1002001',
-                'password_hash' => Password::hash('12345'),
-                'active'        => 1,
-                'created_at'    => Time::now('Asia/Jakarta', 'id_ID'),
-                'updated_at'    => Time::now('Asia/Jakarta', 'id_ID')
-            ],
         ];
+        $nim = 42419001;
+        for ($i = 1; $i <= 60; $i++) {
+            $nim = $i == 31 ? 42420001 : $nim;
+            $data[] = [
+                'detail_id'     => $i,
+                'email'         => $faker->freeEmail(),
+                'username'      => $nim++,
+                'password_hash' => Password::hash('12345'),
+                'active'        => 1,
+                'created_at'    => Time::now('Asia/Jakarta', 'id_ID'),
+                'updated_at'    => Time::now('Asia/Jakarta', 'id_ID')
+            ];
+        }
+        $nip = 1002001;
+        for ($i = 1; $i <= 15; $i++) {
+            $data[] = [
+                'detail_id'     => $i,
+                'email'         => $faker->freeEmail(),
+                'username'      => $nip++,
+                'password_hash' => Password::hash('12345'),
+                'active'        => 1,
+                'created_at'    => Time::now('Asia/Jakarta', 'id_ID'),
+                'updated_at'    => Time::now('Asia/Jakarta', 'id_ID')
+            ];
+        }
 
         // Using Query Builder
         $this->db->table('users')->insertBatch($data);
@@ -179,16 +269,15 @@ class Test extends Seeder
                 'group_id'   => 1,
                 'user_id'    => 1
             ],
-            [
-                'group_id'   => 2,
-                'user_id'    => 2
-            ],
-            [
-                'group_id'   => 3,
-                'user_id'    => 3
-            ],
-
         ];
+        $g = 2;
+        for ($i = 2; $i <= 76; $i++) {
+            $g = $i == 61 ? 3 : $g;
+            $data[] = [
+                'group_id'   => $g,
+                'user_id'    => $i
+            ];
+        }
 
         // Using Query Builder
         $this->db->table('auth_groups_users')->insertBatch($data);

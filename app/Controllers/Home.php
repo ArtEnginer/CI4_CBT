@@ -42,15 +42,25 @@ class Home extends BaseController
         } elseif (in_groups('Mahasiswa')) {
             $kuliah = $this->kuliah->where(['mahasiswa_id' => $detail->id])->findAll();
             $this->data['matkul'] = $this->kuliah->where('mahasiswa_id', $detail->id)->countAllResults();
+            $ujian = [];
             foreach ($kuliah as $key => $value) {
-                $ujian[] = $this->ujian->where('kuliah_id', $value->id)->first();
+                $temp = $this->ujian->where('matkul_id', $value->matkul->id)->first();
+                if ($temp) {
+                    $ujian[] = $temp;
+                }
             }
             $this->data['ujian_belum'] = 0;
             $this->data['ujian_sudah'] = 0;
-            foreach ($ujian as $key => $value) {
-                $cek = $value->kuliah->{strtolower($value->tipe)} > 0;
-                $this->data['ujian_sudah'] = $cek ? $this->data['ujian_sudah'] + 1 : $this->data['ujian_sudah'] + 0;
-                $this->data['ujian_belum'] = !$cek ? $this->data['ujian_belum'] + 1 : $this->data['ujian_belum'] + 0;
+            if ($ujian) {
+                foreach ($ujian as $key => $value) {
+                    $matkul = $this->matkul->find($value->matkul->id);
+                    if ($matkul) {
+                        $kuliah_id = $this->kuliah->where(['mahasiswa_id' => $detail->id, 'matakuliah_id' => $matkul->id])->first();
+                        $cek = $kuliah_id->{strtolower($value->tipe)} > 0;
+                        $this->data['ujian_sudah'] = $cek ? $this->data['ujian_sudah'] + 1 : $this->data['ujian_sudah'] + 0;
+                        $this->data['ujian_belum'] = !$cek ? $this->data['ujian_belum'] + 1 : $this->data['ujian_belum'] + 0;
+                    }
+                }
             }
             $this->data['ujian'] = $ujian;
             $this->data['kuliah'] = $kuliah;
@@ -61,11 +71,11 @@ class Home extends BaseController
             }
             $this->data['ujian_belum'] = 0;
             foreach ($this->data['kuliah'] as $key => $value) {
-                $this->data['ujian_belum'] = $this->data['ujian_belum'] + $this->ujian->where(['kuliah_id' => $value->id, 'status <' => 10])->countAllResults();
+                $this->data['ujian_belum'] = $this->data['ujian_belum'] + $this->ujian->where(['matkul_id' => $value->id, 'status <' => 10])->countAllResults();
             }
             $this->data['ujian_sudah'] = 0;
             foreach ($this->data['kuliah'] as $key => $value) {
-                $this->data['ujian_sudah'] = $this->data['ujian_sudah'] + $this->ujian->where(['kuliah_id' => $value->id, 'status >=' => 10])->countAllResults();
+                $this->data['ujian_sudah'] = $this->data['ujian_sudah'] + $this->ujian->where(['matkul_id' => $value->id, 'status >=' => 10])->countAllResults();
             }
             $this->data['matkul'] = $this->matkul->where('dosen_id', $detail->id)->countAllResults();
             $this->data['matakuliah'] = $matkul;

@@ -219,7 +219,7 @@ class Tablecbt extends Migration
                 'unsigned' => true,
                 'auto_increment' => true,
             ],
-            'kuliah_id' => [
+            'matkul_id' => [
                 'type' => 'INT',
                 'constraint' => 11,
             ],

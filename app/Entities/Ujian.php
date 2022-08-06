@@ -3,27 +3,27 @@
 namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
-use App\Entities\Cast\KuliahCast;
 use App\Entities\Cast\RuangCast;
 use App\Entities\Cast\CastUjianStatus;
+use App\Entities\Cast\MatkulCast;
 
 class Ujian extends Entity
 {
     protected $dates = ['waktu', 'created_at', 'updated_at'];
     protected $casts = [
-        'kuliah_id' => 'kuliah',
+        'matkul_id' => 'matkul',
         'ruang_id' => 'ruang',
         'status' => 'status',
         'soal_pilgan' => 'json',
         'soal_essay' => 'json',
     ];
     protected $castHandlers = [
-        'kuliah' => KuliahCast::class,
+        'matkul' => MatkulCast::class,
         'ruang' => RuangCast::class,
         'status' => CastUjianStatus::class,
     ];
     protected $datamap = [
-        'kuliah' => 'kuliah_id',
+        'matkul' => 'matkul_id',
         'ruang' => 'ruang_id',
     ];
 

@@ -12,7 +12,7 @@ class UjianModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType = \App\Entities\Ujian::class;
     protected $allowedFields = [
-        'kuliah_id',
+        'matkul_id',
         'ruang_id',
         'waktu',
         'tenggat',

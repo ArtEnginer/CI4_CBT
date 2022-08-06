@@ -106,6 +106,7 @@ class AuthController extends Controller
     public function logout()
     {
         if ($this->auth->check()) {
+            $this->session->remove(['soal_nomor', 'soal_jawab']);
             $this->auth->logout();
         }
 

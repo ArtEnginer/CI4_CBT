@@ -11,7 +11,7 @@
             <div class="app-card-header p-3">
                 <div class="row justify-content-between align-items-center">
                     <div class="col-auto">
-                        <h4 class="app-card-title">Detail Ujian <?= $item->kuliah->matkul->nama ?></h4>
+                        <h4 class="app-card-title">Detail Ujian <?= $item->matkul->nama ?></h4>
                     </div>
                 </div>
             </div>
@@ -19,7 +19,7 @@
                 <table class="table">
                     <tr>
                         <th>Mata Kuliah</th>
-                        <td>: <?= $item->kuliah->matkul->nama ?></td>
+                        <td>: <?= $item->matkul->nama ?></td>
                     </tr>
                     <tr>
                         <th>Ruang Ujian</th>

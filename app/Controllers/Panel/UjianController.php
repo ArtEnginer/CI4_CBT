@@ -4,6 +4,7 @@ namespace App\Controllers\Panel;
 
 use App\Controllers\BaseController;
 use App\Models\KuliahModel;
+use App\Models\MatkulModel;
 use App\Models\RuangModel;
 use App\Models\UjianModel as model;
 use CodeIgniter\I18n\Time;
@@ -22,6 +23,7 @@ class UjianController extends BaseController
         $this->data['config']   = $this->config;
         $this->model = new model();
         $this->kuliah = new KuliahModel();
+        $this->matkul = new MatkulModel();
         $this->ruang = new RuangModel();
         $this->data['menuactive'] = 'ujian';
     }
@@ -57,7 +59,7 @@ class UjianController extends BaseController
     public function add()
     {
         $this->data['title'] = 'Buat Ujian Baru';
-        $this->data['kuliah'] = $this->kuliah->findAll();
+        $this->data['matkul'] = $this->matkul->findAll();
         $this->data['ruang'] = $this->ruang->findAll();
         return view('Panel/Page/Ujian/add', $this->data);
     }
@@ -65,7 +67,7 @@ class UjianController extends BaseController
     public function edit($id)
     {
         $this->data['title'] = 'Edit Data Ujian';
-        $this->data['kuliah'] = $this->kuliah->findAll();
+        $this->data['matkul'] = $this->matkul->findAll();
         $this->data['ruang'] = $this->ruang->findAll();
         $this->data['item'] = $this->model->find($id);
         return view('Panel/Page/Ujian/edit', $this->data);
@@ -78,7 +80,7 @@ class UjianController extends BaseController
         $this->data['title'] = 'Manajemen Ujian';
         $this->data['items'] = $this->model->where('status <', '10')->findAll();
         foreach ($this->data['items'] as $key => $value) {
-            if ($value->kuliah->matkul->dosen->id != $detail->id) {
+            if ($value->matkul->dosen->id != $detail->id) {
                 unset($this->data['items'][$key]);
             }
         }
@@ -98,9 +100,9 @@ class UjianController extends BaseController
         $detail = $user->getDetail();
         $this->data['title'] = 'Jadwal Ujian';
         $this->data['modelKuliah'] = new KuliahModel();
-        $this->data['items'] = $this->model->findAll();
+        $this->data['items'] = $this->model->where(['status >' => 0])->findAll();
         foreach ($this->data['items'] as $key => $value) {
-            if ($value->kuliah->mahasiswa->id != $detail->id) {
+            if (!$this->kuliah->where(['mahasiswa_id' => $detail->id, 'matakuliah_id' => $value->matkul->id])->first()) {
                 unset($this->data['items'][$key]);
             }
         }
@@ -114,7 +116,7 @@ class UjianController extends BaseController
         $detail = $user->getDetail();
         $this->data['title'] = 'Nilai Ujian';
         $this->data['ujian'] = $this->model->find($ujianid);
-        $this->data['item'] = $this->kuliah->where(['mahasiswa_id' => $detail->id, 'id' => $this->data['ujian']->kuliah->id])->first();
+        $this->data['item'] = $this->kuliah->where(['mahasiswa_id' => $detail->id, 'matakuliah_id' => $this->data['ujian']->matkul->id])->first();
         $this->data['user'] = $user;
         $this->data['detail'] = $detail;
         return view('Panel/Page/Ujian/nilai', $this->data);
@@ -189,7 +191,7 @@ class UjianController extends BaseController
             }
             $jumlahsoal = sizeof($soal);
             $nilai = 100 / $jumlahsoal * $benar;
-            $kuliah = $this->kuliah->where(['mahasiswa_id' => $detail->id, 'matakuliah_id' => $this->data['item']->kuliah->matkul->id])->first();
+            $kuliah = $this->kuliah->where(['mahasiswa_id' => $detail->id, 'matakuliah_id' => $this->data['item']->matkul->id])->first();
             $kuliah->{strtolower($this->data['item']->tipe)} = $nilai;
             $this->kuliah->save($kuliah);
             $this->session->remove(['soal_nomor', 'soal_jawab']);

@@ -28,15 +28,15 @@
                 <form class="form-horizontal r-separator border-top" method="POST">
                     <div class="card-body">
                         <div class="form-group row align-items-center mb-0">
-                            <label for="kuliah_id" class="col-3 text-end control-label col-form-label">Kuliah</label>
+                            <label for="matkul_id" class="col-3 text-end control-label col-form-label">Kuliah</label>
                             <div class="col-9 border-start pb-2 pt-2">
-                                <select class="form-select" aria-label="kuliah_id" name="kuliah_id" id="kuliah_id"
+                                <select class="form-select" aria-label="matkul_id" name="matkul_id" id="matkul_id"
                                     required>
-                                    <option value="">Pilih Kuliah</option>
+                                    <option value="">Pilih Mata Kuliah</option>
                                     <?php
-                                    foreach ($kuliah as $kl) : ?>
+                                    foreach ($matkul as $kl) : ?>
                                     <option value="<?= $kl->id ?>"
-                                        <?= $kl->id == $item->kuliah->id ? ' selected' : '' ?>><?= $kl->matkul->nama ?>
+                                        <?= $kl->id == $item->matkul->id ? ' selected' : '' ?>><?= $kl->nama ?>
                                     </option>
                                     <?php endforeach ?>
                                 </select>
