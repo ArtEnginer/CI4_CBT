@@ -272,7 +272,7 @@ class Test extends Seeder
         ];
         $g = 2;
         for ($i = 2; $i <= 76; $i++) {
-            $g = $i == 61 ? 3 : $g;
+            $g = $i == 62 ? 3 : $g;
             $data[] = [
                 'group_id'   => $g,
                 'user_id'    => $i
