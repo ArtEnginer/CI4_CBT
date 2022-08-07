@@ -106,8 +106,11 @@ $routes->group('ujian', ['namespace' => 'App\Controllers\Panel'], function ($rou
     $routes->get('data/detail/(:num)', 'UjianController::detail/$1', ['filter' => 'role:Admin', 'as' => 'ujian-data-detail']);
     $routes->get('add', 'UjianController::add', ['filter' => 'role:Admin', 'as' => 'ujian-data-add']);
     $routes->get('edit/(:num)', 'UjianController::edit/$1', ['filter' => 'role:Admin', 'as' => 'ujian-data-edit']);
-    $routes->get('atur', 'UjianController::atur', ['as' => 'ujian-atur', 'filter' => 'role:Dosen']);
-    $routes->get('atur/upload/(:num)', 'UjianController::upload/$1', ['as' => 'ujian-atur-upload', 'filter' => 'role:Dosen']);
+    $routes->group('atur', ['namespace' => 'App\Controllers\Panel', 'filter' => 'role:Dosen'], function ($routes) {
+        $routes->get('', 'UjianController::atur', ['as' => 'ujian-atur']);
+        $routes->get('edit/(:num)', 'UjianController::editSoal/$1', ['as' => 'ujian-atur-edit']);
+        $routes->get('upload/(:num)', 'UjianController::upload/$1', ['as' => 'ujian-atur-upload']);
+    });
     $routes->get('jadwal', 'UjianController::jadwal', ['as' => 'ujian-jadwal', 'filter' => 'role:Mahasiswa']);
     $routes->get('nilai/(:num)', 'UjianController::nilai/$1', ['as' => 'ujian-nilai', 'filter' => 'role:Mahasiswa']);
     $routes->add('masuk/(:any)', 'UjianController::masukUjian/$1', ['as' => 'ujian-masuk', 'filter' => 'role:Mahasiswa']);
@@ -121,6 +124,14 @@ $routes->group('ujian', ['namespace' => 'App\Controllers\Api'], function ($route
     $routes->post('soal/upload', 'UjianController::upload', ['as' => 'soal-upload']);
     $routes->post('soal/save', 'UjianController::save', ['as' => 'soal-save']);
     $routes->get('atur/selesai/(:num)', 'UjianController::selesai/$1', ['as' => 'ujian-atur-selesai', 'filter' => 'role:Dosen']);
+    $routes->group('soal', ['namespace' => 'App\Controllers\Api', 'filter' => 'role:Dosen'], function ($routes) {
+        $routes->group('pilgan', ['namespace' => 'App\Controllers\Api', 'filter' => 'role:Dosen'], function ($routes) {
+            $routes->get('(:num)/(:num)/img', 'SoalController::soalPilganGambar/$1/$2', ['as' => 'soal-pilgan-img']);
+            $routes->get('(:num)/(:num)/img/delete', 'SoalController::gambarPilganDelete/$1/$2', ['as' => 'soal-pilgan-img-delete']);
+            $routes->post('(:num)/(:num)/img/upload', 'SoalController::gambarPilganUpload/$1/$2', ['as' => 'soal-pilgan-img-upload']);
+            $routes->post('(:num)/(:num)/img/save', 'SoalController::gambarPilganSave/$1/$2', ['as' => 'soal-pilgan-img-save']);
+        });
+    });
 });
 // User
 $routes->group('user', ['namespace' => 'App\Controllers\Panel', 'filter' => 'role:Admin'], function ($routes) {

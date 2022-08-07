@@ -26,6 +26,7 @@ class UjianController extends BaseController
         $this->matkul = new MatkulModel();
         $this->ruang = new RuangModel();
         $this->data['menuactive'] = 'ujian';
+        $this->data['sekarang'] = Time::now();
     }
 
     public function index()
@@ -71,6 +72,15 @@ class UjianController extends BaseController
         $this->data['ruang'] = $this->ruang->findAll();
         $this->data['item'] = $this->model->find($id);
         return view('Panel/Page/Ujian/edit', $this->data);
+    }
+
+    public function editSoal($id)
+    {
+        $this->data['title'] = 'Edit Soal Ujian';
+        $this->data['item'] = $this->model->find($id);
+        $this->session->remove(['gambar_token_ujian', 'gambar_nomor', 'gambar_nama']);
+        // dd($this->data, $this->data['item']->soal_pilgan);
+        return view('Panel/Page/Ujian/edit_soal', $this->data);
     }
 
     public function atur()

@@ -71,6 +71,19 @@
             </div>
         </footer>
     </div>
+    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Assets -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
@@ -90,7 +103,7 @@
     </script>
     <script src="https://cdn.jsdelivr.net/gh/Eonasdan/tempus-dominus@master/dist/js/tempus-dominus.js"
         crossorigin="anonymous"></script>
-
+    <?= view($config->theme['panel'] . 'script') ?>
     <script src="<?= base_url('assets/portal') ?>/js/app.js"></script>
     <!-- Custom JS -->
     <script src="<?= base_url('assets/portal') . '/js/panel.js' ?>"></script>

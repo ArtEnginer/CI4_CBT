@@ -177,16 +177,16 @@ class UjianController extends BaseController
             unset($temp['nomor']);
             unset($temp['tipe']);
             unset($temp['soal']);
-            $num = 1;
             foreach ($temp as $keyyy => $abc) {
                 $valid = $keyyy == 'benar' ? true : false;
                 $data[$k]['pilihan'][] = [
-                    'id' => $num++,
+                    'id' => strtoupper(bin2hex(random_bytes(4))),
                     'text' => $abc,
                     'valid' => $valid,
                 ];
                 unset($data[$k][$keyyy]);
             }
+            $data[$k]['img'] = '';
         }
         $item->soal_pilgan = $data;
         // dd($this->session->soal_id, $post, $data, $item);

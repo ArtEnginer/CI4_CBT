@@ -31,6 +31,7 @@
                             <?php
                             $no = 1;
                             foreach ($items as $key => $item) : ?>
+                            <?php d($item->soal_pilgan) ?>
                             <tr>
                                 <td class="cell"><?= $no++ ?></td>
                                 <td class="cell"><?= $item->matkul->nama ?></td>
@@ -42,6 +43,11 @@
                                     <?php if ($item->status->code < 1) : ?>
                                     <a class="btn app-btn-secondary"
                                         href="<?= route_to('ujian-atur-upload', $item->id) ?>">Upload Soal</a>
+                                    <?php elseif ($sekarang->isBefore($item->waktu)) : ?>
+                                    <a class="btn app-btn-secondary"
+                                        href="<?= route_to('ujian-atur-edit', $item->id) ?>">Edit Soal</a>
+                                    <?php elseif ($sekarang->isBefore($item->waktu->addMinutes($item->tenggat))) : ?>
+                                    <a class="btn app-btn-primary disabled" href="#!">Ujian Sedang Berlangsung</a>
                                     <?php else : ?>
                                     <a class="btn app-btn-primary"
                                         href="<?= route_to('ujian-atur-selesai', $item->id) ?>">Selesaikan</a>

@@ -96,6 +96,7 @@ shuffle($pilgan->pilihan);
                             <div class="app-card-body p-3 p-lg-4">
                                 <?= view($config->theme['panel'] . '_message_block') ?>
                                 <form class="form" method="POST">
+                                    <?= ($pilgan->img) ? '<img src="' . base_url("soal/$item->token_ujian/pilgan/$pilgan->nomor") . "/$pilgan->img" . '" class="img-fluid rounded mx-auto d-block">' : '' ?>
                                     <p for="token" class="mb-2"><?= $soal ?></p>
                                     <?php $char = 'A' ?>
                                     <?php $num = 1 ?>

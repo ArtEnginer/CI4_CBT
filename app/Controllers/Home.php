@@ -70,7 +70,7 @@ class Home extends BaseController
                 $this->data['kuliah'][] = $this->kuliah->where(['matakuliah_id' => $value->id])->first();
             }
             $this->data['ujian_belum'] = 0;
-            foreach ($this->data['kuliah'] as $key => $value) {
+            foreach ($matkul as $key => $value) {
                 $this->data['ujian_belum'] = $this->data['ujian_belum'] + $this->ujian->where(['matkul_id' => $value->id, 'status <' => 10])->countAllResults();
             }
             $this->data['ujian_sudah'] = 0;
