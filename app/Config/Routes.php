@@ -114,7 +114,7 @@ $routes->group('ujian', ['namespace' => 'App\Controllers\Panel'], function ($rou
     $routes->get('jadwal', 'UjianController::jadwal', ['as' => 'ujian-jadwal', 'filter' => 'role:Mahasiswa']);
     $routes->get('nilai/(:num)', 'UjianController::nilai/$1', ['as' => 'ujian-nilai', 'filter' => 'role:Mahasiswa']);
     $routes->add('masuk/(:any)', 'UjianController::masukUjian/$1', ['as' => 'ujian-masuk', 'filter' => 'role:Mahasiswa']);
-    $routes->add('room/(:any)/(:num)', 'UjianController::roomUjian/$1/$2', ['as' => 'ujian-room', 'filter' => 'role:Mahasiswa']);
+    $routes->add('room/(:any)/(:any)/(:num)', 'UjianController::roomUjian/$1/$2/$3', ['as' => 'ujian-room', 'filter' => 'role:Mahasiswa']);
 });
 $routes->group('ujian', ['namespace' => 'App\Controllers\Api'], function ($routes) {
     $routes->post('add', 'UjianController::add', ['as' => 'ujian-data-add']);
@@ -124,12 +124,19 @@ $routes->group('ujian', ['namespace' => 'App\Controllers\Api'], function ($route
     $routes->post('soal/upload', 'UjianController::upload', ['as' => 'soal-upload']);
     $routes->post('soal/save', 'UjianController::save', ['as' => 'soal-save']);
     $routes->get('atur/selesai/(:num)', 'UjianController::selesai/$1', ['as' => 'ujian-atur-selesai', 'filter' => 'role:Dosen']);
+    $routes->get('get/(:any)/(:any)/(:num)', 'SoalController::getSoalUjian/$1/$2/$3', ['as' => 'soal-get']);
     $routes->group('soal', ['namespace' => 'App\Controllers\Api', 'filter' => 'role:Dosen'], function ($routes) {
         $routes->group('pilgan', ['namespace' => 'App\Controllers\Api', 'filter' => 'role:Dosen'], function ($routes) {
             $routes->get('(:num)/(:num)/img', 'SoalController::soalPilganGambar/$1/$2', ['as' => 'soal-pilgan-img']);
             $routes->get('(:num)/(:num)/img/delete', 'SoalController::gambarPilganDelete/$1/$2', ['as' => 'soal-pilgan-img-delete']);
             $routes->post('(:num)/(:num)/img/upload', 'SoalController::gambarPilganUpload/$1/$2', ['as' => 'soal-pilgan-img-upload']);
             $routes->post('(:num)/(:num)/img/save', 'SoalController::gambarPilganSave/$1/$2', ['as' => 'soal-pilgan-img-save']);
+        });
+        $routes->group('essay', ['namespace' => 'App\Controllers\Api', 'filter' => 'role:Dosen'], function ($routes) {
+            $routes->get('(:num)/(:num)/img', 'SoalController::soalEssayGambar/$1/$2', ['as' => 'soal-essay-img']);
+            $routes->get('(:num)/(:num)/img/delete', 'SoalController::gambarEssayDelete/$1/$2', ['as' => 'soal-essay-img-delete']);
+            $routes->post('(:num)/(:num)/img/upload', 'SoalController::gambarEssayUpload/$1/$2', ['as' => 'soal-essay-img-upload']);
+            $routes->post('(:num)/(:num)/img/save', 'SoalController::gambarEssaySave/$1/$2', ['as' => 'soal-essay-img-save']);
         });
     });
 });

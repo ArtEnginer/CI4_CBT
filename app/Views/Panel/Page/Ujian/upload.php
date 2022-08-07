@@ -32,11 +32,11 @@
                                     action="<?= route_to('soal-download') ?>">
                                     <div class=" form-group row align-items-center mb-0">
                                         <label for="jumlah" class="col-3 text-end control-label col-form-label">Jumlah
-                                            Soal</label>
+                                            Soal Pilihan Ganda</label>
                                         <div class="col-9 border-start pb-2 pt-2">
                                             <div class="input-group">
                                                 <input type="number" name="jumlah" id="jumlah" class="form-control"
-                                                    placeholder="Jumlah Soal" required>
+                                                    placeholder="Jumlah Soal" value="0" required>
                                                 <span class="input-group-text">Butir</span>
                                             </div>
                                         </div>
@@ -50,7 +50,21 @@
                                                 <option value="">Pilih Banyak Pilihan Ganda</option>
                                                 <option value="pilgan1">4 Pilihan (a-d)</option>
                                                 <option value="pilgan2">5 Pilihan (a-e)</option>
+                                                <option value="0">Tidak ada</option>
                                             </select>
+                                        </div>
+                                    </div>
+                                    <div class=" form-group row align-items-center mb-0">
+                                        <label for="jumlah_essay"
+                                            class="col-3 text-end control-label col-form-label">Jumlah
+                                            Soal Essay</label>
+                                        <div class="col-9 border-start pb-2 pt-2">
+                                            <div class="input-group">
+                                                <input type="number" name="jumlah_essay" id="jumlah_essay"
+                                                    class="form-control" placeholder="Jumlah_essay Soal" value="0"
+                                                    required>
+                                                <span class="input-group-text">Butir</span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="text-center">

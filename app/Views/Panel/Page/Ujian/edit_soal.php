@@ -48,16 +48,14 @@
                                             data-id="<?= $item->id ?>" data-nomor="<?= $soal->nomor ?>"><?= ($soal->img) ? 'Hapus Gambar' : 'Tambahkan
                                             Gambar' ?></a>
                                     </li>
-                                    <li><a class="dropdown-item pilgan-edit" href="<?= route_to('ujian-pilgan-edit') ?>"
-                                            data-id="<?= $item->id ?>" data-nomor="<?= $soal->nomor ?>">Edit</a>
+                                    <!-- <li><a class="dropdown-item pilgan-edit" href="" data-id="" data-nomor="">Edit</a>
                                     </li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
-                                    <li><a class="dropdown-item pilgan-delete"
-                                            href="<?= route_to('ujian-pilgan-delete') ?>" data-id="<?= $item->id ?>"
-                                            data-nomor="<?= $soal->nomor ?>">Hapus</a>
-                                    </li>
+                                    <li><a class="dropdown-item pilgan-delete" href="" data-id=""
+                                            data-nomor="">Hapus</a>
+                                    </li> -->
                                 </ul>
                             </div>
                         </div>
@@ -77,6 +75,48 @@
                             </li>
                             <?php endforeach ?>
                         </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php endforeach ?>
+        <?php endif ?>
+        <?php if ($item->soal_essay) : ?>
+        <?php $num = 1; ?>
+        <?php foreach ($item->soal_essay as $id => $soal) : ?>
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-3">
+                    <?= empty($soal->img) ? '' : '<img src="' . base_url("soal/$item->token_ujian/essay/$soal->nomor") . "/$soal->img" . '" class="card-img-top" alt="img">' ?>
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h6 class="m-0">Soal Essay Nomor <?= $num++ ?></h6>
+                        <div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-success text-light dropdown-toggle"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    Opsi
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item<?= ($soal->img) ? '' : ' essay-img' ?>"
+                                            href="<?= ($soal->img) ? route_to('soal-essay-img-delete', $item->id, $soal->nomor) : '#!' ?>"
+                                            data-id="<?= $item->id ?>" data-nomor="<?= $soal->nomor ?>"><?= ($soal->img) ? 'Hapus Gambar' : 'Tambahkan
+                                            Gambar' ?></a>
+                                    </li>
+                                    <!-- <li><a class="dropdown-item pilgan-edit" href="" data-id="" data-nomor="">Edit</a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item pilgan-delete" href="" data-id=""
+                                            data-nomor="">Hapus</a>
+                                    </li> -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="m-0 mb-2"><?= $soal->soal ?></p>
                     </div>
                 </div>
             </div>

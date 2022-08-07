@@ -58,6 +58,10 @@ class UjianController extends BaseController
         $soal = [];
         $data = $this->request->getPost();
 
+        if ($data['jumlah'] < 1 && $data['jumlah_essay'] < 1) {
+            return redirect()->back()->with('error', 'Soal Tidak Boleh kosong');
+        }
+
         $spreadsheet = new Spreadsheet();
         $spreadsheet->getProperties()->setCreator('CBT')
             ->setLastModifiedBy('SIPK')
@@ -76,10 +80,12 @@ class UjianController extends BaseController
                 ->setCellValue('E1', 'salah1')
                 ->setCellValue('F1', 'salah2')
                 ->setCellValue('G1', 'salah3');
-            for ($i = 1; $i <= $data['jumlah']; $i++) {
-                $absen[] = [
-                    $i, 'pilgan1', '', '', '', '',
-                ];
+            if ($data['jumlah'] > 0) {
+                for ($i = 1; $i <= $data['jumlah']; $i++) {
+                    $soal[] = [
+                        $i, 'pilgan1', '', '', '', '',
+                    ];
+                }
             }
         } else {
             $spreadsheet->getActiveSheet()->setCellValue('A1', 'nomor')
@@ -90,14 +96,22 @@ class UjianController extends BaseController
                 ->setCellValue('F1', 'salah2')
                 ->setCellValue('G1', 'salah3')
                 ->setCellValue('H1', 'salah4');
-            for ($i = 1; $i <= $data['jumlah']; $i++) {
-                $absen[] = [
-                    $i, 'pilgan2', '', '', '', '', '',
+            if ($data['jumlah'] > 0) {
+                for ($i = 1; $i <= $data['jumlah']; $i++) {
+                    $soal[] = [
+                        $i, 'pilgan2', '', '', '', '', '',
+                    ];
+                }
+            }
+        }
+        if ($data['jumlah_essay'] > 0) {
+            for ($i = 1; $i <= $data['jumlah_essay']; $i++) {
+                $soal[] = [
+                    $i, 'essay', '', '', '', '', '',
                 ];
             }
         }
-
-        $spreadsheet->getActiveSheet()->fromArray($absen, null, 'A2');
+        $spreadsheet->getActiveSheet()->fromArray($soal, null, 'A2');
 
         $spreadsheet->getActiveSheet()->getStyle('A1:G1')->getFont()->setBold(true);
         $spreadsheet->getActiveSheet()->setAutoFilter($spreadsheet->getActiveSheet()->calculateWorksheetDimension());
@@ -150,6 +164,8 @@ class UjianController extends BaseController
         $worksheet = $spreadsheet->getActiveSheet();
 
         $data = [];
+        $pilgan = [];
+        $essay = [];
         $keys = [];
 
         foreach ($worksheet->getRowIterator() as $row) {
@@ -174,22 +190,42 @@ class UjianController extends BaseController
         $item->status = 1;
         foreach ($data as $k => $v) {
             $temp = $v;
-            unset($temp['nomor']);
-            unset($temp['tipe']);
-            unset($temp['soal']);
-            foreach ($temp as $keyyy => $abc) {
-                $valid = $keyyy == 'benar' ? true : false;
-                $data[$k]['pilihan'][] = [
-                    'id' => strtoupper(bin2hex(random_bytes(4))),
-                    'text' => $abc,
-                    'valid' => $valid,
-                ];
-                unset($data[$k][$keyyy]);
+            if ($v['tipe'] == 'essay') {
+                unset($temp['nomor']);
+                unset($temp['tipe']);
+                unset($temp['soal']);
+                foreach ($temp as $keyyy => $abc) {
+                    unset($v[$keyyy]);
+                }
+                $v['img'] = '';
+                $essay[] = $v;
+            } else {
+                unset($temp['nomor']);
+                unset($temp['tipe']);
+                unset($temp['soal']);
+                foreach ($temp as $keyyy => $abc) {
+                    $valid = $keyyy == 'benar' ? true : false;
+                    $v['pilihan'][] = [
+                        'id' => strtoupper(bin2hex(random_bytes(4))),
+                        'text' => $abc,
+                        'valid' => $valid,
+                    ];
+                    unset($v[$keyyy]);
+                }
+                $v['img'] = '';
+                $pilgan[] = $v;
             }
-            $data[$k]['img'] = '';
         }
-        $item->soal_pilgan = $data;
-        // dd($this->session->soal_id, $post, $data, $item);
+        if (empty($pilgan) && empty($essay)) {
+            return redirect()->back()->with('error', 'Soal Tidak Boleh kosong');
+        }
+        if ($pilgan) {
+            $item->soal_pilgan = $pilgan;
+        }
+        if ($essay) {
+            $item->soal_essay = $essay;
+        }
+        // dd($this->session->soal_id, $post, $data, $item,$pilgan, $essay);
         if ($item->hasChanged()) {
             $this->model->save($item);
             unlink(WRITEPATH . "uploads/{$this->session->soal_id}.xlsx");

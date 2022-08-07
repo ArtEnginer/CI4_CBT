@@ -1,13 +1,5 @@
 <?php
-$jumlahsoal = sizeof($item->soal_pilgan);
-$soal = $item->soal_pilgan;
-usort($soal, function ($item1, $item2) {
-    return $item1->nomor <=> $item2->nomor;
-});
-
-$pilgan = $soal[$nomor - 1];
-$soal = $pilgan->soal;
-shuffle($pilgan->pilihan);
+// dd($soal)
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,6 +24,8 @@ shuffle($pilgan->pilihan);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.css"
         integrity="sha512-WvVX1YO12zmsvTpUQV8s7ZU98DnkaAokcciMZJfnNWyNzm7//QRV61t4aEr0WdIa4pe854QHLTV302vH92FSMw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- include summernote css/js -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
     <link id="theme-style" rel="stylesheet" href="<?= base_url('assets/portal') ?>/css/portal.css">
     <link id="theme-style" rel="stylesheet" href="<?= base_url('assets/portal') ?>/css/panel.css">
 </head>
@@ -72,11 +66,22 @@ shuffle($pilgan->pilihan);
 
                 </div>
                 <nav id="app-nav-main" class="app-nav app-nav-main flex-grow-1 mx-2">
+                    <?php if ($pilgan) : ?>
                     <?php $num = 1 ?>
-                    <?php foreach ($item->soal_pilgan as $pil) : ?>
-                    <a href="<?= route_to('ujian-room', $token_ujian, $num) ?>" role="button"
-                        class="btn app-btn-secondary<?= $num == $nomor ? ' active' : '' ?>"><?= $num++ ?></a>
+                    <h5 class="m-2">Pilihan Ganda</h5>
+                    <?php foreach ($pilgan as $pil) : ?>
+                    <button data-tipe="pilgan" data-token="<?= $item->token_ujian ?>" data-nomor="<?= $num ?>"
+                        class="btn app-btn-secondary ujian-nomor<?= $tipe == 'pilgan' && $nomor == $num ? ' active' : '' ?>"><?= $num++ ?></button>
                     <?php endforeach ?>
+                    <?php endif ?>
+                    <?php if ($essay) : ?>
+                    <?php $num = 1 ?>
+                    <h5 class="m-2">Essay</h5>
+                    <?php foreach ($essay as $e) : ?>
+                    <button data-tipe="essay" data-token="<?= $item->token_ujian ?>" data-nomor="<?= $num ?>"
+                        class="btn app-btn-secondary ujian-nomor<?= $tipe == 'essay' && $nomor == $num ? ' active' : '' ?>"><?= $num++ ?></button>
+                    <?php endforeach ?>
+                    <?php endif ?>
                 </nav>
             </div>
         </div>
@@ -87,20 +92,22 @@ shuffle($pilgan->pilihan);
             <div class="container-xl">
                 <div class="row justify-content-center">
                     <div class="col-md-6">
-                        <div class="app-card app-card-stats-table h-100 shadow-sm">
+                        <div class="app-card app-card-stats-table h-100 shadow-sm soal-body">
+                            <?php if ($tipe == 'pilgan') : ?>
                             <div class="app-card-header p-3">
                                 <div class="row text-center">
-                                    <h4 class="app-card-title">Soal Nomor <?= $nomor ?></h4>
+                                    <h4 class="app-card-title">Soal Pilgan Nomor <?= $soal->nomor ?></h4>
                                 </div>
                             </div>
                             <div class="app-card-body p-3 p-lg-4">
                                 <?= view($config->theme['panel'] . '_message_block') ?>
                                 <form class="form" method="POST">
-                                    <?= ($pilgan->img) ? '<img src="' . base_url("soal/$item->token_ujian/pilgan/$pilgan->nomor") . "/$pilgan->img" . '" class="img-fluid rounded mx-auto d-block">' : '' ?>
-                                    <p for="token" class="mb-2"><?= $soal ?></p>
+                                    <?= ($soal->img) ? '<img src="' . base_url("soal/$token/pilgan/$soal->nomor") . "/$soal->img" . '" class="img-fluid rounded mx-auto d-block">' : '' ?>
+                                    <p for="token" class="mb-2"><?= $soal->soal ?></p>
                                     <?php $char = 'A' ?>
+                                    <?php shuffle($soal->pilihan) ?>
                                     <?php $num = 1 ?>
-                                    <?php foreach ($pilgan->pilihan as $pg) : ?>
+                                    <?php foreach ($soal->pilihan as $pg) : ?>
                                     <div class="mb-3">
                                         <input type="radio" class="btn-check" name="id_pilgan" id="option<?= $num ?>"
                                             value="<?= $pg->id ?>" <?= $jawaban == $pg->id ? 'checked' : '' ?>>
@@ -110,6 +117,21 @@ shuffle($pilgan->pilihan);
                                     </div>
                                     <?php endforeach ?>
                             </div>
+                            <?php endif ?>
+                            <?php if ($tipe == 'essay') : ?>
+                            <div class="app-card-header p-3">
+                                <div class="row text-center">
+                                    <h4 class="app-card-title">Soal Essay Nomor <?= $soal->nomor ?></h4>
+                                </div>
+                            </div>
+                            <div class="app-card-body p-3 p-lg-4">
+                                <?= view($config->theme['panel'] . '_message_block') ?>
+                                <?= ($soal->img) ? '<img src="' . base_url("soal/$token/essay/$soal->nomor") . "/$soal->img" . '" class="img-fluid rounded mx-auto d-block">' : '' ?>
+                                <p for="token" class="mb-2"><?= $soal->soal ?></p>
+                                <form method="post">
+                                    <textarea id="summernote"></textarea>
+                            </div>
+                            <?php endif ?>
                         </div>
                     </div>
                 </div>
@@ -117,10 +139,15 @@ shuffle($pilgan->pilihan);
         </div>
         <footer class="app-footer fixed-bottom">
             <div class="container d-flex justify-content-between py-3">
-                <button type="submit" class="btn app-btn-secondary" name="act" value="prev">Sebelumnya</button>
-                <button type="submit" class="btn app-btn-<?= $nomor == $jumlahsoal ? 'primary' : 'secondary' ?>"
-                    name="act"
-                    value="<?= $nomor == $jumlahsoal ? 'done' : 'next' ?>"><?= $nomor == $jumlahsoal ? 'Selesai' : 'Selanjutnya' ?></button>
+                <button type="submit" value="prev" class="btn app-btn-secondary ujian-prev"
+                    name="act">Sebelumnya</button>
+                <?php if (($tipe == 'pilgan' && $jumlah_essay < 1) || ($jumlah_essay == $nomor)) : ?>
+                <button type="submit" value="done" class="btn btn-next app-btn-primary ujian-done"
+                    name="act">Selesai</button>
+                <?php else : ?>
+                <button type="submit" value="next" class="btn btn-next app-btn-secondary ujian-next"
+                    name="act">Selanjutnya</button>
+                <?php endif ?>
                 </form>
             </div>
         </footer>
@@ -144,7 +171,7 @@ shuffle($pilgan->pilihan);
     </script>
     <script src="https://cdn.jsdelivr.net/gh/Eonasdan/tempus-dominus@master/dist/js/tempus-dominus.js"
         crossorigin="anonymous"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
     <script src="<?= base_url('assets/portal') ?>/js/app.js"></script>
     <!-- Custom JS -->
     <script src="<?= base_url('assets/portal') . '/js/panel.js' ?>"></script>

@@ -134,21 +134,24 @@ class UjianController extends BaseController
 
     public function masukUjian($token)
     {
+        $this->data['item'] = $this->model->where('token_ujian', $token)->first();
+        $tipeee = empty($this->data['item']->soal_pilgan) ? 'essay' : 'pilgan';
         $waktu = Time::now();
         if ($this->session->get('soal_nomor')) {
-            return redirect()->route('ujian-room', [$token, $this->session->get('soal_nomor')]);
+            return redirect()->route('ujian-room', [$token, $tipeee, $this->session->get('soal_nomor')]);
         }
         $post = $this->request->getPost();
         $this->data['token_ujian'] = $token;
-        $this->data['item'] = $this->model->where('token_ujian', $token)->first();
         if ($waktu->isAfter($this->data['item']->waktu->addMinutes($this->data['item']->tenggat))) {
             return redirect()->route('ujian-jadwal')->with('error', 'Waktu Ujian Sudah Berakhir');
         }
         if ($post) {
             if ($post['token'] == $this->data['item']->token_akses) {
+                $this->session->set('soal_tipe', $tipeee);
                 $this->session->set('soal_nomor', 1);
                 $this->session->set('soal_jawab', []);
-                return redirect()->route('ujian-room', [$token, $this->session->get('soal_nomor') ?? 1]);
+                $this->session->set('soal_jawab_essay', []);
+                return redirect()->route('ujian-room', [$token, $tipeee, $this->session->get('soal_nomor') ?? 1]);
             }
             return redirect()->back()->with('error', 'Token yang anda masukkan salah');
             dd($post);
@@ -156,63 +159,50 @@ class UjianController extends BaseController
         return view('Panel/Page/Ujian/masuk', $this->data);
     }
 
-    public function roomUjian($token, $nomor)
+    public function roomUjian($token, $tipe, $nomor)
     {
         $user = user();
         $detail = $user->getDetail();
-        $jawaban = $this->session->get('soal_jawab');
         $waktu = Time::now();
         $post = $this->request->getPost();
-        $this->data['token_ujian'] = $token;
+        $item = $this->model->where('token_ujian', $token)->first();
+        $soal = $tipe == 'pilgan' ? $item->soal_pilgan : $item->soal_essay;
         $nomor = $nomor ?? $this->session->get('soal_nomor');
-        $jawaban_nomor = array_search($nomor, array_column($jawaban, 'nomor'));
-        $this->data['jawaban'] = $jawaban_nomor ? $jawaban[$jawaban_nomor]['jawaban'] : 0;
-        if (isset($post['id_pilgan'])) {
-            if ($jawaban_nomor) {
-                $jawaban[$jawaban_nomor] = [
-                    'nomor' => $nomor,
-                    'jawaban' => $post['id_pilgan'],
-                ];
-            } else {
-                $jawaban[] = [
-                    'nomor' => $nomor,
-                    'jawaban' => $post['id_pilgan'],
-                ];
-            }
-        }
-        $this->session->set('soal_jawab', $jawaban);
-        $this->data['item'] = $this->model->where('token_ujian', $token)->first();
-        if (isset($post['act']) && $post['act'] == 'next') {
-            $nomor++;
-            $this->session->set('soal_nomor', $nomor);
-            return redirect()->route('ujian-room', [$token, $nomor]);
-        } elseif (isset($post['act']) && $post['act'] == 'prev') {
-            $nomor--;
-            $this->session->set('soal_nomor', $nomor);
-            return redirect()->route('ujian-room', [$token, $nomor]);
-        } elseif (isset($post['act']) && $post['act'] == 'done') {
-            $benar = 0;
-            $soal = $this->data['item']->soal_pilgan;
-            foreach ($jawaban as $key => $value) {
-                $ada = array_search($value['nomor'], array_column($soal, 'nomor'));
-                $cek = array_search($value['jawaban'], array_column($soal[$ada]->pilihan, 'id'));
-                $valid = $soal[$ada]->pilihan[$cek];
-                $benar = $valid->valid == true ? $benar + 1 : $benar + 0;
-            }
-            $jumlahsoal = sizeof($soal);
-            $nilai = 100 / $jumlahsoal * $benar;
-            $kuliah = $this->kuliah->where(['mahasiswa_id' => $detail->id, 'matakuliah_id' => $this->data['item']->matkul->id])->first();
-            $kuliah->{strtolower($this->data['item']->tipe)} = $nilai;
-            $this->kuliah->save($kuliah);
-            $this->session->remove(['soal_nomor', 'soal_jawab']);
-            return redirect()->route('ujian-jadwal')->with('message', 'Anda Telah Menyelesaikan Ujian');
-        }
-        $this->data['nomor'] = $nomor;
-        if ($waktu->isAfter($this->data['item']->waktu->addMinutes($this->data['item']->tenggat))) {
-            $this->session->remove(['soal_nomor', 'soal_jawab']);
-            return redirect()->route('ujian-jadwal')->with('error', 'Waktu Ujian Sudah Berakhir');
-        }
         // dd($token, $nomor);
+        $this->data['jawaban'] = 1;
+        $this->data['item'] = $item;
+        $this->data['pilgan'] = $item->soal_pilgan;
+        $this->data['essay'] = $item->soal_essay;
+        $this->data['nomor'] = $nomor;
+        $this->data['token'] = $token;
+        $this->data['tipe'] = $tipe;
+        $this->data['soal'] = $this->getSoalNum($soal, $nomor);
+        $this->data['jumlah_pilgan'] = sizeof($item->soal_pilgan);
+        $this->data['jumlah_essay'] = sizeof($item->soal_essay);
         return view('Panel/Page/Ujian/room', $this->data);
+    }
+
+    protected function getSoalNum($items, $nomor)
+    {
+        $array = $items;
+
+        foreach ($array as $element) {
+            if ($nomor == $element->nomor) {
+                return $element;
+            }
+        }
+        return false;
+    }
+
+    protected function getSoalNumeric($items, $nomor)
+    {
+        $array = $items;
+
+        foreach ($array as $key => $element) {
+            if ($nomor == $element->nomor) {
+                return $key;
+            }
+        }
+        return false;
     }
 }
