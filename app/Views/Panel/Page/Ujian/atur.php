@@ -31,7 +31,6 @@
                             <?php
                             $no = 1;
                             foreach ($items as $key => $item) : ?>
-                            <?php d($item->soal_pilgan) ?>
                             <tr>
                                 <td class="cell"><?= $no++ ?></td>
                                 <td class="cell"><?= $item->matkul->nama ?></td>

@@ -10,7 +10,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Shared\Date as ExcelDate;
 use CodeIgniter\API\ResponseTrait;
-
+use stdClass;
 
 class UjianController extends BaseController
 {
@@ -18,6 +18,9 @@ class UjianController extends BaseController
     public function __construct()
     {
         $this->model        = model('App\Models\UjianModel');
+        $this->jawaban      = model('App\Models\JawabanModel');
+        $this->mahasiswa    = model('App\Models\MahasiswaModel');
+        $this->kuliah       = model('App\Models\KuliahModel');
         $this->session = session();
     }
 
@@ -243,5 +246,45 @@ class UjianController extends BaseController
             return redirect()->route('ujian-atur')->with('message', 'Berhasil Menyelesaikan Ujian');
         }
         return redirect()->route('ujian-atur')->with('error', 'Gagal Menyelesaikan Ujian');
+    }
+
+    public function reviewJawabanSave($id)
+    {
+        $data = new stdClass;
+        $nilai = 0;
+        $benar = 0;
+        $valid = 1;
+        $data->post = $this->request->getPost();
+        $data->item = $this->jawaban->find($id);
+        $data->ujian = $this->model->find($data->item->ujian->id);
+        $data->mahasiswa = $this->mahasiswa->find($data->item->mahasiswa->id);
+        $data->kuliah = $this->kuliah->where(['matakuliah_id' => $data->ujian->matkul->id, 'mahasiswa_id' => $data->mahasiswa->id])->first();
+        $data->multi = sizeof($data->ujian->soal_pilgan) > 0 ? true : false;
+        foreach ($data->ujian->soal_pilgan as $id => $soal) :
+            foreach ($soal->pilihan as $k => $v) :
+                if ($v->valid) {
+                    $valid = $v->id;
+                }
+            endforeach;
+            if ($valid == $data->item->jawab_pilgan->{$soal->nomor}->jawaban) :
+                $benar++;
+            endif;
+        endforeach;
+        if ($data->multi) {
+            $pilgan = $benar * $data->post['pilgan'];
+            $nilai += $pilgan;
+        }
+        unset($data->post['pilgan']);
+        foreach ($data->post as $n) {
+            $nilai += $n;
+        }
+        $data->nilai = $nilai;
+        $data->kuliah->{strtolower($data->ujian->tipe)} = $data->nilai;
+        // dd($data);
+        if ($this->kuliah->save($data->kuliah)) {
+            $this->jawaban->delete($data->item->id);
+            return redirect()->route('ujian-review')->with('message', 'Berhasil Memberikan Nilai');
+        }
+        return redirect()->route('ujian-review')->with('error', 'Gagal Memberikan Nilai');
     }
 }

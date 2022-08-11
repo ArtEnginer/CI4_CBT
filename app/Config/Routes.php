@@ -144,6 +144,7 @@ $routes->group('ujian', ['namespace' => 'App\Controllers\Api'], function ($route
         });
     });
     $routes->get('room/(:any)/done', 'SoalController::done/$1', ['as' => 'ujian-done', 'filter' => 'role:Mahasiswa']);
+    $routes->post('review/(:num)', 'UjianController::reviewJawabanSave/$1', ['as' => 'ujian-review-jawaban', 'filter' => 'role:Dosen']);
 });
 // User
 $routes->group('user', ['namespace' => 'App\Controllers\Panel', 'filter' => 'role:Admin'], function ($routes) {
