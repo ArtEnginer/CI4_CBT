@@ -13,16 +13,8 @@ class Test extends Seeder
     {
         // mahasiswa
         $faker = Factory::create('id_ID');
-        $data[] = [
-            'nim' => 42419001,
-            'nama' => 'Nova Adi Saputra',
-            'alamat' => 'Suradadi Tegal',
-            'tahun_masuk' => 2019,
-            'created_at' => Time::now(),
-            'updated_at' => Time::now(),
-        ];
-        $nim = 42419002;
-        for ($i = 0; $i < 29; $i++) {
+        $nim = 42419001;
+        for ($i = 0; $i < 30; $i++) {
             $data[] = [
                 'nim'           => $nim++,
                 'nama'          => $faker->name(),
@@ -32,16 +24,8 @@ class Test extends Seeder
                 'updated_at'    => Time::now(),
             ];
         }
-        $data[] = [
-            'nim' => 42420001,
-            'nama' => 'Angga Saputra',
-            'alamat' => 'Sirampog Brebes',
-            'tahun_masuk' => 2020,
-            'created_at' => Time::now(),
-            'updated_at' => Time::now(),
-        ];
-        $nim = 42420002;
-        for ($i = 0; $i < 29; $i++) {
+        $nim = 42420001;
+        for ($i = 0; $i < 30; $i++) {
             $data[] = [
                 'nim'           => $nim++,
                 'nama'          => $faker->name(),
@@ -55,15 +39,8 @@ class Test extends Seeder
 
         // Dosen
         $data = [];
-        $data[] = [
-            'nip' => 1002001,
-            'nama' => 'Sorikhi',
-            'alamat' => 'Pemalang',
-            'created_at' => Time::now(),
-            'updated_at' => Time::now(),
-        ];
-        $nip = 1002002;
-        for ($i = 0; $i < 14; $i++) {
+        $nip = 1002001;
+        for ($i = 0; $i < 15; $i++) {
             $data[] = [
                 'nip'           => $nip++,
                 'nama'          => $faker->name(),
