@@ -144,7 +144,7 @@
             <div class="container d-flex justify-content-between py-3">
                 <button type="submit" data-token="<?= $item->token_ujian ?>" value="prev"
                     class="btn app-btn-secondary ujian-prev" name="act">Sebelumnya</button>
-                <?php if (($tipe == 'pilgan' && $jumlah_essay < 1) || ($tipe == 'essay' && $jumlah_essay == $nomor)) : ?>
+                <?php if (($tipe == 'pilgan' && $jumlah_pilgan == $nomor && $jumlah_essay < 1) || ($tipe == 'essay' && $jumlah_essay == $nomor)) : ?>
                 <button type="submit" data-token="<?= $item->token_ujian ?>" value="done"
                     class="btn btn-next app-btn-primary ujian-done" name="act">Selesai</button>
                 <?php else : ?>

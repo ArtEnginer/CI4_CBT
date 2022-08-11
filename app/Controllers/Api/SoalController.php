@@ -328,8 +328,8 @@ class SoalController extends BaseController
         $user->detail = $user->akun->getDetail();
         // 
         $item->ujian = $this->model->where('token_ujian', $token)->first();
-        $item->ujianJumlahPilgan = sizeof($item->ujian->soal_pilgan);
-        $item->ujianJumlahEssay = sizeof($item->ujian->soal_essay);
+        $item->ujianJumlahPilgan = $item->ujian->soal_pilgan ? sizeof($item->ujian->soal_pilgan) : 0;
+        $item->ujianJumlahEssay = $item->ujian->soal_essay ? sizeof($item->ujian->soal_essay) : 0;
         //  
         if ($item->ujianJumlahPilgan < 1 && $item->ujianJumlahEssay < 1) {
             return redirect()->to('/')->with('error', 'Ada Kesalahan');

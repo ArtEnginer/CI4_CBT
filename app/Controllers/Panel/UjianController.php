@@ -130,7 +130,7 @@ class UjianController extends BaseController
         $items->jawaban = $this->jawaban->find($id);
         $items->ujian = $this->model->find($items->jawaban->ujian->id);
         $items->mahasiswa = $this->mahasiswa->find($items->jawaban->mahasiswa->id);
-        $items->multi = sizeof($items->ujian->soal_pilgan) > 0 ? true : false;
+        $items->multi = $items->ujian->soal_pilgan ? true : false;
         $this->data['title'] = 'Review Jawaban';
         $this->data['items'] = $items;
         // d($this->data, $items->jawaban->jawab_pilgan);
@@ -227,8 +227,8 @@ class UjianController extends BaseController
         $this->data['token'] = $token;
         $this->data['tipe'] = $tipe;
         $this->data['soal'] = $this->getSoalNum($soal, $nomor);
-        $this->data['jumlah_pilgan'] = sizeof($item->soal_pilgan);
-        $this->data['jumlah_essay'] = sizeof($item->soal_essay);
+        $this->data['jumlah_pilgan'] = $item->soal_pilgan ? sizeof($item->soal_pilgan) : 0;
+        $this->data['jumlah_essay'] = $item->soal_essay ? sizeof($item->soal_essay) : 0;
         if (($tipe == 'pilgan' && $this->data['jumlah_pilgan'] == 0) || ($tipe == 'essay' && $this->data['jumlah_essay'] == 0)) {
             return $tipe == 'pilgan' ? redirect()->route('ujian-room', [$token, 'pilgan', 1]) : redirect()->route('ujian-room', [$token, 'essay', 1]);
         } elseif (($tipe == 'pilgan' && $this->data['jumlah_essay'] == 0 && $nomor > $this->data['jumlah_pilgan']) || ($tipe == 'essay' && $nomor > $this->data['jumlah_essay'])) {

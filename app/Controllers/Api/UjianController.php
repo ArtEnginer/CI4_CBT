@@ -259,18 +259,18 @@ class UjianController extends BaseController
         $data->ujian = $this->model->find($data->item->ujian->id);
         $data->mahasiswa = $this->mahasiswa->find($data->item->mahasiswa->id);
         $data->kuliah = $this->kuliah->where(['matakuliah_id' => $data->ujian->matkul->id, 'mahasiswa_id' => $data->mahasiswa->id])->first();
-        $data->multi = sizeof($data->ujian->soal_pilgan) > 0 ? true : false;
-        foreach ($data->ujian->soal_pilgan as $id => $soal) :
-            foreach ($soal->pilihan as $k => $v) :
-                if ($v->valid) {
-                    $valid = $v->id;
-                }
-            endforeach;
-            if ($valid == $data->item->jawab_pilgan->{$soal->nomor}->jawaban) :
-                $benar++;
-            endif;
-        endforeach;
+        $data->multi = $data->ujian->soal_pilgan ? true : false;
         if ($data->multi) {
+            foreach ($data->ujian->soal_pilgan as $id => $soal) :
+                foreach ($soal->pilihan as $k => $v) :
+                    if ($v->valid) {
+                        $valid = $v->id;
+                    }
+                endforeach;
+                if ($valid == $data->item->jawab_pilgan->{$soal->nomor}->jawaban) :
+                    $benar++;
+                endif;
+            endforeach;
             $pilgan = $benar * $data->post['pilgan'];
             $nilai += $pilgan;
         }
@@ -278,6 +278,7 @@ class UjianController extends BaseController
         foreach ($data->post as $n) {
             $nilai += $n;
         }
+        $nilai = $nilai > 100 ? 100 : $nilai;
         $data->nilai = $nilai;
         $data->kuliah->{strtolower($data->ujian->tipe)} = $data->nilai;
         // dd($data);
