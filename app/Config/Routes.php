@@ -115,6 +115,8 @@ $routes->group('ujian', ['namespace' => 'App\Controllers\Panel'], function ($rou
     $routes->get('nilai/(:num)', 'UjianController::nilai/$1', ['as' => 'ujian-nilai', 'filter' => 'role:Mahasiswa']);
     $routes->add('masuk/(:any)', 'UjianController::masukUjian/$1', ['as' => 'ujian-masuk', 'filter' => 'role:Mahasiswa']);
     $routes->add('room/(:any)/(:any)/(:num)', 'UjianController::roomUjian/$1/$2/$3', ['as' => 'ujian-room', 'filter' => 'role:Mahasiswa']);
+    $routes->get('review', 'UjianController::review', ['as' => 'ujian-review', 'filter' => 'role:Dosen']);
+    $routes->get('review/(:num)', 'UjianController::reviewJawaban/$1', ['as' => 'ujian-review-jawaban', 'filter' => 'role:Dosen']);
 });
 $routes->group('ujian', ['namespace' => 'App\Controllers\Api'], function ($routes) {
     $routes->post('add', 'UjianController::add', ['as' => 'ujian-data-add']);
@@ -125,6 +127,8 @@ $routes->group('ujian', ['namespace' => 'App\Controllers\Api'], function ($route
     $routes->post('soal/save', 'UjianController::save', ['as' => 'soal-save']);
     $routes->get('atur/selesai/(:num)', 'UjianController::selesai/$1', ['as' => 'ujian-atur-selesai', 'filter' => 'role:Dosen']);
     $routes->get('get/(:any)/(:any)/(:num)', 'SoalController::getSoalUjian/$1/$2/$3', ['as' => 'soal-get']);
+    $routes->get('get/(:any)/now/(:any)', 'SoalController::getSoalUjianNow/$1/$2', ['as' => 'soal-get-now']);
+    $routes->post('jawab/(:any)/(:any)/(:num)', 'SoalController::jawab/$1/$2/$3', ['as' => 'ujian-jawab']);
     $routes->group('soal', ['namespace' => 'App\Controllers\Api', 'filter' => 'role:Dosen'], function ($routes) {
         $routes->group('pilgan', ['namespace' => 'App\Controllers\Api', 'filter' => 'role:Dosen'], function ($routes) {
             $routes->get('(:num)/(:num)/img', 'SoalController::soalPilganGambar/$1/$2', ['as' => 'soal-pilgan-img']);
@@ -139,6 +143,7 @@ $routes->group('ujian', ['namespace' => 'App\Controllers\Api'], function ($route
             $routes->post('(:num)/(:num)/img/save', 'SoalController::gambarEssaySave/$1/$2', ['as' => 'soal-essay-img-save']);
         });
     });
+    $routes->get('room/(:any)/done', 'SoalController::done/$1', ['as' => 'ujian-done', 'filter' => 'role:Mahasiswa']);
 });
 // User
 $routes->group('user', ['namespace' => 'App\Controllers\Panel', 'filter' => 'role:Admin'], function ($routes) {

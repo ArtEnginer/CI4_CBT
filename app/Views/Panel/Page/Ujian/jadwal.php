@@ -41,7 +41,9 @@
                                 <td class="cell"><?= $item->waktu ?></td>
                                 <td class="cell"><?= $item->tenggat ?> Menit</td>
                                 <td class="cell">
-                                    <?php if ($waktu->isAfter($item->waktu->addMinutes($item->tenggat)) || ($done)) : ?>
+                                    <?php if ($waktu->isBefore($item->waktu->addMinutes($item->tenggat)) && $item->done) : ?>
+                                    <a class="btn app-btn-primary disabled" href="#!">Belum Dinilai</a>
+                                    <?php elseif ($waktu->isAfter($item->waktu->addMinutes($item->tenggat)) || ($done)) : ?>
                                     <a class="btn app-btn-secondary"
                                         href="<?= route_to('ujian-nilai', $item->id) ?>">Lihat Nilai</a>
                                     <?php elseif ($waktu->isAfter($item->waktu) && $waktu->isBefore($item->waktu->addMinutes($item->tenggat))) : ?>

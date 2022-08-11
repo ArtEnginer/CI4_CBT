@@ -271,6 +271,42 @@ class Tablecbt extends Migration
         ]);
         $this->forge->addKey('id', true);
         $this->forge->createTable('cbt_ujian');
+
+        // Jawaban
+        $this->forge->addField([
+            'id' => [
+                'type' => 'INT',
+                'constraint' => 11,
+                'unsigned' => true,
+                'auto_increment' => true,
+            ],
+            'ujian_id' => [
+                'type' => 'INT',
+                'constraint' => 11,
+            ],
+            'mahasiswa_id' => [
+                'type' => 'INT',
+                'constraint' => 11,
+            ],
+            'jawab_pilgan' => [
+                'type' => 'JSON',
+                'null' => true,
+            ],
+            'jawab_essay' => [
+                'type' => 'JSON',
+                'null' => true,
+            ],
+            'created_at' => [
+                'type' => 'DATETIME',
+                'null' => true,
+            ],
+            'updated_at' => [
+                'type' => 'DATETIME',
+                'null' => true,
+            ],
+        ]);
+        $this->forge->addKey('id', true);
+        $this->forge->createTable('cbt_jawaban');
     }
 
     public function down()
@@ -282,5 +318,6 @@ class Tablecbt extends Migration
         $this->forge->dropTable('cbt_matakuliah');
         $this->forge->dropTable('cbt_kuliah');
         $this->forge->dropTable('cbt_ujian');
+        $this->forge->dropTable('cbt_jawaban');
     }
 }

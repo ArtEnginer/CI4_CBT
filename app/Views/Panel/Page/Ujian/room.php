@@ -71,7 +71,7 @@
                     <h5 class="m-2">Pilihan Ganda</h5>
                     <?php foreach ($pilgan as $pil) : ?>
                     <button data-tipe="pilgan" data-token="<?= $item->token_ujian ?>" data-nomor="<?= $num ?>"
-                        class="btn app-btn-secondary ujian-nomor<?= $tipe == 'pilgan' && $nomor == $num ? ' active' : '' ?>"><?= $num++ ?></button>
+                        class="btn app-btn-secondary ujian-nomor pilgan-<?= $num ?><?= $tipe == 'pilgan' && $nomor == $num ? ' active' : '' ?>"><?= $num++ ?></button>
                     <?php endforeach ?>
                     <?php endif ?>
                     <?php if ($essay) : ?>
@@ -79,7 +79,7 @@
                     <h5 class="m-2">Essay</h5>
                     <?php foreach ($essay as $e) : ?>
                     <button data-tipe="essay" data-token="<?= $item->token_ujian ?>" data-nomor="<?= $num ?>"
-                        class="btn app-btn-secondary ujian-nomor<?= $tipe == 'essay' && $nomor == $num ? ' active' : '' ?>"><?= $num++ ?></button>
+                        class="btn app-btn-secondary ujian-nomor essay-<?= $num ?><?= $tipe == 'essay' && $nomor == $num ? ' active' : '' ?>"><?= $num++ ?></button>
                     <?php endforeach ?>
                     <?php endif ?>
                 </nav>
@@ -93,64 +93,69 @@
                 <div class="row justify-content-center">
                     <div class="col-md-6">
                         <div class="app-card app-card-stats-table h-100 shadow-sm soal-body">
-                            <?php if ($tipe == 'pilgan') : ?>
-                            <div class="app-card-header p-3">
-                                <div class="row text-center">
-                                    <h4 class="app-card-title">Soal Pilgan Nomor <?= $soal->nomor ?></h4>
+                            <form class="form" action="<?= route_to('ujian-jawab', $token, $tipe, $nomor) ?>"
+                                method="POST">
+                                <?php if ($tipe == 'pilgan') : ?>
+                                <div class="app-card-header p-3">
+                                    <div class="row text-center">
+                                        <h4 class="app-card-title">Soal Pilgan Nomor <?= $soal->nomor ?></h4>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="app-card-body p-3 p-lg-4">
-                                <?= view($config->theme['panel'] . '_message_block') ?>
-                                <form class="form" method="POST">
+                                <div class="app-card-body p-3 p-lg-4">
+                                    <?= view($config->theme['panel'] . '_message_block') ?>
                                     <?= ($soal->img) ? '<img src="' . base_url("soal/$token/pilgan/$soal->nomor") . "/$soal->img" . '" class="img-fluid rounded mx-auto d-block">' : '' ?>
                                     <p for="token" class="mb-2"><?= $soal->soal ?></p>
                                     <?php $char = 'A' ?>
                                     <?php shuffle($soal->pilihan) ?>
                                     <?php $num = 1 ?>
+                                    <input type="hidden" name="tipe" value="pilgan">
                                     <?php foreach ($soal->pilihan as $pg) : ?>
                                     <div class="mb-3">
-                                        <input type="radio" class="btn-check" name="id_pilgan" id="option<?= $num ?>"
+                                        <input type="radio" class="btn-check" name="jawaban" id="option<?= $num ?>"
                                             value="<?= $pg->id ?>" <?= $jawaban == $pg->id ? 'checked' : '' ?>>
                                         <label class="btn app-btn-secondary"
                                             for="option<?= $num++ ?>"><?= $char++ ?>.</label>
                                         <?= $pg->text ?>
                                     </div>
                                     <?php endforeach ?>
-                            </div>
-                            <?php endif ?>
-                            <?php if ($tipe == 'essay') : ?>
-                            <div class="app-card-header p-3">
-                                <div class="row text-center">
-                                    <h4 class="app-card-title">Soal Essay Nomor <?= $soal->nomor ?></h4>
                                 </div>
-                            </div>
-                            <div class="app-card-body p-3 p-lg-4">
-                                <?= view($config->theme['panel'] . '_message_block') ?>
-                                <?= ($soal->img) ? '<img src="' . base_url("soal/$token/essay/$soal->nomor") . "/$soal->img" . '" class="img-fluid rounded mx-auto d-block">' : '' ?>
-                                <p for="token" class="mb-2"><?= $soal->soal ?></p>
-                                <form method="post">
-                                    <textarea id="summernote"></textarea>
-                            </div>
-                            <?php endif ?>
+                                <?php endif ?>
+                                <?php if ($tipe == 'essay') : ?>
+                                <div class="app-card-header p-3">
+                                    <div class="row text-center">
+                                        <h4 class="app-card-title">Soal Essay Nomor <?= $soal->nomor ?></h4>
+                                    </div>
+                                </div>
+                                <div class="app-card-body p-3 p-lg-4">
+                                    <?= view($config->theme['panel'] . '_message_block') ?>
+                                    <?= ($soal->img) ? '<img src="' . base_url("soal/$token/essay/$soal->nomor") . "/$soal->img" . '" class="img-fluid rounded mx-auto d-block">' : '' ?>
+                                    <p for="token" class="mb-2"><?= $soal->soal ?></p>
+                                    <input type="hidden" name="tipe" value="essay">
+                                    <textarea id="summernote" name="jawaban"><?= $jawaban ?></textarea>
+                                </div>
+                                <?php endif ?>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <footer class="app-footer fixed-bottom">
+        <footer class="app-footer">
             <div class="container d-flex justify-content-between py-3">
-                <button type="submit" value="prev" class="btn app-btn-secondary ujian-prev"
-                    name="act">Sebelumnya</button>
-                <?php if (($tipe == 'pilgan' && $jumlah_essay < 1) || ($jumlah_essay == $nomor)) : ?>
-                <button type="submit" value="done" class="btn btn-next app-btn-primary ujian-done"
-                    name="act">Selesai</button>
+                <button type="submit" data-token="<?= $item->token_ujian ?>" value="prev"
+                    class="btn app-btn-secondary ujian-prev" name="act">Sebelumnya</button>
+                <?php if (($tipe == 'pilgan' && $jumlah_essay < 1) || ($tipe == 'essay' && $jumlah_essay == $nomor)) : ?>
+                <button type="submit" data-token="<?= $item->token_ujian ?>" value="done"
+                    class="btn btn-next app-btn-primary ujian-done" name="act">Selesai</button>
                 <?php else : ?>
-                <button type="submit" value="next" class="btn btn-next app-btn-secondary ujian-next"
-                    name="act">Selanjutnya</button>
+                <button type="submit" data-token="<?= $item->token_ujian ?>" value="next"
+                    class="btn btn-next app-btn-secondary ujian-next" name="act">Selanjutnya</button>
                 <?php endif ?>
-                </form>
             </div>
         </footer>
+    </div>
+    <div class="modal-loading">
+        <!-- Place at bottom of page -->
     </div>
 
     <!-- Assets -->
@@ -175,6 +180,11 @@
     <script src="<?= base_url('assets/portal') ?>/js/app.js"></script>
     <!-- Custom JS -->
     <script src="<?= base_url('assets/portal') . '/js/panel.js' ?>"></script>
+    <script>
+    $(document).ready(function() {
+        $("#summernote").summernote();
+    });
+    </script>
 
 </body>
 

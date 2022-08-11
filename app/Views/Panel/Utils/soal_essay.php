@@ -5,11 +5,16 @@
         </div>
     </div>
     <div class="app-card-body p-3 p-lg-4">
-        <form class="form" method="POST">
+        <form class="form" action="{link_jawab}" method="POST">
             {if $img }
             <img src="{img}" class="img-fluid rounded mx-auto d-block">
             {endif}
             <p for="token" class="mb-2">{soal}</p>
-            <textarea id="summernote"></textarea>
+            <input type="hidden" name="tipe" value="essay">
+            <textarea id="summernote" name="jawaban">
+            {if $jawaban}
+            {jawaban|esc(html)}
+            {endif}
+            </textarea>
     </div>
 </div>

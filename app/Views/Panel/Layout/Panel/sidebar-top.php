@@ -88,6 +88,9 @@
                 <li class="submenu-item">
                     <a class="submenu-link" href="<?= route_to('ujian-atur') ?>">Atur Ujian</a>
                 </li>
+                <li class="submenu-item">
+                    <a class="submenu-link" href="<?= route_to('ujian-review') ?>">Review Jawaban</a>
+                </li>
                 <?php endif ?>
                 <?php if (in_groups('Mahasiswa')) : ?>
                 <li class="submenu-item">

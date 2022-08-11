@@ -7,6 +7,16 @@ if (modalDiv) {
   modalTitle = modalDiv.querySelector(".modal-title");
   modalBody = modalDiv.querySelector(".modal-body");
 }
+$body = $("body");
+
+$(document).on({
+  ajaxStart: function () {
+    $body.addClass("loading");
+  },
+  ajaxStop: function () {
+    $body.removeClass("loading");
+  },
+});
 $(document).ready(function () {
   $(".datatables-init").DataTable();
   if (document.getElementById("datetimepicker")) {
@@ -33,9 +43,27 @@ $(document).ready(function () {
     });
   });
   $("body").on("click", ".ujian-nomor", function (event) {
+    let tipejawab = $('[name="tipe"]').val();
+    let jawaban = "";
+    if (tipejawab == "pilgan") {
+      jawaban = $('[name="jawaban"]:checked').val();
+    } else {
+      jawaban = $('[name="jawaban"]').val();
+    }
+    let url = $("form").first().prop("action");
     let tipe = $(this).data("tipe");
     let token = $(this).data("token");
     let nomor = $(this).data("nomor");
+    if (jawaban) {
+      $.ajax({
+        type: "POST",
+        url: url,
+        data: { tipe: tipe, jawaban: decodeURIComponent(jawaban) },
+        success: function (data) {
+          // console.log(data);
+        },
+      });
+    }
     $.get(`/ujian/get/${token}/${tipe}/${nomor}`, function (data) {
       $(".soal-body").html(data.html);
       if (tipe == "essay") {
@@ -52,7 +80,113 @@ $(document).ready(function () {
         $(".btn-next").text("Selanjutnya");
         $(".btn-next").val("next");
       }
+      $(".ujian-nomor").removeClass("active");
+      $(`.ujian-nomor.${data.tipe}-${data.nomor}`).addClass("active");
+      console.log(data);
     });
   });
-  $("#summernote").summernote();
+  $("body").on("click", ".ujian-prev", function (event) {
+    let tipe = $('[name="tipe"]').val();
+    let jawaban = "";
+    if (tipe == "pilgan") {
+      jawaban = $('[name="jawaban"]:checked').val();
+    } else {
+      jawaban = $('[name="jawaban"]').val();
+    }
+    let url = $("form").first().prop("action");
+    let token = $(this).data("token");
+    if (jawaban) {
+      $.ajax({
+        type: "POST",
+        url: url,
+        data: { tipe: tipe, jawaban: decodeURIComponent(jawaban) },
+        success: function (data) {
+          // console.log(data);
+        },
+      });
+    }
+    $.get(`/ujian/get/${token}/now/prev`, function (data) {
+      $(".soal-body").html(data.html);
+      if (data.tipe == "essay") {
+        $("#summernote").summernote();
+      }
+      if (data.last) {
+        $(".btn-next").removeClass("app-btn-primary app-btn-secondary ujian-done ujian-next");
+        $(".btn-next").addClass("app-btn-primary ujian-done");
+        $(".btn-next").text("Selesai");
+        $(".btn-next").val("done");
+      } else {
+        $(".btn-next").removeClass("app-btn-primary app-btn-secondary ujian-done ujian-next");
+        $(".btn-next").addClass("app-btn-secondary ujian-next");
+        $(".btn-next").text("Selanjutnya");
+        $(".btn-next").val("next");
+      }
+      $(".ujian-nomor").removeClass("active");
+      $(`.ujian-nomor.${data.tipe}-${data.nomor}`).addClass("active");
+      console.log(data);
+    });
+  });
+  $("body").on("click", ".ujian-next", function (event) {
+    let tipe = $('[name="tipe"]').val();
+    let jawaban = "";
+    if (tipe == "pilgan") {
+      jawaban = $('[name="jawaban"]:checked').val();
+    } else {
+      jawaban = $('[name="jawaban"]').val();
+    }
+    let url = $("form").first().prop("action");
+    let token = $(this).data("token");
+    if (jawaban) {
+      $.ajax({
+        type: "POST",
+        url: url,
+        data: { tipe: tipe, jawaban: decodeURIComponent(jawaban) },
+        success: function (data) {
+          // console.log(data);
+        },
+      });
+    }
+    $.get(`/ujian/get/${token}/now/next`, function (data) {
+      $(".soal-body").html(data.html);
+      if (data.tipe == "essay") {
+        $("#summernote").summernote();
+      }
+      if (data.last) {
+        $(".btn-next").removeClass("app-btn-primary app-btn-secondary ujian-done ujian-next");
+        $(".btn-next").addClass("app-btn-primary ujian-done");
+        $(".btn-next").text("Selesai");
+        $(".btn-next").val("done");
+      } else {
+        $(".btn-next").removeClass("app-btn-primary app-btn-secondary ujian-done ujian-next");
+        $(".btn-next").addClass("app-btn-secondary ujian-next");
+        $(".btn-next").text("Selanjutnya");
+        $(".btn-next").val("next");
+      }
+      $(".ujian-nomor").removeClass("active");
+      $(`.ujian-nomor.${data.tipe}-${data.nomor}`).addClass("active");
+      console.log(data);
+    });
+  });
+  $("body").on("click", ".ujian-done", function (event) {
+    let tipe = $('[name="tipe"]').val();
+    let jawaban = "";
+    if (tipe == "pilgan") {
+      jawaban = $('[name="jawaban"]:checked').val();
+    } else {
+      jawaban = $('[name="jawaban"]').val();
+    }
+    let url = $("form").first().prop("action");
+    let token = $(this).data("token");
+    if (jawaban) {
+      $.ajax({
+        type: "POST",
+        url: url,
+        data: { tipe: tipe, jawaban: decodeURIComponent(jawaban) },
+        success: function (data) {
+          // console.log(data);
+        },
+      });
+    }
+    $(location).prop("href", `/ujian/room/${token}/done`);
+  });
 });

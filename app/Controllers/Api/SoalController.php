@@ -5,8 +5,9 @@ namespace App\Controllers\Api;
 use App\Controllers\BaseController;
 use CodeIgniter\I18n\Time;
 use App\Entities\Ujian;
+use App\Entities\Jawaban;
 use CodeIgniter\API\ResponseTrait;
-
+use stdClass;
 
 class SoalController extends BaseController
 {
@@ -14,6 +15,8 @@ class SoalController extends BaseController
     public function __construct()
     {
         $this->model        = model('App\Models\UjianModel');
+        $this->kuliah       = model('App\Models\KuliahModel');
+        $this->jawaban      = model('App\Models\JawabanModel');
         $this->session      = session();
         $this->myview       = \Config\Services::parser();
     }
@@ -22,30 +25,100 @@ class SoalController extends BaseController
     {
         $item = $this->model->where('token_ujian', $token)->first();
         $soal = $tipe == 'pilgan' ? $this->getSoalNum($item->soal_pilgan, $nomor) : $this->getSoalNum($item->soal_essay, $nomor);
+        $jawab = $tipe == 'pilgan' ? $this->session->get('soal_jawab') : $this->session->get('soal_jawab_essay');
         $this->data = [
-            'link_upload' => route_to('soal-pilgan-img-upload', $item->id, $soal->nomor),
-            'link_save' => route_to('soal-pilgan-img-save', $item->id, $soal->nomor),
+            'link_jawab' => route_to('ujian-jawab', $token, $tipe, $nomor),
             'id_ujian' => $item->id,
             'nomor' => $nomor,
             'img' => $soal->img ? base_url("soal/$token/$tipe/$nomor") . "/$soal->img" : '',
             'soal' => $soal->soal,
+            'jawaban' => $jawab[$nomor]['jawaban'] ?? '',
         ];
         if ($tipe == 'pilgan') {
             shuffle($soal->pilihan);
             $abc = "A";
             foreach ($soal->pilihan as $key => $value) {
+                $isSelected = $value->id === $this->data['jawaban'] ? 'checked' : '';
                 $this->data['pilihan'][] = [
                     'abc' => $abc++,
                     'id' => $value->id,
                     'text' => $value->text,
+                    'check' => $isSelected,
                 ];
             }
         }
         $last = $tipe == 'pilgan' && empty($item->soal_essay) && sizeof($item->soal_pilgan) == $nomor ? true : ($tipe == 'essay'  && sizeof($item->soal_essay) == $nomor ? true : false);
         $result = [
             'last' => $last,
+            'tipe' => $tipe,
+            'nomor' => $nomor,
             'html' => $tipe == 'pilgan' ? $this->myview->setData($this->data)->render('Panel/Utils/soal_pilgan') : $this->myview->setData($this->data)->render('Panel/Utils/soal_essay'),
         ];
+        $this->session->set('soal_tipe', $tipe);
+        $this->session->set('soal_nomor', $nomor);
+        return $this->respond($result, 200);
+    }
+
+    public function getSoalUjianNow($token, $nav)
+    {
+        $item = $this->model->where('token_ujian', $token)->first();
+        $tipe = $this->session->get('soal_tipe');
+        $nomor = $this->session->get('soal_nomor');
+        if ($tipe == 'pilgan') {
+            if ($nav == 'prev') {
+                $nomor = $nomor == 1 ? $nomor : $nomor - 1;
+            } elseif ($nav == 'next') {
+                if ($nomor == sizeof($item->soal_pilgan) && sizeof($item->soal_essay) > 0) {
+                    $nomor = 1;
+                    $tipe = 'essay';
+                } else {
+                    $nomor = $nomor == sizeof($item->soal_pilgan) ? $nomor : $nomor + 1;
+                }
+            }
+        } elseif ($tipe == 'essay') {
+            if ($nav == 'prev') {
+                if ($nomor == 1 && sizeof($item->soal_pilgan) > 0) {
+                    $nomor = sizeof($item->soal_pilgan);
+                    $tipe = 'pilgan';
+                } else {
+                    $nomor = $nomor == 1 ? $nomor : $nomor - 1;
+                }
+            } elseif ($nav == 'next') {
+                $nomor = $nomor == sizeof($item->soal_essay) ? $nomor : $nomor + 1;
+            }
+        }
+        $soal = $tipe == 'pilgan' ? $this->getSoalNum($item->soal_pilgan, $nomor) : $this->getSoalNum($item->soal_essay, $nomor);
+        $jawab = $tipe == 'pilgan' ? $this->session->get('soal_jawab') : $this->session->get('soal_jawab_essay');
+        $this->data = [
+            'link_jawab' => route_to('ujian-jawab', $token, $tipe, $nomor),
+            'id_ujian' => $item->id,
+            'nomor' => $nomor,
+            'img' => $soal->img ? base_url("soal/$token/$tipe/$nomor") . "/$soal->img" : '',
+            'soal' => $soal->soal,
+            'jawaban' => $jawab[$nomor]['jawaban'] ?? '',
+        ];
+        if ($tipe == 'pilgan') {
+            shuffle($soal->pilihan);
+            $abc = "A";
+            foreach ($soal->pilihan as $key => $value) {
+                $isSelected = $value->id === $this->data['jawaban'] ? 'checked' : '';
+                $this->data['pilihan'][] = [
+                    'abc' => $abc++,
+                    'id' => $value->id,
+                    'text' => $value->text,
+                    'check' => $isSelected,
+                ];
+            }
+        }
+        $last = $tipe == 'pilgan' && empty($item->soal_essay) && sizeof($item->soal_pilgan) == $nomor ? true : ($tipe == 'essay'  && sizeof($item->soal_essay) == $nomor ? true : false);
+        $result = [
+            'nomor' => $nomor,
+            'last' => $last,
+            'tipe' => $tipe,
+            'html' => $tipe == 'pilgan' ? $this->myview->setData($this->data)->render('Panel/Utils/soal_pilgan') : $this->myview->setData($this->data)->render('Panel/Utils/soal_essay'),
+        ];
+        $this->session->set('soal_tipe', $tipe);
+        $this->session->set('soal_nomor', $nomor);
         return $this->respond($result, 200);
     }
 
@@ -223,6 +296,75 @@ class SoalController extends BaseController
         return redirect()->back()->with('message', 'Gambar Berhasil Dihapus');
     }
 
+    public function jawab($token, $tipe, $nomor)
+    {
+        $post = $this->request->getPost();
+        $item = $this->model->where('token_ujian', $token)->first();
+        $soal = $tipe == 'pilgan' ? $this->getSoalNum($item->soal_pilgan, $nomor) : $this->getSoalNum($item->soal_essay, $nomor);
+        $jawaban = $post['tipe'] == 'pilgan' ? $this->session->get('soal_jawab') : $this->session->get('soal_jawab_essay');
+        $jawaban[$nomor] = [
+            'nomor' => $nomor,
+            'jawaban' => trim($post['jawaban']),
+        ];
+        $post['tipe'] == 'pilgan' ? $this->session->set('soal_jawab', $jawaban) : $this->session->set('soal_jawab_essay', $jawaban);
+        return $this->respond($jawaban, 200);
+    }
+
+    public function done($token)
+    {
+        $soal = new stdClass();
+        $user = new stdClass();
+        $item = new stdClass();
+        // 
+        $soal->nomor = $this->session->get('soal_nomor') ?? '';
+        $soal->jawabPilgan = $this->session->get('soal_jawab') ?? '';
+        $soal->jawabEssay = $this->session->get('soal_jawab_essay') ?? '';
+        // 
+        if ($soal->nomor < 1) {
+            return redirect()->to('/')->with('error', 'Anda tidak sedang mengerjakan ujian');
+        }
+        // 
+        $user->akun = user();
+        $user->detail = $user->akun->getDetail();
+        // 
+        $item->ujian = $this->model->where('token_ujian', $token)->first();
+        $item->ujianJumlahPilgan = sizeof($item->ujian->soal_pilgan);
+        $item->ujianJumlahEssay = sizeof($item->ujian->soal_essay);
+        //  
+        if ($item->ujianJumlahPilgan < 1 && $item->ujianJumlahEssay < 1) {
+            return redirect()->to('/')->with('error', 'Ada Kesalahan');
+        }
+        if ($item->ujianJumlahEssay == 0) {
+            $benar = 0;
+            foreach ($soal->jawabPilgan as $key => $value) {
+                $ada = array_search($value['nomor'], array_column($item->ujian->soal_pilgan, 'nomor'));
+                $cek = array_search($value['jawaban'], array_column($item->ujian->soal_pilgan[$ada]->pilihan, 'id'));
+                $valid = $item->ujian->soal_pilgan[$ada]->pilihan[$cek];
+                $benar = $valid->valid == true ? $benar + 1 : $benar + 0;
+            }
+            $nilai = 100 / $item->ujianJumlahPilgan * $benar;
+            $kuliah = $this->kuliah->where(['mahasiswa_id' => $user->detail->id, 'matakuliah_id' => $item->ujian->matkul->id])->first();
+            $kuliah->{strtolower($item->ujian->tipe)} = $nilai;
+            $this->kuliah->save($kuliah);
+            $this->destroy();
+            return redirect()->route('ujian-jadwal')->with('message', 'Anda Telah Menyelesaikan Ujian');
+        }
+        // 
+        $itemgo = new Jawaban();
+        $itemgo->mahasiswa_id = $user->detail->id;
+        $itemgo->ujian_id = $item->ujian->id;
+        $itemgo->jawab_pilgan = $soal->jawabPilgan;
+        $itemgo->jawab_essay = $soal->jawabEssay;
+        $this->jawaban->save($itemgo);
+        $this->destroy();
+        return redirect()->route('ujian-jadwal')->with('message', 'Anda Telah Menyelesaikan Ujian');
+    }
+
+    protected function destroy()
+    {
+        $this->session->remove(['soal_tipe', 'soal_nomor', 'soal_jawab', 'soal_jawab_essay']);
+    }
+
     protected function getSoalNum($items, $nomor)
     {
         $array = $items;
@@ -245,5 +387,11 @@ class SoalController extends BaseController
             }
         }
         return false;
+    }
+
+    protected function getJawaban($items, $nomor, $arr = true)
+    {
+        $key = array_search($nomor, array_column($items, 'nomor'));
+        return $arr ? $items[$key] : $key;
     }
 }
