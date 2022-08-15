@@ -213,9 +213,13 @@ class UjianController extends BaseController
         $waktu = Time::now();
         $post = $this->request->getPost();
         $item = $this->model->where('token_ujian', $token)->first();
+        $dateline = $item->waktu->addMinutes($item->tenggat);
         $soal = $tipe == 'pilgan' ? $item->soal_pilgan : $item->soal_essay;
         $nomor = $nomor ?? $this->session->get('soal_nomor');
         $jawab = $tipe == 'pilgan' ? ($this->session->get('soal_jawab') ?? '') : ($this->session->get('soal_jawab_essay') ?? '');
+        if ($waktu->isAfter($dateline)) {
+            return redirect()->route('ujian-done', [$token])->with('error', 'Waktu Ujian Sudah Berakhir');
+        }
         $this->session->set('soal_tipe', $tipe);
         $this->session->set('soal_nomor', $nomor);
         // dd($token, $nomor);
@@ -229,6 +233,7 @@ class UjianController extends BaseController
         $this->data['soal'] = $this->getSoalNum($soal, $nomor);
         $this->data['jumlah_pilgan'] = $item->soal_pilgan ? sizeof($item->soal_pilgan) : 0;
         $this->data['jumlah_essay'] = $item->soal_essay ? sizeof($item->soal_essay) : 0;
+        $this->data['dateline'] = $dateline->toDateTimeString();
         if (($tipe == 'pilgan' && $this->data['jumlah_pilgan'] == 0) || ($tipe == 'essay' && $this->data['jumlah_essay'] == 0)) {
             return $tipe == 'pilgan' ? redirect()->route('ujian-room', [$token, 'pilgan', 1]) : redirect()->route('ujian-room', [$token, 'essay', 1]);
         } elseif (($tipe == 'pilgan' && $this->data['jumlah_essay'] == 0 && $nomor > $this->data['jumlah_pilgan']) || ($tipe == 'essay' && $nomor > $this->data['jumlah_essay'])) {

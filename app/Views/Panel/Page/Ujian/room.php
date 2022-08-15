@@ -46,6 +46,9 @@
                                 </svg>
                             </a>
                         </div>
+                        <div class="col-auto">
+                            <strong id="demo"></strong>
+                        </div>
                         <div class="app-utilities col-auto">
                             <div class="app-utility-item app-user-dropdown dropdown"><img
                                     src="<?= base_url('assets/portal') ?>/images/user.png" alt="user profile">
@@ -158,6 +161,11 @@
         <!-- Place at bottom of page -->
     </div>
 
+    <script>
+    <?php if (isset($dateline)) : ?>
+    let dateline = "<?= $dateline ?>";
+    <?php endif ?>
+    </script>
     <!-- Assets -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
