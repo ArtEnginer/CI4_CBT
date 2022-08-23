@@ -50,7 +50,15 @@
                         <div class="form-group row align-items-center mb-0">
                             <label for="tahun" class="col-3 text-end control-label col-form-label ">Tahun</label>
                             <div class="col-9 border-start pb-2 pt-2">
-                                <input type="text" class="form-control" id="tahun" name="tahun" placeholder="Tahun">
+                               <!-- select -->
+                                <select class="form-control" id="tahun" name="tahun">
+                                    <option value="">Pilih Tahun</option>
+                                   <?php
+                                    for ($i = date('Y'); $i > date('Y') - 7; $i--) :
+                                   ?>
+                                        <option value="<?= $i ?>"><?= $i ?></option>
+                                    <?php endfor; ?>
+                                </select>
                             </div>
                         </div>
                         <!-- Uts -->

@@ -39,27 +39,17 @@
 
                         <form action="<?= url_to('login') ?>" method="post" class="auth-form login-form">
                             <?= csrf_field() ?>
-                            <?php if ($config->validFields === ['email']) : ?>
+                           
                             <div class="email mb-3">
-                                <label class="sr-only" for="login"><?= lang('Auth.email') ?></label>
-                                <input id="login" name="login" type="email"
-                                    class="form-control signin-email <?php if (session('errors.login')) : ?>is-invalid<?php endif ?>"
-                                    placeholder="<?= lang('Auth.email') ?>" required="required">
-                                <div class="invalid-feedback">
-                                    <?= session('errors.login') ?>
-                                </div>
-                            </div>
-                            <?php else : ?>
-                            <div class="email mb-3">
-                                <label class="sr-only" for="login"><?= lang('Auth.emailOrUsername') ?></label>
+                                <label class="sr-only" for="login">NIP/NIM</label>
                                 <input id="login" name="login" type="text"
                                     class="form-control signin-email <?php if (session('errors.login')) : ?>is-invalid<?php endif ?>"
-                                    placeholder="<?= lang('Auth.emailOrUsername') ?>" required="required">
+                                    placeholder="NIP/NIM" required="required">
                                 <div class="invalid-feedback">
                                     <?= session('errors.login') ?>
                                 </div>
                             </div>
-                            <?php endif; ?>
+                            
                             <div class="password mb-3">
                                 <label class="sr-only" for="password"><?= lang('Auth.password') ?></label>
                                 <input id="password" name="password" type="password"

@@ -55,4 +55,11 @@ class PenggunaController extends BaseController
         $this->data['item'] = $this->model->find($id);
         return view('Panel/Page/User/detail', $this->data);
     }
+
+    public function editPassword($id)
+    {
+        $this->data['title'] = 'Edit Password';
+        $this->data['item'] = $this->model->find($id);
+        return view('Panel/Page/User/editPassword', $this->data);
+    }
 }

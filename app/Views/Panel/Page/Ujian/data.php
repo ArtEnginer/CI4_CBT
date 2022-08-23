@@ -15,8 +15,7 @@
                     </div>
                     <div class="col-auto">
                         <div class="card-header-action">
-                            <a href="<?= route_to('ujian-data-add') ?>" class="btn app-btn-primary shadow-sm"><i
-                                    class="fas fa-plus fa-sm text-white-50"></i> Tambah</a>
+                            <a href="<?= route_to('ujian-data-add') ?>" class="btn app-btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Tambah</a>
                         </div>
                     </div>
                 </div>
@@ -37,33 +36,25 @@
                             <?php
                             $no = 1;
                             foreach ($items as $key => $item) : ?>
-                            <tr>
-                                <td class="cell"><?= $no++ ?></td>
-                                <td class="cell"><?= $item->matkul->nama ?></td>
-                                <td class="cell"><?= $item->waktu ?></td>
-                                <td class="cell"><span
-                                        class="badge bg-<?= $item->status->getStyle() ?>"><?= $item->status ?></span>
-                                </td>
-                                <td class="cell">
-                                    <a class="btn badge bg-primary"
-                                        href="<?= route_to('ujian-data-detail', $item->id) ?>"><i
-                                            class="fas fa-eye"></i></a>
-                                    <a class="btn badge bg-warning"
-                                        href="<?= route_to('ujian-data-edit', $item->id) ?>"><i
-                                            class="fas fa-edit"></i></a>
-                                    <a class="btn badge bg-danger"
-                                        href="<?= route_to('ujian-data-delete', $item->id) ?>"><i
-                                            class="fas fa-trash"></i></a>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td class="cell"><?= $no++ ?></td>
+                                    <td class="cell"><?= $item->matkul->nama ?></td>
+                                    <td class="cell"><?= $item->waktu ?></td>
+                                    <td class="cell"><span class="badge bg-<?= $item->status->getStyle() ?>"><?= $item->status ?></span>
+                                    </td>
+                                    <td class="cell">
+                                        <a class="btn badge bg-primary" href="<?= route_to('ujian-data-detail', $item->id) ?>"><i class="fas fa-eye"></i></a>
+                                        <a class="btn badge bg-warning" href="<?= route_to('ujian-data-edit', $item->id) ?>"><i class="fas fa-edit"></i></a>
+                                        <a class="btn badge bg-danger" onclick="btnConfirm('<?= route_to('ujian-data-delete', $item->id) ?>','Hapus')"><i class="fas fa-trash"></i></a>
+                                    </td>
+                                </tr>
                             <?php endforeach; ?>
 
                         </tbody>
                     </table>
                 </div>
                 <div class="text-center">
-                    <a href="<?= route_to('ujian-data-riwayat') ?>" role="button"
-                        class="btn app-btn-secondary">Riwayat</a>
+                    <a href="<?= route_to('ujian-data-riwayat') ?>" role="button" class="btn app-btn-secondary">Riwayat</a>
                 </div>
             </div>
         </div>

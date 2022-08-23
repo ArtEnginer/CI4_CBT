@@ -21,7 +21,7 @@ class MatkulController extends BaseController
             'sks' => 'required|numeric',
             'nama' => 'required|min_length[3]|max_length[50]',
             'semester' => 'required|numeric',
-            'ruang_id' => 'required|numeric',
+            // 'ruang_id' => 'required|numeric',
             'dosen_id' => 'required|numeric',
         ];
 
@@ -39,7 +39,6 @@ class MatkulController extends BaseController
 
     public function delete($id)
     {
-
         if ($this->model->delete($id)) {
             return redirect()->route('data-matkul')->with('message', 'Data telah berhasil dihapus');
         }
@@ -48,13 +47,11 @@ class MatkulController extends BaseController
     public function edit($id)
     {
         $data = $this->request->getPost();
-
-        // validation rules
         $Rules = [
             'sks' => 'required|numeric',
             'nama' => 'required|min_length[3]|max_length[50]',
             'semester' => 'required|numeric',
-            'ruang_id' => 'required|numeric',
+            // 'ruang_id' => 'required|numeric',
             'dosen_id' => 'required|numeric',
         ];
         if (!$this->validate($Rules)) {

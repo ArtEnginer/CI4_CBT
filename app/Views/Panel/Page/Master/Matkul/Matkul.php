@@ -29,7 +29,7 @@
                                 <th>Nama Matkul</th>
                                 <th>Jumlah SKS</th>
                                 <th>Semester</th>
-                                <th>Ruangan</th>
+                                <!-- <th>Ruangan</th> -->
                                 <th>Dosen</th>
                                 <th>Aksi</th>
                             </tr>
@@ -43,13 +43,12 @@
                                     <td><?= $item->nama ?></td>
                                     <td><?= $item->sks ?></td>
                                     <td><?= $item->semester ?></td>
-                                    <td><?= $item->ruang->nama ?></td>
                                     <td><?= $item->dosen->nama ?></td>
                                     <td>
                                         <a href="<?= route_to('data-matkul-edit', $item->id) ?>" class="btn badge bg-warning btn-sm">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <a href="<?= route_to('data-matkul-delete', $item->id) ?>" class="btn badge bg-danger btn-sm">
+                                        <a onclick="btnConfirm('<?= route_to('data-matkul-delete', $item->id) ?>','Hapus')" class="btn badge bg-danger btn-sm">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     </td>

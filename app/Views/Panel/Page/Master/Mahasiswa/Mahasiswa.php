@@ -45,7 +45,7 @@
                                     <td class="cell"><?= $item->tahun_masuk ?></td>
                                     <td class="cell">
                                         <a class="btn badge bg-warning" href="<?= route_to('data-mahasiswa-edit', $item->id) ?>"><i class="fas fa-edit"></i></a>
-                                        <a class="btn badge bg-danger" href="<?= route_to('data-mahasiswa-delete', $item->id) ?>"><i class="fas fa-trash"></i></a>
+                                        <a class="btn badge bg-danger" onclick="btnConfirm('<?= route_to('data-mahasiswa-delete', $item->id) ?>','Hapus')"><i class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

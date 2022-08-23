@@ -151,11 +151,15 @@ $routes->group('user', ['namespace' => 'App\Controllers\Panel', 'filter' => 'rol
     $routes->get('', 'PenggunaController::index', ['as' => 'user']);
     $routes->get('edit/(:num)', 'PenggunaController::edit/$1', ['as' => 'user-edit']);
     $routes->get('detail/(:num)', 'PenggunaController::detail/$1', ['as' => 'user-detail']);
+    // edit password
+    $routes->get('edit-password/(:num)', 'PenggunaController::editPassword/$1', ['as' => 'user-edit-password']);
 });
 $routes->group('user', ['namespace' => 'App\Controllers\Api', 'filter' => 'role:Admin'], function ($routes) {
     $routes->post('add', 'PenggunaController::add', ['as' => 'user-add']);
     $routes->post('detail/(:num)', 'PenggunaController::detail/$1', ['as' => 'user-detail']);
     $routes->get('delete/(:any)/(:num)', 'PenggunaController::delete/$1/$2', ['as' => 'user-delete']);
+    $routes->post('edit/(:num)', 'PenggunaController::edit/$1', ['as' => 'user-edit']);
+    $routes->post('edit-password/(:num)', 'PenggunaController::editPassword/$1', ['as' => 'user-edit-password']);
 });
 
 

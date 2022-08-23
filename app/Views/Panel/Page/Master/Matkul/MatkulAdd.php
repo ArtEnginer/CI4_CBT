@@ -27,7 +27,7 @@
                         <div class="form-group row align-items-center mb-0">
                             <label for="nama" class="col-3 text-end control-label col-form-label ">Nama</label>
                             <div class="col-9 border-start pb-2 pt-2">
-                                <input type="text" class="form-control text-uppercase" id="nama" name="nama" placeholder="Nama Ruangan" value="<?= old('nama') ?>" required>
+                                <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama Mata Kuliah" value="<?= old('nama') ?>" required>
                             </div>
                         </div>
                         <div class="form-group row align-items-center mb-0">
@@ -43,18 +43,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row align-items-center mb-0">
-                            <label for="ruang_id" class="col-3 text-end control-label col-form-label ">Ruangan</label>
-                            <div class="col-9 border-start pb-2 pt-2">
-                                <!-- Select -->
-                                <select class="select2 form-control custom-select" id="ruang_id" name="ruang_id" style="width: 100%; height:36px;">
-                                    <option value="">Pilih Ruangan</option>
-                                    <?php foreach ($ruang as $key => $value) : ?>
-                                        <option value="<?= $value->id ?>"><?= $value->nama ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                        </div>
+
 
                         <div class="form-group row align-items-center mb-0">
                             <label for="dosen_id" class="col-3 text-end control-label col-form-label ">Dosen</label>

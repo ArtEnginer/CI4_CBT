@@ -45,7 +45,7 @@
                                         <a href="<?= route_to('data-dosen-edit', $item->id) ?>" class="btn badge bg-warning btn-sm">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <a href="<?= route_to('data-dosen-delete', $item->id) ?>" class="btn badge bg-danger btn-sm">
+                                        <a onclick="btnConfirm('<?= route_to('data-dosen-delete', $item->id) ?>', 'Hapus')" class="btn badge bg-danger btn-sm">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     </td>

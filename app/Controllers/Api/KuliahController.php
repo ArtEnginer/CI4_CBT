@@ -52,8 +52,7 @@ class KuliahController extends BaseController
             'mahasiswa_id' => 'required',
             'matakuliah_id' => 'required',
             'tahun' => 'required',
-            'uas' => 'required',
-            'uts' => 'required',
+
         ];
 
         if (!$this->validate($Rules)) {

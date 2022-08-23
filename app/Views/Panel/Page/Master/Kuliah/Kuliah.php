@@ -40,8 +40,8 @@
                             foreach ($items as $key => $item) : ?>
                                 <tr>
                                     <td><?= $no++ ?></td>
-                                    <td><?= $item->mahasiswa->nama ?></td>
-                                    <td><?= $item->matkul->nama ?></td>
+                                    <td><?= $item->mahasiswa->nama ?? 'Null' ?></td>
+                                    <td><?= $item->matkul->nama ?? 'Null' ?></td>
                                     <td><?= $item->tahun ?></td>
                                     <td><?= $item->uts ?></td>
                                     <td><?= $item->uas ?></td>
@@ -49,7 +49,7 @@
                                         <a href="<?= route_to('data-kuliah-edit', $item->id) ?>" class="btn badge btn-primary btn-sm">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <a href="<?= route_to('data-kuliah-delete', $item->id) ?>" class="btn badge btn-danger btn-sm">
+                                        <a onclick="btnConfirm('<?= route_to('data-kuliah-delete', $item->id) ?>','Hapus')" class="btn badge btn-danger btn-sm">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     </td>

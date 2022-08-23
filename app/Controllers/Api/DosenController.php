@@ -49,7 +49,7 @@ class DosenController extends BaseController
             if (!$this->user->save($user)) {
                 return redirect()->back()->withInput()->with('errors', $this->user->errors());
             }
-            return redirect()->route('data-mahasiswa')->with('message', 'Data Baru telah berhasil ditambahkan');
+            return redirect()->route('data-dosen')->with('message', 'Data Baru telah berhasil ditambahkan');
         }
     }
 
@@ -84,7 +84,7 @@ class DosenController extends BaseController
         }
         $item = new Dosen($data);
         if ($this->model->update($id, $item)) {
-            return redirect()->route('data-Dosen')->with('message', 'Data Baru telah berhasil diedit');
+            return redirect()->route('data-dosen')->with('message', 'Data Baru telah berhasil diedit');
         }
     }
 }
