@@ -21,10 +21,7 @@
                         <th>Mata Kuliah</th>
                         <td>: <?= $item->matkul->nama ?></td>
                     </tr>
-                    <tr>
-                        <th>Ruang Ujian</th>
-                        <td>: <?= $item->ruang->nama ?></td>
-                    </tr>
+                   
                     <tr>
                         <th>Waktu Ujian</th>
                         <td>: <?= $item->waktu ?></td>

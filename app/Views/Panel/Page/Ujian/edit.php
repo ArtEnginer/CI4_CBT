@@ -42,20 +42,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group row align-items-center mb-0">
-                            <label for="ruang_id" class="col-3 text-end control-label col-form-label">Ruang</label>
-                            <div class="col-9 border-start pb-2 pt-2">
-                                <select class="form-select" aria-label="ruang_id" name="ruang_id" id="ruang_id"
-                                    required>
-                                    <option value="">Pilih Ruang Ujian</option>
-                                    <?php
-                                    foreach ($ruang as $r) : ?>
-                                    <option value="<?= $r->id ?>" <?= $r->id == $item->ruang->id ? ' selected' : '' ?>>
-                                        <?= $r->nama ?></option>
-                                    <?php endforeach ?>
-                                </select>
-                            </div>
-                        </div>
+                        
                         <div class="form-group row align-items-center mb-0">
                             <label for="alamat" class="col-3 text-end control-label col-form-label">Waktu</label>
                             <div class="col-9 border-start pb-2 pt-2">

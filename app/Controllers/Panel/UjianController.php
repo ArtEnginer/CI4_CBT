@@ -66,7 +66,7 @@ class UjianController extends BaseController
     {
         $this->data['title'] = 'Buat Ujian Baru';
         $this->data['matkul'] = $this->matkul->findAll();
-        $this->data['ruang'] = $this->ruang->findAll();
+ 
         return view('Panel/Page/Ujian/add', $this->data);
     }
 
@@ -74,7 +74,7 @@ class UjianController extends BaseController
     {
         $this->data['title'] = 'Edit Data Ujian';
         $this->data['matkul'] = $this->matkul->findAll();
-        $this->data['ruang'] = $this->ruang->findAll();
+
         $this->data['item'] = $this->model->find($id);
         return view('Panel/Page/Ujian/edit', $this->data);
     }
