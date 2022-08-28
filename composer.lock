@@ -422,47 +422,7 @@
             },
             "time": "2021-07-01T19:01:15+00:00"
         },
-        {
-            "name": "mrfrost/theme",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/MrFrost-Nv27/CI4_Theme.git",
-                "reference": "dd20daf9d9655519eaf0661f94bfb0c90be02502"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/MrFrost-Nv27/CI4_Theme/zipball/dd20daf9d9655519eaf0661f94bfb0c90be02502",
-                "reference": "dd20daf9d9655519eaf0661f94bfb0c90be02502",
-                "shasum": ""
-            },
-            "require": {
-                "codeigniter4/framework": "^4.2"
-            },
-            "default-branch": true,
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Mrfrost\\Theme\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "MrFrost-Nv27",
-                    "email": "nazruelyourgoodfriend@gmail.com"
-                }
-            ],
-            "description": "Tema custom ;5D;5D;5D;5D;5D;5D;5D;5D;5D;5DBeberapa tema custom untuk Codeigniter 4",
-            "support": {
-                "issues": "https://github.com/MrFrost-Nv27/CI4_Theme/issues",
-                "source": "https://github.com/MrFrost-Nv27/CI4_Theme/tree/master"
-            },
-            "time": "2022-07-08T00:45:01+00:00"
-        },
+        
         {
             "name": "myclabs/php-enum",
             "version": "1.8.4",
