@@ -49,7 +49,7 @@
                                             }
                                         endforeach;
                                         ?>
-                                <?php if ($valid == $items->jawaban->jawab_pilgan->{$soal->nomor}->jawaban) : ?>
+                                <?php if (isset($items->jawaban->jawab_pilgan->{$soal->nomor}) && ($valid == $items->jawaban->jawab_pilgan->{$soal->nomor}->jawaban)) : ?>
                                 <?php $benar++; ?>
                                 <li
                                     class="list-group-item d-flex justify-content-between align-items-center pt-0 pb-0 list-group-item-success">
@@ -146,7 +146,7 @@
                                                             <h6 class="m-0">Jawaban</h6>
                                                         </div>
                                                         <div class="card-body">
-                                                            <?= $items->jawaban->jawab_essay->{$soal->nomor}->jawaban ?>
+                                                            <?= $items->jawaban->jawab_essay->{$soal->nomor}->jawaban ?? null ?>
                                                         </div>
                                                     </div>
                                                 </div>
