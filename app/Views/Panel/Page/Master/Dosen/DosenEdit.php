@@ -31,7 +31,7 @@
                             </div>
                         </div>
                         <div class="form-group row align-items-center mb-0">
-                            <label for="nip" class="col-3 text-end control-label col-form-label">NIP</label>
+                            <label for="nip" class="col-3 text-end control-label col-form-label">NIDN</label>
                             <div class="col-9 border-start pb-2 pt-2">
                                 <input type="number" name="nip" id="nip" class="form-control" placeholder="Nomor Induk Pegawai" value="<?= $item->nip ?>" readonly>
                             </div>
