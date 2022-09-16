@@ -204,6 +204,20 @@ $(document).ready(function () {
   if (dateline) {
     countdownTimeStart(dateline);
   }
+
+   Dropzone.options.myGreatDropzone = {
+     // camelized version of the `id`
+     paramName: "file", // The name that will be used to transfer the file
+     maxFilesize: 2, // MB
+     maxFiles: 1,
+     acceptedFiles: ".xlsx,.xls",
+     uploadMultiple: false,
+     dictDefaultMessage: "Drop files here to upload",
+     dictFallbackMessage:
+       "Your browser does not support drag'n'drop file uploads.",
+     dictFallbackText:
+       "Please use the fallback form below to upload your files like in the olden days.",
+   };
 });
 
 function countdownTimeStart(tgl) {
@@ -236,5 +250,3 @@ function countdownTimeStart(tgl) {
     }
   }, 1000);
 }
-
-

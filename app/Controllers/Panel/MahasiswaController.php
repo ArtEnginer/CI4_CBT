@@ -37,8 +37,11 @@ class MahasiswaController extends BaseController
     {
         $this->data['title'] = 'Edit Data Mahasiswa';
         $this->data['item'] = $this->model->find($id);
-        return view('Panel/Page/Master/Mahasiswa/MahasiswaEdit', $this->data);
-        
-      
+        return view('Panel/Page/Master/Mahasiswa/MahasiswaEdit', $this->data);     
+    }
+    public function import()
+    {
+        $this->data['title'] = 'Import Data Mahasiswa';
+        return view('Panel/Page/Master/Mahasiswa/MahasiswaImport', $this->data);
     }
 }

@@ -43,7 +43,12 @@
                             </div>
                         </div>
 
-
+                        <div class="form-group row align-items-center mb-0">
+                            <label for="semester" class="col-3 text-end control-label col-form-label ">Kode</label>
+                            <div class="col-9 border-start pb-2 pt-2">
+                                <input type="text" class="form-control" id="semester" name="kode" placeholder="Kode Mata Kuliah" value="<?= old('kode') ?>" required>
+                            </div>
+                        </div>
 
                         <div class="form-group row align-items-center mb-0">
                             <label for="dosen_id" class="col-3 text-end control-label col-form-label ">Dosen</label>

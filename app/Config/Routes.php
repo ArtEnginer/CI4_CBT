@@ -43,11 +43,18 @@ $routes->group('master', ['filter' => 'role:Admin'], function ($routes) {
         $routes->get('', 'MahasiswaController::index', ['as' => 'data-mahasiswa']);
         $routes->get('add', 'MahasiswaController::add', ['as' => 'data-mahasiswa-add']);
         $routes->get('edit/(:num)', 'MahasiswaController::edit/$1', ['as' => 'data-mahasiswa-edit']);
+        // import
+        $routes->get('import', 'MahasiswaController::import', ['as' => 'data-mahasiswa-import']);
     });
     $routes->group('mahasiswa', ['namespace' => 'App\Controllers\Api'], function ($routes) {
         $routes->post('add', 'MahasiswaController::add', ['as' => 'data-mahasiswa-add']);
         $routes->post('edit/(:num)', 'MahasiswaController::edit/$1', ['as' => 'data-mahasiswa-edit']);
         $routes->get('delete/(:num)', 'MahasiswaController::delete/$1', ['as' => 'data-mahasiswa-delete']);
+        // import
+        $routes->post('upload', 'MahasiswaController::upload', ['as' => 'data-mahasiswa-upload']);
+        $routes->post('save-excel', 'MahasiswaController::saveExcel', ['as' => 'data-mahasiswa-save-excel']);
+        // download
+        $routes->get('download', 'MahasiswaController::download', ['as' => 'data-mahasiswa-download']);
     });
 
     // Dosen
@@ -55,11 +62,18 @@ $routes->group('master', ['filter' => 'role:Admin'], function ($routes) {
         $routes->get('', 'DosenController::index', ['as' => 'data-dosen']);
         $routes->get('add', 'DosenController::add', ['as' => 'data-dosen-add']);
         $routes->get('edit/(:num)', 'DosenController::edit/$1', ['as' => 'data-dosen-edit']);
+        // import
+        $routes->get('import', 'DosenController::import', ['as' => 'data-dosen-import']);
     });
     $routes->group('dosen', ['namespace' => 'App\Controllers\Api'], function ($routes) {
         $routes->post('add', 'DosenController::add', ['as' => 'data-dosen-add']);
         $routes->post('edit/(:num)', 'DosenController::edit/$1', ['as' => 'data-dosen-edit']);
         $routes->get('delete/(:num)', 'DosenController::delete/$1', ['as' => 'data-dosen-delete']);
+        // import
+        $routes->post('upload', 'DosenController::upload', ['as' => 'data-dosen-upload']);
+        $routes->post('save-excel', 'DosenController::saveExcel', ['as' => 'data-dosen-save-excel']);
+        // download
+        $routes->get('download', 'DosenController::download', ['as' => 'data-dosen-download']);
     });
 
     // Ruang
@@ -79,11 +93,18 @@ $routes->group('master', ['filter' => 'role:Admin'], function ($routes) {
         $routes->get('', 'MatkulController::index', ['as' => 'data-matkul']);
         $routes->get('add', 'MatkulController::add', ['as' => 'data-matkul-add']);
         $routes->get('edit/(:num)', 'MatkulController::edit/$1', ['as' => 'data-matkul-edit']);
+        // import
+        $routes->get('import', 'MatkulController::import', ['as' => 'data-matkul-import']);
     });
     $routes->group('matkul', ['namespace' => 'App\Controllers\Api'], function ($routes) {
         $routes->post('add', 'MatkulController::add', ['as' => 'data-matkul-add']);
         $routes->post('edit/(:num)', 'MatkulController::edit/$1', ['as' => 'data-matkul-edit']);
         $routes->get('delete/(:num)', 'MatkulController::delete/$1', ['as' => 'data-matkul-delete']);
+        // import
+        $routes->post('upload', 'MatkulController::upload', ['as' => 'data-matkul-upload']);
+        $routes->post('save-excel', 'MatkulController::saveExcel', ['as' => 'data-matkul-save-excel']);
+        // download
+        $routes->get('download', 'MatkulController::download', ['as' => 'data-matkul-download']);
     });
 
     // Kuliah
@@ -91,11 +112,18 @@ $routes->group('master', ['filter' => 'role:Admin'], function ($routes) {
         $routes->get('', 'KuliahController::index', ['as' => 'data-kuliah']);
         $routes->get('add', 'KuliahController::add', ['as' => 'data-kuliah-add']);
         $routes->get('edit/(:num)', 'KuliahController::edit/$1', ['as' => 'data-kuliah-edit']);
+        // import
+        $routes->get('import', 'KuliahController::import', ['as' => 'data-kuliah-import']);
     });
     $routes->group('kuliah', ['namespace' => 'App\Controllers\Api'], function ($routes) {
         $routes->post('add', 'KuliahController::add', ['as' => 'data-kuliah-add']);
         $routes->post('edit/(:num)', 'KuliahController::edit/$1', ['as' => 'data-kuliah-edit']);
         $routes->get('delete/(:num)', 'KuliahController::delete/$1', ['as' => 'data-kuliah-delete']);
+        // import
+        $routes->post('upload', 'KuliahController::upload', ['as' => 'data-kuliah-upload']);
+        $routes->post('save-excel', 'KuliahController::saveExcel', ['as' => 'data-kuliah-save-excel']);
+        // download
+        $routes->get('download', 'KuliahController::download', ['as' => 'data-kuliah-download']);
     });
 });
 // Ujian

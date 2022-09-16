@@ -100,7 +100,7 @@
     <script>
         function btnConfirm(data, act) {
             if (act == 'hapus') {
-                var text= "Data yang dihapus tidak dapat dikembalikan!"
+                var text = "Data yang dihapus tidak dapat dikembalikan!"
                 var icon = "warning"
             }
             Swal.fire({

@@ -42,9 +42,12 @@
                                 <input type="number" class="form-control" id="semester" name="semester" placeholder="Jumlah semester" value="<?= $item->semester ?>" required>
                             </div>
                         </div>
-
-                       
-
+                        <div class="form-group row align-items-center mb-0">
+                            <label for="kode" class="col-3 text-end control-label col-form-label ">Kode</label>
+                            <div class="col-9 border-start pb-2 pt-2">
+                                <input type="text" class="form-control" id="kode" name="kode" placeholder="Kode Mata Kuliah" value="<?= $item->kode ?>" required>
+                            </div>
+                        </div>
                         <div class="form-group row align-items-center mb-0">
                             <label for="dosen_id" class="col-3 text-end control-label col-form-label ">Dosen</label>
                             <div class="col-9 border-start pb-2 pt-2">

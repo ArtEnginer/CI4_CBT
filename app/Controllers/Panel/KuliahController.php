@@ -49,5 +49,11 @@ class KuliahController extends BaseController
         
     }
 
+    public function import()
+    {
+        $this->data['title'] = 'Import Data Kuliah';
+        return view('Panel/Page/Master/Kuliah/KuliahImport', $this->data);
+    }
+
 
 }

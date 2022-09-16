@@ -16,6 +16,8 @@
                     <div class="col-auto">
                         <div class="card-header-action">
                             <a href="<?= route_to('data-matkul-add') ?>" class="btn app-btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Tambah</a>
+                            <a href="<?= route_to('data-matkul-import') ?>" class="btn app-btn-primary shadow-sm"><i class="fas fa-file-import fa-sm text-white-50"></i> Import</a>
+
                         </div>
                     </div>
                 </div>
@@ -26,6 +28,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>Kode</th>
                                 <th>Nama Matkul</th>
                                 <th>Jumlah SKS</th>
                                 <th>Semester</th>
@@ -40,6 +43,7 @@
                             foreach ($items as $key => $item) : ?>
                                 <tr>
                                     <td><?= $no++ ?></td>
+                                    <td><?= $item->kode?></td>
                                     <td><?= $item->nama ?></td>
                                     <td><?= $item->sks ?></td>
                                     <td><?= $item->semester ?></td>

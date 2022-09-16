@@ -42,5 +42,10 @@ class DosenController extends BaseController
         
     }
 
+    public function import()
+    {
+        $this->data['title'] = 'Import Data Dosen';
+        return view('Panel/Page/Master/Dosen/DosenImport', $this->data);
+    }
 
 }

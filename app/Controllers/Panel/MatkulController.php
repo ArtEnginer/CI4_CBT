@@ -49,4 +49,10 @@ class MatkulController extends BaseController
         $this->data['ruang'] = $this->ruangModel->findAll();
         return view('Panel/Page/Master/Matkul/MatkulEdit', $this->data);
     }
+
+    public function import()
+    {
+        $this->data['title'] = 'Import Data Matkul';
+        return view('Panel/Page/Master/Matkul/MatkulImport', $this->data);
+    }
 }

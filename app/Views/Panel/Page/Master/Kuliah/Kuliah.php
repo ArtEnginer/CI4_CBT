@@ -15,7 +15,8 @@
                     </div>
                     <div class="col-auto">
                         <div class="card-header-action">
-                            <a href="<?= route_to('data-kuliah-add') ?>" class="btn badge app-btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Tambah</a>
+                            <a href="<?= route_to('data-kuliah-add') ?>" class="btn app-btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Tambah</a>
+                            <a href="<?= route_to('data-kuliah-import') ?>" class="btn app-btn-primary shadow-sm"><i class="fas fa-file-import fa-sm text-white-50"></i> Import</a>
                         </div>
                     </div>
                 </div>

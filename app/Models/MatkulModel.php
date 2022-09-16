@@ -11,7 +11,7 @@ class MatkulModel extends Model{
     protected $useAutoIncrement = true;
     protected $returnType = \App\Entities\Matkul::class;
     protected $allowedFields = [
-        'sks','nama', 'semester','ruang_id','dosen_id'
+        'sks','nama','kode', 'semester','ruang_id','dosen_id'
     ];
 
     // Dates
@@ -35,4 +35,3 @@ class MatkulModel extends Model{
     protected $beforeDelete = [];
     protected $afterDelete = [];
 }
-?>
